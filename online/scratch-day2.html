@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Scratch Codepreneur - Day 2 Offline</title>
+<link rel="icon" type="image/png" href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p: #00B4D8; --pd: #0077B6; --g: #FFB703; --o: #FB8500; --grn: #80ED99;
+  --card: rgba(255, 255, 255, 0.95); --txt: #333; --muted: #666;
+  --r: 32px; --sh: 0 15px 40px rgba(0,0,0,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  font-family: "Nunito", sans-serif; 
+  background: linear-gradient(170deg, #E0F7FA 0%, #B2EBF2 30%, #4DD0E1 70%, #00838F 100%) fixed; 
+  color: var(--txt); 
+  min-height: 100vh; 
+  display: flex; 
+  align-items: stretch; 
+  justify-content: center; 
+  padding: 1.5rem; 
+  overflow-x: hidden;
+}
+h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-serif; letter-spacing: .02em; }
+.wrap { max-width: 1200px; width: 100%; margin: auto; display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 10; }
+.lfix { position: fixed; z-index: 20; pointer-events: none; }
+.lfix.l { top: 20px; left: 20px; }
+.lfix.r { top: 20px; right: 20px; }
+.fi { position: fixed; font-size: 3rem; color: rgba(255,255,255,0.6); z-index: 0; pointer-events: none; animation: floatUp 20s infinite linear; }
+.fi1 { top: 80%; left: 8%; animation-duration: 22s; }
+.fi2 { top: 90%; left: 80%; animation-duration: 26s; }
+.fi3 { top: 70%; left: 45%; animation-duration: 30s; }
+.fi4 { top: 15%; right: 5%; animation-duration: 24s; }
+.fi5 { top: 5%; left: 5%; animation-duration: 32s; }
+@keyframes floatUp { from { transform: translateY(100vh) rotate(0); } to { transform: translateY(-100vh) rotate(360deg); } }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.5rem; border-radius: 999px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); box-shadow: 0 8px 20px rgba(0,0,0,.1); border: 2px solid rgba(255, 255, 255, 0.5); margin-top: 6.5rem; }
+.logo-row { display: flex; align-items: center; gap: 12px; }
+.t-main { font-size: 1.3rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; }
+.t-sub { font-size: .9rem; color: var(--muted); font-weight: 700; }
+.kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0077B6; }
+.frame { position: relative; flex: 1; min-height: min(700px, 75vh); display: flex; align-items: center; justify-content: center; }
+.slide { position: absolute; inset: 0; margin: auto; max-width: 1200px; width: 100%; background: var(--card); backdrop-filter: blur(10px); border-radius: var(--r); padding: 3rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(50px) scale(.95); transition: all .5s cubic-bezier(.34, 1.56, .64, 1); overflow: hidden; border: 4px solid #fff; }
+.slide.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
+.slide-cover { background: rgba(255,255,255,0.9); }
+.cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
+.cov-h { font-size: 4rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
+.cov-h span { color: var(--o); display: inline-block; }
+.slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
+.isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2.5rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
+.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; position: relative; z-index: 2; flex: 1; width: 100%; }
+.cz { position: relative; z-index: 2; width: 100%; text-align: center; }
+.story-title { font-size: 3.2rem; color: var(--pd); margin-bottom: 1.5rem; line-height: 1.2; text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
+.box { font-size: 1.3rem; line-height: 1.6; background: #E1F5FE; padding: 1.5rem 2rem; border-radius: 20px; border: 3px solid var(--p); box-shadow: 0 10px 20px rgba(0,0,0,.08); color: var(--pd); font-weight: 700; }
+.rpg { background: #FFF3E0; border: 3px solid var(--o); border-radius: 20px; padding: 2rem; text-align: center; max-width: 800px; margin: auto; box-shadow: 0 10px 20px rgba(0,0,0,.08); }
+.ihl { color: var(--o); font-weight: 700; font-size: 1.8rem; display: block; margin-bottom: 1rem; font-family: "Fredoka", sans-serif; }
+.itext { font-size: 1.25rem; line-height: 1.6; font-weight: 600; color: #444; }
+.pill-list { display: flex; flex-direction: column; gap: 1rem; }
+.pill { display: flex; align-items: center; gap: 1.2rem; padding: 1rem 1.5rem; border-radius: 20px; background: #f8f9fa; border: 2px solid #e9ecef; transition: .2s; font-size: 1.15rem; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,.05); }
+.pill:hover { transform: translateX(8px); border-color: var(--p); background: #E1F5FE; }
+.pill-idx { min-width: 36px; height: 36px; background: var(--p); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 4px 0 #0077B6; }
+.num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.num-card { background: #fff; border-radius: 24px; padding: 1.8rem; border: 3px solid #eee; transition: .3s cubic-bezier(.175, .885, .32, 1.275); box-shadow: 0 8px 15px rgba(0,0,0,.05); }
+.num-card:hover { transform: translateY(-8px); box-shadow: 0 20px 30px rgba(0,180,216,.2); border-color: var(--p); }
+.num-lbl { font-size: 2.5rem; margin-bottom: .8rem; }
+.num-title { font-weight: 700; color: var(--pd); font-size: 1.3rem; margin-bottom: .5rem; font-family: "Fredoka", sans-serif; }
+.num-desc { font-size: 1rem; color: var(--muted); line-height: 1.4; font-weight: 600; }
+.tag-l { background: #E1F5FE; border-radius: 20px; padding: 1.5rem; border-left: 8px solid var(--p); }
+.tag-o { background: #FFF3E0; border-radius: 20px; padding: 1.5rem; border-left: 8px solid var(--o); }
+.tag-g { background: #E8F5E9; border-radius: 20px; padding: 1.5rem; border-left: 8px solid #4CAF50; }
+.ph-box { background: #F3F4F6; border: 3px dashed #CBD5E1; border-radius: 24px; padding: 3rem; text-align: center; color: #64748B; }
+.link-box { background: #fff; border: 4px solid var(--g); border-radius: 20px; padding: 1.2rem 2.5rem; display: inline-block; font-size: 2.2rem; font-family: "Fredoka", sans-serif; color: var(--pd); letter-spacing: 1px; margin: 1.5rem 0; box-shadow: 0 8px 0 var(--g); font-weight: 700; }
+.react-e { font-size: 5rem; cursor: pointer; transition: transform .2s; display: inline-block; }
+.react-e:hover { transform: scale(1.2) rotate(10deg); }
+.controls { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.9); padding: .8rem 1.5rem; border-radius: 999px; margin-top: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,.15); border: 2px solid rgba(255,255,255,0.5); }
+.btn { border: none; cursor: pointer; padding: 1rem 2rem; border-radius: 99px; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 1.2rem; transition: all .2s; display: inline-flex; align-items: center; gap: .5rem; }
+.btn-p { background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1; }
+.btn-n { background: var(--g); color: #000; box-shadow: 0 6px 0 #D4A000; }
+.btn-n:hover { background: #FFC107; transform: translateY(-2px); box-shadow: 0 8px 0 #D4A000; }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #D4A000; }
+.pag { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; max-width: 500px; }
+.dot { width: 12px; height: 12px; background: #cbd5e1; border-radius: 50%; cursor: pointer; transition: .3s; border: none; }
+.dot.active { background: var(--p); transform: scale(1.6); box-shadow: 0 0 10px var(--p); }
+.desc { font-size: 1.2rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; font-weight: 600; }
+
+@media(max-width:900px){
+  .sc,.cov-inner,.isplit,.twocol { grid-template-columns: 1fr; padding: 1.5rem; gap: 1.5rem; }
+  .cov-h { font-size: 2.8rem; }
+  .hero-img { height: auto !important; }
+  .hero-img img { width: 80%; margin: auto; display: block; position: static !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- High-Resolution Top Logos -->
+<div class="lfix l"><img src="../assets/logo ruangguru mathchamps dan kalananti title.png" style="max-height: 120px; width: auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));" alt="RG Logos"></div>
+<div class="lfix r"><img src="../assets/little preneurs title.png" style="max-height: 130px; width: auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));" alt="Little Entrepreneurs"></div>
+
+<!-- Background Decor Assets -->
+<div class="lfix" style="top: 10%; left: -2%; z-index: 0; opacity: 0.8; width: 300px;"><img src="../assets/image_06.png" style="width:100%; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));" alt="Cloud"></div>
+<div class="lfix" style="top: 50%; right: -5%; z-index: 0; opacity: 0.7; width: 350px;"><img src="../assets/image_20.png" style="width:100%; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));" alt="Cloud"></div>
+<div class="lfix" style="bottom: -20px; left: -30px; z-index: 2; opacity: 1; width: 250px;"><img src="../assets/image_11.png" style="width:100%; filter: drop-shadow(0 -5px 15px rgba(0,0,0,0.1));" alt="Bush"></div>
+<div class="lfix" style="bottom: -20px; right: -30px; z-index: 2; opacity: 1; width: 280px; transform: scaleX(-1);"><img src="../assets/image_13.png" style="width:100%; filter: drop-shadow(0 -5px 15px rgba(0,0,0,0.1));" alt="Bush"></div>
+
+<div class="fi fi1">📱</div><div class="fi fi2">💡</div><div class="fi fi3">💻</div><div class="fi fi4">⭐</div><div class="fi fi5">🚀</div>
+
+<div class="wrap">
+  <header class="topbar">
+    <div class="logo-row">
+      <img src="../assets/image_01.png" style="height:45px;width:auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));" alt="Holiday Program">
+      <div><div class="t-main">Scratch Codepreneur</div><div class="t-sub">Hari ke-2 Membuat Program!</div></div>
+    </div>
+    <div><span class="t-sub" style="color: #888;">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
+  </header>
+  
+  <main class="frame">
+
+  <!-- S0: COVER -->
+  <section class="slide slide-cover active" data-slide="0" style="padding-top: 1rem; background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255, 235, 238, 0.95) 100%); border: 4px solid #F48FB1;">
+    <div class="cov-inner" style="display:flex; flex-direction:column; justify-content:center; text-align:center;">
+      <div style="margin-bottom: 0.5rem; z-index: 5;">
+        <h1 class="cov-h" style="font-size: 4.5rem; text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom: 1rem;">Scratch <span style="color: #FF9800;">Codepreneur</span></h1>
+        <p class="desc" style="font-size: 1.4rem; color: #555; max-width: 800px; margin: 0 auto 1.5rem auto;">
+          Selamat datang di Hari ke-2! Hari ini waktunya memindahkan sketsa aplikasimu ke dalam Scratch dan membuatnya jadi nyata!
+        </p>
+        <button class="btn btn-n" id="startBtn" style="font-size: 1.5rem; padding: 1rem 3rem;">Mulai Coding! 💻</button>
+      </div>
+      <div class="hero-img" style="position:relative; display:flex; justify-content:center; align-items:flex-end; gap: 1rem; height: 320px; width:100%; margin-top: -20px;">
+        <img src="../assets/image_09.png" style="position:absolute; bottom: -60px; left:-5%; width:110%; height:150%; z-index:0; opacity:0.8; object-fit: cover; filter: hue-rotate(280deg);" alt="Wave Background">
+        <img src="../assets/image_14.png" alt="Anak 1" style="height: 85%; z-index: 1; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));">
+        <img src="../assets/image_17.png" alt="Anak 2" style="height: 100%; z-index: 2; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.3)); margin-bottom: 10px;">
+        <img src="../assets/image_02.png" alt="Anak 3" style="height: 90%; z-index: 1; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); transform: scaleX(-1);">
+      </div>
+    </div>
+  </section>
+
+  <!-- S1: AGENDA -->
+  <section class="slide" data-slide="1">
+    <div class="cz">
+      <h2 class="story-title">Agenda Hari Ini 📅</h2>
+      <div class="pill-list" style="max-width:850px; margin:auto; text-align:left;">
+        <div class="pill"><div class="pill-idx">1</div><div><strong>Review Wireframe</strong> — Siapkan ide dari pertemuan sebelumnya.</div></div>
+        <div class="pill"><div class="pill-idx">2</div><div><strong>Membuat Aset</strong> — Menggambar atau mencari Sprite & Backdrop.</div></div>
+        <div class="pill"><div class="pill-idx">3</div><div><strong>Tutorial Hub</strong> — Mempelajari blok kode spesifik (Broadcast, Wait, dll).</div></div>
+        <div class="pill"><div class="pill-idx">4</div><div><strong>Workshop Mandiri</strong> — Waktunya coding menyelesaikan aplikasi!</div></div>
+        <!-- <div class="pill"><div class="pill-idx">5</div><div><strong>Show & Tell</strong> — Mempresentasikan hasil karya di kelas.</div></div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- S2: REVIEW WIREFRAME -->
+  <section class="slide" data-slide="2">
+    <div class="isplit" style="max-width:1050px; margin:auto;">
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <img src="../assets/image_07.png" alt="Berpikir" style="max-height: 400px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
+      </div>
+      <div>
+        <span class="ihl">Ingat Kembali Denahmu!</span>
+        <p class="itext" style="margin-bottom:1.5rem;">Buka buku atau catatannya. Mari kita lihat wireframe yang sudah kamu buat kemarin.</p>
+        <div class="rpg" style="background:#fff; border-color:var(--p); text-align:left; padding:1.5rem;">
+          <p style="font-size:1.1rem; color:var(--pd); font-weight:800; margin-bottom:1rem;">Pastikan kamu sudah tahu:</p>
+          <ul style="font-size:1.1rem; color:#444; margin-left:1.5rem; line-height:1.6; font-weight:700;">
+            <li>Apa halaman utamanya (Home)?</li>
+            <li>Ada berapa tombol di layarmu?</li>
+            <li>Apa yang terjadi kalau tombol dipencet?</li>
+            <li>Jenis aplikasi apa yang kamu pilih? (Checklist / Guide / Reminder)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3: MASUK KE SCRATCH -->
+  <section class="slide" data-slide="3">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 2rem;">Siap-Siap Membuka Scratch! 💻</h2>
+      <div class="num-grid" style="max-width:1050px; margin:auto; text-align:left;">
+        
+        <div class="num-card">
+          <div class="num-lbl">🌐</div>
+          <p class="num-title">Buka Website</p>
+          <p class="num-desc">Ketik <strong>scratch.mit.edu</strong> di browsermu.</p>
+        </div>
+        
+        <div class="num-card">
+          <div class="num-lbl">🔑</div>
+          <p class="num-title">Masuk / Sign In</p>
+          <p class="num-desc">Gunakan username dan password yang sudah kamu punya.</p>
+        </div>
+        
+        <div class="num-card">
+          <div class="num-lbl">➕</div>
+          <p class="num-title">Buat Proyek Baru</p>
+          <p class="num-desc">Klik tombol <strong>Create</strong> di kiri atas.</p>
+        </div>
+
+        <div class="num-card">
+          <div class="num-lbl">🏷️</div>
+          <p class="num-title">Beri Nama</p>
+          <p class="num-desc">Ubah tulisan 'Untitled' dengan judul aplikasimu!</p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: MEMASUKKAN ASET -->
+  <section class="slide" data-slide="4">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 1.5rem;">Langkah 1: Siapkan Aset Visual 🎨</h2>
+      <div style="display:flex; flex-direction:column; gap: 1.5rem; max-width: 950px; margin: auto; text-align: left;">
+        
+        <div class="box rpg" style="background:#E1F5FE; border-color:var(--p); padding:1.5rem; display:flex; align-items:center; gap:2rem;">
+          <div style="font-size:4rem;">🖼️</div>
+          <div style="flex:1;">
+            <p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:0.5rem;">Background (Backdrop)</p>
+            <p style="font-size:1.1rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Buat backdrop kosong atau pilih warna yang keren! Minimal kamu punya latar untuk halaman utama.</p>
+          </div>
+        </div>
+
+        <div class="box rpg" style="background:#FFF3E0; border-color:var(--o); padding:1.5rem; display:flex; align-items:center; gap:2rem;">
+          <div style="font-size:4rem;">👾</div>
+          <div style="flex:1;">
+            <p style="font-size:1.3rem; font-weight:800; color:var(--o); margin-bottom:0.5rem;">Sprite & Tombol</p>
+            <p style="font-size:1.1rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Masih ingat kotak kecil yang kamu gambar di Wireframe? Gambarlah kotak itu di Scratch menggunakan tab <strong>Costumes</strong> (Paint).</p>
+            <div style="background:#fff; border-radius:12px; padding:0.8rem; font-size:0.95rem; color:#666; border:2px dashed #FB8C00;">
+              💡 <em>Tips: Hapus sprite si kucing (Sprite1) kalau kamu tidak membutuhkannya.</em>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- S5: TUTORIAL HUB INTRODUCTION -->
+  <section class="slide" data-slide="5">
+    <div class="isplit" style="max-width:1050px; margin:auto; align-items: center;">
+      <div>
+        <span class="ihl" style="font-size: 2.2rem; color: var(--pd);">Bingung Cara Codingnya? 🤨</span>
+        <p class="itext" style="margin-bottom:1.5rem;">Jangan khawatir! Setiap jenis aplikasi (Checklist, Guide, Reminder) punya fitur andalan.</p>
+        <p style="color:var(--pd); font-size:1.2rem; font-weight:800; margin-bottom:1rem;">Gunakan Tutorial Project Hub:</p>
+        <div class="pill-list">
+          <div class="pill"><div style="font-size:1.5rem">📖</div><div>Buka link proyek panduan dari Gurumu.</div></div>
+          <div class="pill"><div style="font-size:1.5rem">🔍</div><div>Pilih fitur yang ingin kamu pelajari.</div></div>
+          <div class="pill"><div style="font-size:1.5rem">🧠</div><div>Lihat cara kerjanya (kode bloknya), pahami, lalu buat sendiri di proyekmu!</div></div>
+        </div>
+      </div>
+      
+      <div style="display:flex; flex-direction:column; align-items:center; background:#E1F5FE; border-radius:30px; padding:2rem; border:4px solid var(--p); box-shadow: 0 10px 30px rgba(0,180,216,0.15);">
+        <p style="color:var(--pd); font-size:1.3rem; font-weight:800; margin-bottom:1rem;">Contoh Fitur di Tutorial Hub:</p>
+        
+        <div style="display:flex; flex-direction:column; gap:0.8rem; width:100%;">
+          <div style="background:#fff; border-radius:12px; padding:0.8rem; display:flex; align-items:center; gap:0.8rem; border:2px solid #CBD5E1;">
+            <div style="font-size:1.5rem;">☑️</div>
+            <div style="font-weight:700; color:#333; font-size:1rem;">Cara bikin centang (Costume)</div>
+          </div>
+          <div style="background:#fff; border-radius:12px; padding:0.8rem; display:flex; align-items:center; gap:0.8rem; border:2px solid #CBD5E1;">
+            <div style="font-size:1.5rem;">🧭</div>
+            <div style="font-weight:700; color:#333; font-size:1rem;">Cara kirim pesan (Broadcast)</div>
+          </div>
+          <div style="background:#fff; border-radius:12px; padding:0.8rem; display:flex; align-items:center; gap:0.8rem; border:2px solid #CBD5E1;">
+            <div style="font-size:1.5rem;">⏰</div>
+            <div style="font-weight:700; color:#333; font-size:1rem;">Cara bikin alarm kedip (Looks/Wait)</div>
+          </div>
+          <div style="background:#FFF9C4; border-radius:12px; padding:0.8rem; display:flex; align-items:center; gap:0.8rem; border:2px dashed #FBC02D; margin-top:0.5rem;">
+            <div style="font-size:1.5rem;">⚠️</div>
+            <div style="font-weight:800; color:#F57F17; font-size:0.9rem;">Guru TIDAK akan mengkodekan proyekmu, kamu yang harus mencoba!</div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- S6: WORKSHOP MANDIRI -->
+  <section class="slide" data-slide="6">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 2rem;">Waktunya Membangun App! 🚀</h2>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem;">
+        
+        <div style="background:#FFF3E0; border:4px dashed var(--o); border-radius:30px; padding:3rem; max-width:800px;">
+          <p style="font-size:1.4rem; color:#444; line-height:1.6; font-weight:700; margin-bottom: 1.5rem;">
+            Gunakan <strong style="color:var(--pd);">45 Menit</strong> ke depan untuk fokus membuat Sprite dan memasang blok kode!
+          </p>
+          <div style="display:flex; justify-content:center; gap:2rem; margin-top:2rem;">
+            <div style="text-align:center;">
+              <div style="font-size:3rem; margin-bottom:0.5rem;">🤫</div>
+              <p style="font-weight:700; color:#666;">Fokus & Tenang</p>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:3rem; margin-bottom:0.5rem;">🙋‍♂️</div>
+              <p style="font-weight:700; color:#666;">Tanya jika stuck lama</p>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:3rem; margin-bottom:0.5rem;">🧠</div>
+              <p style="font-weight:700; color:#666;">Cek Tutorial Hub</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fff; border-radius:24px; padding:1.5rem 3rem; border:4px solid var(--g); box-shadow:0 10px 20px rgba(0,0,0,0.1); margin-top:1rem;">
+          <p style="font-size:1.2rem; font-weight:800; color:#444; margin-bottom:0.5rem;">Target Selesai Hari Ini:</p>
+          <p style="font-size:1.4rem; font-weight:800; color:var(--g);">Aplikasi bisa diklik dan bekerja sesuai rencana!</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- S7: SHOW & TELL -->
+  <section class="slide" data-slide="7">
+    <div class="isplit" style="max-width:1050px; margin:auto;">
+      <div>
+        <span class="ihl">Show & Tell 🌟</span>
+        <p class="itext" style="margin-bottom:1.5rem;">Ayo pamerkan aplikasi buatanmu dan coba mainkan aplikasi milik teman!</p>
+        <div class="pill-list">
+          <div class="pill"><div style="font-size:1.5rem">🔄</div><div>Tukar tempat duduk dengan teman sebelah.</div></div>
+          <div class="pill"><div style="font-size:1.5rem">🎮</div><div>Coba mainkan aplikasinya (jangan ubah kodenya!).</div></div>
+          <div class="pill"><div style="font-size:1.5rem">💬</div><div>Beri pujian atau masukan: "Wah, idemu keren!"</div></div>
+        </div>
+      </div>
+      <div class="rpg" style="padding:2.5rem; text-align:left; background:#fff; border-color:#eee;">
+        <p style="font-size:1.1rem; color:var(--pd); font-weight:800; margin-bottom:1.5rem;">Hal yang bisa dinilai:</p>
+        <div style="display:flex; flex-direction:column; gap:1.2rem;">
+          <div style="background:#E0F7FA; padding:1.2rem; border-radius:16px; border:2px solid #00ACC1;">
+            <p style="color:#00838F; font-weight:800; font-size:1.1rem;">Apakah aplikasinya jelas? 🤔</p>
+          </div>
+          <div style="background:#FFF3E0; padding:1.2rem; border-radius:16px; border:2px solid #FB8C00;">
+            <p style="color:#E65100; font-weight:800; font-size:1.1rem;">Apakah tombolnya bekerja saat diklik? 🖱️</p>
+          </div>
+          <div style="background:#E8F5E9; padding:1.2rem; border-radius:16px; border:2px solid #4CAF50;">
+            <p style="color:#2E7D32; font-weight:800; font-size:1.1rem;">Apakah warnanya menarik? 🌈</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S8: CEK PERASAAN -->
+  <section class="slide" data-slide="8">
+    <div class="cz">
+      <h2 class="story-title">Cek Pemahaman Materi</h2>
+      <div style="display:flex; justify-content:center; gap:4rem; margin-top:3rem; flex-wrap:wrap;">
+        <div style="text-align:center"><div class="react-e">😕</div><p style="margin-top:1rem; color:#666; font-weight:700; font-size:1.2rem;">Masih bingung coding</p></div>
+        <div style="text-align:center"><div class="react-e">🙂</div><p style="margin-top:1rem; color:#666; font-weight:700; font-size:1.2rem;">Bisa bikin aplikasi dasar</p></div>
+        <div style="text-align:center"><div class="react-e">🤩</div><p style="margin-top:1rem; color:#666; font-weight:700; font-size:1.2rem;">Bisa coding lancar</p></div>
+        <div style="text-align:center"><div class="react-e">🚀</div><p style="margin-top:1rem; color:var(--pd); font-weight:800; font-size:1.2rem;">Siap modifikasi app lagi</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S9: PENUTUP -->
+  <section class="slide" data-slide="9">
+    <div class="cz" style="display:flex; flex-direction:column; justify-content:center; align-items:center; flex:1; gap:2rem;">
+      <h1 style="font-size:5rem; font-family:'Fredoka',sans-serif; color:var(--pd); text-shadow: 3px 3px 0px rgba(0,0,0,0.1);">Kerja Bagus Hari Ini! 🎉</h1>
+      <p style="font-size:1.5rem; color:#555; text-align:center; max-width:800px; font-weight:700;">Kalian berhasil merubah ide sketsa menjadi sebuah aplikasi digital di Scratch!</p>
+      
+      <div style="background:var(--p); padding:3rem; border-radius:30px; box-shadow:0 15px 30px rgba(0,180,216,0.3); max-width:700px; text-align:center; border: 4px solid #fff;">
+        <p style="font-size:1.3rem; margin-bottom:1rem; color:#fff; font-weight:800;">Sampai jumpa lagi!</p>
+        <h2 style="font-size:3rem; color:var(--g); font-family:'Fredoka',sans-serif; text-shadow: 2px 2px 0px rgba(0,0,0,0.2);">Kamu adalah Codepreneur Hebat! 🏆</h2>
+      </div>
+    </div>
+  </section>
+
+  </main>
+  
+  <footer class="controls">
+    <button class="btn btn-p" id="prevBtn">← Kembali</button>
+    <div class="pag" id="pagination"></div>
+    <button class="btn btn-n" id="nextBtn">Lanjut →</button>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const startBtn = document.getElementById("startBtn");
+  const pagination = document.getElementById("pagination");
+  let cur = 0;
+  
+  function createPag(){
+    slides.forEach((_,i) => {
+      const d = document.createElement("button");
+      d.className = "dot"; d.title = `Slide ${i+1}`;
+      d.addEventListener("click", () => goTo(i));
+      pagination.appendChild(d);
+    });
+  }
+  
+  function updatePag(){
+    pagination.querySelectorAll(".dot").forEach((d,i) => d.classList.toggle("active", i === cur));
+  }
+  
+  function goTo(i){
+    if(i < 0) i = 0; 
+    if(i >= slides.length) i = slides.length - 1;
+    slides.forEach(s => {
+      s.classList.remove("active");
+      s.style.transform = "translateY(50px) scale(.95)";
+    });
+    cur = i;
+    setTimeout(() => {
+      slides[cur].classList.add("active");
+      slides[cur].style.transform = "translateY(0) scale(1)";
+    }, 50);
+    updatePag();
+  }
+  
+  createPag(); 
+  updatePag();
+  
+  prevBtn.addEventListener("click", () => goTo(cur - 1));
+  nextBtn.addEventListener("click", () => goTo(cur + 1));
+  if(startBtn) startBtn.addEventListener("click", () => goTo(1));
+  
+  window.addEventListener("keydown", e => {
+    if(e.key === "ArrowRight") goTo(cur + 1);
+    if(e.key === "ArrowLeft") goTo(cur - 1);
+  });
+})();
+</script>
+</body>
+</html>
