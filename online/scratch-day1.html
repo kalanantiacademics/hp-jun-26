@@ -80,9 +80,9 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
 .t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
 .kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
-.frame { position: relative; flex: 1; min-height: min(700px, 75vh); display: flex; align-items: center; justify-content: center; }
-.slide { position: absolute; inset: 0; margin: auto; max-width: 1200px; width: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); overflow-y: auto; overflow-x: hidden; border: 2px solid rgba(255, 255, 255, 0.9); scroll-behavior: smooth; }
-.slide.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
+.frame { position: relative; flex: 1; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
+.slide { position: absolute; top: 0; left: 0; width: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); }
+.slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
 /* Custom Scrollbar for Slides */
 .slide::-webkit-scrollbar { width: 8px; }
 .slide::-webkit-scrollbar-track { background: transparent; margin: 1rem; }
@@ -91,7 +91,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .slide-cover { background: rgba(255,255,255,0.85); }
 .cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
 .cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
-.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
 .slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
 .isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
 .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; }
@@ -186,7 +186,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 <body>
 
 <!-- High-Resolution Top Logos -->
-<div class="lfix" style="position: fixed; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
+<div class="lfix" style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
   <!-- Kiri: Kalananti -->
   <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png" style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="Kalananti Logo">
   
@@ -249,7 +249,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <section class="slide slide-cover active" data-slide="0" style="padding-top: 1rem;">
     <div class="cov-inner" style="display:flex; flex-direction:column; justify-content:center; text-align:center;">
       <div style="margin-bottom: 0.5rem; z-index: 5;">
-        <h1 class="cov-h" style="font-size: 4.5rem; text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom: 1rem;">Scratch <span style="color: #FF9800;">Codepreneur</span></h1>
+        <h1 class="cov-h" style="font-size: 4.5rem; text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom: 1rem;">Scratch <span>Codepreneur</span></h1>
         <p class="desc" style="font-size: 1.4rem; color: #555; max-width: 800px; margin: 0 auto 1.5rem auto;">
           Mari kita belajar merancang dan membuat app di Scratch. Nanti, kita akan mengenalkan hasil karya kita agar teman-teman bisa ikut mencobanya.
         </p>
@@ -437,6 +437,50 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
     </div>
   </section>
 
+  <!-- S2E: GAME TEBAK LOGO -->
+  <section class="slide" data-slide="2e">
+    <div class="cz" style="text-align: center;">
+      <h2 class="story-title" style="margin-bottom: 2rem;">Game: Tebak Logo! 🕵️‍♂️</h2>
+      <div class="isplit" style="max-width:1000px; margin:auto; background:#fff; border: 4px solid var(--p); border-radius:30px; padding:3rem; box-shadow:0 15px 30px rgba(0,0,0,0.1);">
+        <!-- Kiri: Logo -->
+        <div style="display:flex; justify-content:center; align-items:center; background:#f1f5f9; border-radius:24px; padding:3rem; height: 300px; position:relative;">
+          <img id="guessLogoImg" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="max-height:180px; max-width:180px; filter: blur(6px) grayscale(50%) brightness(0.8); transition: all 0.5s;" alt="Logo Rahasia">
+          <div id="guessLogoOverlay" style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center; font-size:4rem; color:rgba(0,0,0,0.1);">❓</div>
+        </div>
+        <!-- Kanan: Kontrol -->
+        <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap: 1.5rem;">
+          <h3 id="guessLogoQuestion" style="font-size:2.2rem; color:var(--pd); margin-bottom:1rem;">Logo aplikasi apa ini?</h3>
+          <h2 id="guessLogoAnswer" style="font-size:3rem; color:var(--g); display:none; margin-bottom:1rem;">WhatsApp</h2>
+          <button id="btnRevealLogo" class="pulse-btn" style="font-size:1.4rem; padding: 1rem 2.5rem; border:none; cursor:pointer;">Buka Logo! 👁️</button>
+          <button id="btnNextLogo" class="btn btn-n" style="font-size:1.2rem; padding: 0.8rem 2rem; display:none; background:var(--p); box-shadow: 0 6px 0 #0077B6;">Logo Selanjutnya ➔</button>
+        </div>
+      </div>
+      <p style="margin-top: 1.5rem; color:#666; font-size:1.2rem; font-weight:700;"><span id="guessLogoCounter">1</span> / 6 Logo</p>
+    </div>
+  </section>
+
+  <!-- S2F: BRIDGING TO PROBLEM & SOLUTION -->
+  <section class="slide" data-slide="2f">
+    <div class="isplit" style="max-width:1050px; margin:auto; align-items: center;">
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:#E1F5FE; border-radius:30px; padding:3rem; border:4px solid var(--p);">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSvZxedWxYBQ8Hme4IKXPAuOzK6lu4xSJ8Q&s" alt="Duolingo" style="max-width: 200px; border-radius: 40px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15)); margin-bottom: 2rem;">
+        <h2 style="font-size:2.5rem; color:var(--pd);">Duolingo</h2>
+      </div>
+      <div>
+        <span class="ihl grad-text">Kenapa Aplikasi Dibuat? 🤔</span>
+        <p class="itext" style="margin-bottom:1.5rem;">Mari kita pikirkan tentang aplikasi <strong>Duolingo</strong> (atau aplikasi belajar lainnya).</p>
+        <div class="glow-box" style="border: 3px solid var(--o); text-align:left; background:#fff7ed; padding: 2rem;">
+          <ul style="font-size:1.2rem; color:#444; line-height:1.8; font-weight:700; margin-left: 1.5rem;">
+            <li><span style="color:var(--pd);">Kenapa aplikasi ini dibuat?</span> (Masalah apa yang dialami orang?)</li>
+            <li><span style="color:var(--pd);">Apa fungsi utamanya?</span> (Bagaimana aplikasi ini membantu?)</li>
+            <li><span style="color:var(--pd);">Kenapa kita butuh ini?</span></li>
+          </ul>
+        </div>
+        <p style="margin-top:1.5rem; font-size:1.15rem; color:#D32F2F; font-weight:800;">Setiap aplikasi dibuat untuk menyelesaikan sebuah MASALAH! 💡</p>
+      </div>
+    </div>
+  </section>
+
   <!-- S3: PRE-TEST INTRO & LINK -->
   <section class="slide" data-slide="3">
     <div class="isplit" style="max-width:1100px; margin:auto; grid-template-columns: 0.8fr 1.5fr; gap: 3rem;">
@@ -483,14 +527,14 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <!-- S6: APP SEHARI-HARI -->
   <section class="slide" data-slide="6">
     <div class="cz">
-      <h2 class="story-title">App yang Sering Kita Pakai</h2>
-      <div class="num-grid" style="max-width:960px; margin:1rem auto;">
-        <div class="num-card"><div class="num-lbl" style="height:60px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU3PVRE_vleIyipQnw-7O8KiVVHHFbNTdCQA&s" style="max-height:100%; max-width:100%; object-fit:contain;" alt="Roblox"></div><div class="num-title">Bermain</div><div class="num-desc">Roblox, Minecraft</div></div>
-        <div class="num-card"><div class="num-lbl" style="height:60px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1280px-YouTube_full-color_icon_%282017%29.svg.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="YouTube"></div><div class="num-title">Hiburan</div><div class="num-desc">YouTube, TikTok</div></div>
-        <div class="num-card"><div class="num-lbl" style="height:60px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/hs/1%20Homepage%20RG/logo%20ruangguru.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="Ruangguru"></div><div class="num-title">Belajar</div><div class="num-desc">Ruangguru, Duolingo</div></div>
-        <div class="num-card"><div class="num-lbl" style="height:60px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://download.logo.wine/logo/WhatsApp/WhatsApp-Logo.wine.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="WhatsApp"></div><div class="num-title">Komunikasi</div><div class="num-desc">WhatsApp, Line</div></div>
+      <h2 class="story-title" style="margin-bottom: 1rem;">App yang Sering Kita Pakai</h2>
+      <div class="num-grid" style="max-width:1050px; margin:0 auto 1rem auto; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+        <div class="num-card" style="padding: 1.5rem;"><div class="num-lbl" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU3PVRE_vleIyipQnw-7O8KiVVHHFbNTdCQA&s" style="max-height:100%; max-width:100%; object-fit:contain;" alt="Roblox"></div><div class="num-title" style="font-size: 1.2rem;">Bermain</div><div class="num-desc" style="font-size: 0.95rem;">Roblox, Minecraft</div></div>
+        <div class="num-card" style="padding: 1.5rem;"><div class="num-lbl" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1280px-YouTube_full-color_icon_%282017%29.svg.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="YouTube"></div><div class="num-title" style="font-size: 1.2rem;">Hiburan</div><div class="num-desc" style="font-size: 0.95rem;">YouTube, TikTok</div></div>
+        <div class="num-card" style="padding: 1.5rem;"><div class="num-lbl" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/hs/1%20Homepage%20RG/logo%20ruangguru.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="Ruangguru"></div><div class="num-title" style="font-size: 1.2rem;">Belajar</div><div class="num-desc" style="font-size: 0.95rem;">Ruangguru, Duolingo</div></div>
+        <div class="num-card" style="padding: 1.5rem;"><div class="num-lbl" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://download.logo.wine/logo/WhatsApp/WhatsApp-Logo.wine.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="WhatsApp"></div><div class="num-title" style="font-size: 1.2rem;">Komunikasi</div><div class="num-desc" style="font-size: 0.95rem;">WhatsApp, Line</div></div>
       </div>
-      <div class="box" style="margin:2rem auto; max-width:850px;">
+      <div class="box" style="margin: 0.5rem auto 0 auto; max-width:850px; padding: 1.2rem 2rem;">
         Semua aplikasi ini dibuat untuk membantu aktivitas penggunanya. Hari ini kita akan belajar langkah awal membuat aplikasi kita sendiri.
       </div>
     </div>
@@ -782,6 +826,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
             <div class="workbook-field"><div class="wb-line"></div></div>
           </div>
         </div>
+      </div>
     </div>
   </section>
 
@@ -1007,6 +1052,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
     setTimeout(() => {
       slides[cur].classList.add("active");
       slides[cur].style.transform = "translateY(0) scale(1)";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 50);
     updatePag();
   }
@@ -1053,6 +1099,58 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
           targetX = 0;
           targetY = 0;
       });
+  }
+
+  // Game Tebak Logo Logic
+  const logos = [
+    { src: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg', name: 'WhatsApp' },
+    { src: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg', name: 'YouTube' },
+    { src: 'https://lelogama.go-jek.com/cms_editor/2021/05/28/info-gojek-2.png', name: 'Gojek' },
+    { src: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', name: 'TikTok' },
+    { src: 'https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg', name: 'Roblox' },
+    { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSvZxedWxYBQ8Hme4IKXPAuOzK6lu4xSJ8Q&s', name: 'Duolingo' }
+  ];
+  let curLogo = 0;
+  const imgLogo = document.getElementById("guessLogoImg");
+  const overlayLogo = document.getElementById("guessLogoOverlay");
+  const qText = document.getElementById("guessLogoQuestion");
+  const aText = document.getElementById("guessLogoAnswer");
+  const btnReveal = document.getElementById("btnRevealLogo");
+  const btnNextLogo = document.getElementById("btnNextLogo");
+  const logoCounter = document.getElementById("guessLogoCounter");
+
+  if (btnReveal) {
+    function loadLogo() {
+      imgLogo.src = logos[curLogo].src;
+      imgLogo.style.filter = "blur(6px) grayscale(50%) brightness(0.8)";
+      overlayLogo.style.display = "flex";
+      qText.style.display = "block";
+      aText.style.display = "none";
+      aText.innerText = logos[curLogo].name;
+      btnReveal.style.display = "inline-block";
+      btnNextLogo.style.display = "none";
+      logoCounter.innerText = curLogo + 1;
+    }
+
+    btnReveal.addEventListener("click", () => {
+      imgLogo.style.filter = "blur(0px) contrast(1) brightness(1)";
+      overlayLogo.style.display = "none";
+      qText.style.display = "none";
+      aText.style.display = "block";
+      btnReveal.style.display = "none";
+      if (curLogo < logos.length - 1) {
+        btnNextLogo.style.display = "inline-block";
+      }
+    });
+
+    btnNextLogo.addEventListener("click", () => {
+      if (curLogo < logos.length - 1) {
+        curLogo++;
+        loadLogo();
+      }
+    });
+    
+    loadLogo();
   }
 
 })();
