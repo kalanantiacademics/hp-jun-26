@@ -80,9 +80,9 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
 .t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
 .kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
-.frame { position: relative; flex: 1; min-height: min(700px, 75vh); display: flex; align-items: center; justify-content: center; }
-.slide { position: absolute; inset: 0; margin: auto; max-width: 1200px; width: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); overflow-y: auto; overflow-x: hidden; border: 2px solid rgba(255, 255, 255, 0.9); scroll-behavior: smooth; }
-.slide.active { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
+.frame { position: relative; flex: 1; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
+.slide { position: absolute; top: 0; left: 0; width: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); }
+.slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
 /* Custom Scrollbar for Slides */
 .slide::-webkit-scrollbar { width: 8px; }
 .slide::-webkit-scrollbar-track { background: transparent; margin: 1rem; }
@@ -91,7 +91,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .slide-cover { background: rgba(255,255,255,0.85); }
 .cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
 .cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
-.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
 .slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
 .isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
 .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; }
@@ -186,7 +186,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 <body>
 
 <!-- High-Resolution Top Logos -->
-<div class="lfix" style="position: fixed; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
+<div class="lfix" style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
   <!-- Kiri: Kalananti -->
   <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png" style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="Kalananti Logo">
   
@@ -251,11 +251,11 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <section class="slide slide-cover active" data-slide="0" style="padding-top: 1rem; background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255, 235, 238, 0.95) 100%); border: 4px solid #F48FB1;">
     <div class="cov-inner" style="display:flex; flex-direction:column; justify-content:center; text-align:center;">
       <div style="margin-bottom: 0.5rem; z-index: 5;">
-        <h1 class="cov-h" style="font-size: 4.5rem; text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom: 1rem;">Scratch <span style="color: #FF9800;">Codepreneur</span></h1>
+        <h1 class="cov-h" style="font-size: 4.5rem; text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom: 1rem;">Scratch <span>Codepreneur</span></h1>
         <p class="desc" style="font-size: 1.4rem; color: #555; max-width: 800px; margin: 0 auto 1.5rem auto;">
           Selamat datang di Hari ke-2! Hari ini waktunya memindahkan sketsa aplikasimu ke dalam Scratch dan membuatnya jadi nyata!
         </p>
-        <button class="btn btn-n" id="startBtn" style="font-size: 1.5rem; padding: 1rem 3rem;">Mulai Coding! 💻</button>
+        <button class="pulse-btn" id="startBtn" style="font-size: 1.5rem; padding: 1rem 3rem; cursor: pointer; border: 4px solid #fff;">Mulai Coding! 💻</button>
       </div>
       <div class="hero-img" style="position:relative; display:flex; justify-content:center; align-items:flex-end; gap: 1rem; height: 320px; width:100%; margin-top: -20px;">
         <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/eb42c311-4643-4da2-b19b-b8c4d6345a08.png" style="position:absolute; bottom: -60px; left:-5%; width:110%; height:150%; z-index:0; opacity:0.8; object-fit: cover; filter: hue-rotate(280deg);" alt="Wave Background">
@@ -270,12 +270,27 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <section class="slide" data-slide="1">
     <div class="cz">
       <h2 class="story-title">Agenda Hari Ini 📅</h2>
-      <div class="pill-list" style="max-width:850px; margin:auto; text-align:left;">
-        <div class="pill"><div class="pill-idx">1</div><div><strong>Review Wireframe</strong> — Siapkan ide dari pertemuan sebelumnya.</div></div>
-        <div class="pill"><div class="pill-idx">2</div><div><strong>Membuat Aset</strong> — Menggambar atau mencari Sprite & Backdrop.</div></div>
-        <div class="pill"><div class="pill-idx">3</div><div><strong>Tutorial Hub</strong> — Mempelajari blok kode spesifik (Broadcast, Wait, dll).</div></div>
-        <div class="pill"><div class="pill-idx">4</div><div><strong>Workshop Mandiri</strong> — Waktunya coding menyelesaikan aplikasi!</div></div>
-        <!-- <div class="pill"><div class="pill-idx">5</div><div><strong>Show & Tell</strong> — Mempresentasikan hasil karya di kelas.</div></div> -->
+      <div class="bento-grid" style="max-width:1050px; margin:auto;">
+        <div class="info-card">
+          <div class="info-icon">📝</div>
+          <div class="info-title">Review Wireframe</div>
+          <div class="info-desc">Mengingat kembali desain dari Day 1.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🎨</div>
+          <div class="info-title">Membuat Aset</div>
+          <div class="info-desc">Menggambar Sprite & Backdrop di Scratch.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🧠</div>
+          <div class="info-title">Tutorial Hub</div>
+          <div class="info-desc">Mempelajari kode dari contoh gurumu.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🚀</div>
+          <div class="info-title">Workshop</div>
+          <div class="info-desc">Waktunya merakit aplikasimu sampai jadi!</div>
+        </div>
       </div>
     </div>
   </section>
@@ -287,15 +302,15 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
         <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9ac6bf60-0a30-49e4-bd19-d34fbbb86aaf.png" alt="Berpikir" style="max-height: 400px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
       </div>
       <div>
-        <span class="ihl">Ingat Kembali Denahmu!</span>
+        <span class="ihl grad-text">Ingat Kembali Denahmu!</span>
         <p class="itext" style="margin-bottom:1.5rem;">Buka buku atau catatannya. Mari kita lihat wireframe yang sudah kamu buat kemarin.</p>
-        <div class="rpg" style="background:#fff; border-color:var(--p); text-align:left; padding:1.5rem;">
-          <p style="font-size:1.1rem; color:var(--pd); font-weight:800; margin-bottom:1rem;">Pastikan kamu sudah tahu:</p>
+        <div class="glow-box" style="border: 3px solid var(--o); text-align:left; background:#fff7ed;">
+          <p style="font-size:1.2rem; color:var(--o); font-weight:800; margin-bottom:1rem;">Pastikan kamu sudah tahu:</p>
           <ul style="font-size:1.1rem; color:#444; margin-left:1.5rem; line-height:1.6; font-weight:700;">
             <li>Apa halaman utamanya (Home)?</li>
             <li>Ada berapa tombol di layarmu?</li>
             <li>Apa yang terjadi kalau tombol dipencet?</li>
-            <li>Jenis aplikasi apa yang kamu pilih? (Checklist / Guide / Reminder)</li>
+            <li>Jenis aplikasi apa yang kamu pilih?</li>
           </ul>
         </div>
       </div>
@@ -306,33 +321,33 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <section class="slide" data-slide="3">
     <div class="cz">
       <h2 class="story-title" style="margin-bottom: 2rem;">Siap-Siap Membuka Scratch! 💻</h2>
-      <div class="num-grid" style="max-width:1050px; margin:auto; text-align:left;">
-        
-        <div class="num-card">
-          <div class="num-lbl">🌐</div>
-          <p class="num-title">Buka Website</p>
-          <p class="num-desc">Ketik <strong>scratch.mit.edu</strong> di browsermu.</p>
+      
+      <div class="process-row" style="max-width:1000px; margin:auto; flex-wrap:wrap;">
+        <div class="process-step">
+          <div class="info-icon">🌐</div>
+          <div class="info-title">1. Buka Website</div>
+          <div class="info-desc">Ketik <strong>scratch.mit.edu</strong></div>
         </div>
-        
-        <div class="num-card">
-          <div class="num-lbl">🔑</div>
-          <p class="num-title">Masuk / Sign In</p>
-          <p class="num-desc">Gunakan username dan password yang sudah kamu punya.</p>
+        <div class="process-arrow">➔</div>
+        <div class="process-step">
+          <div class="info-icon">🔑</div>
+          <div class="info-title">2. Sign In</div>
+          <div class="info-desc">Login dengan akunmu.</div>
         </div>
-        
-        <div class="num-card">
-          <div class="num-lbl">➕</div>
-          <p class="num-title">Buat Proyek Baru</p>
-          <p class="num-desc">Klik tombol <strong>Create</strong> di kiri atas.</p>
+        <div class="process-arrow">➔</div>
+        <div class="process-step">
+          <div class="info-icon">➕</div>
+          <div class="info-title">3. Create</div>
+          <div class="info-desc">Buat proyek baru.</div>
         </div>
-
-        <div class="num-card">
-          <div class="num-lbl">🏷️</div>
-          <p class="num-title">Beri Nama</p>
-          <p class="num-desc">Ubah tulisan 'Untitled' dengan judul aplikasimu!</p>
+        <div class="process-arrow">➔</div>
+        <div class="process-step">
+          <div class="info-icon">🏷️</div>
+          <div class="info-title">4. Beri Judul</div>
+          <div class="info-desc">Ganti 'Untitled'.</div>
         </div>
-        
       </div>
+      
     </div>
   </section>
 
@@ -379,7 +394,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
         </div>
       </div>
       
-      <div class="glow-box" style="display:flex; flex-direction:column; align-items:center; border:4px solid var(--p);">
+      <div class="glow-box" style="display:flex; flex-direction:column; align-items:center; border:4px solid var(--p); width:100%; padding: 1.5rem;">
         <p style="color:var(--pd); font-size:1.3rem; font-weight:800; margin-bottom:1rem;">Contoh Fitur di Tutorial Hub:</p>
         
         <div style="display:flex; flex-direction:column; gap:0.8rem; width:100%;">
@@ -411,11 +426,11 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
       <h2 class="story-title" style="margin-bottom: 2rem;">Waktunya Membangun App! 🚀</h2>
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem;">
         
-        <div class="glow-box tc-orange" style="border:4px dashed var(--o); max-width:800px; padding: 3rem;">
+        <div class="glow-box tc-orange" style="border:4px dashed var(--o); max-width:850px; padding: 2rem 3rem; width:100%;">
           <p style="font-size:1.4rem; color:#444; line-height:1.6; font-weight:700; margin-bottom: 1.5rem;">
             Gunakan <strong style="color:var(--pd);">45 Menit</strong> ke depan untuk fokus membuat Sprite dan memasang blok kode!
           </p>
-          <div style="display:flex; justify-content:center; gap:2rem; margin-top:2rem;">
+          <div style="display:flex; justify-content:center; gap:2rem; margin-top:1.5rem; flex-wrap:wrap;">
             <div style="text-align:center;">
               <div style="font-size:3rem; margin-bottom:0.5rem;">🤫</div>
               <p style="font-weight:700; color:#666;">Fokus & Tenang</p>
@@ -431,7 +446,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
           </div>
         </div>
 
-        <div class="glow-box" style="border:4px solid var(--g); margin-top:1rem; text-align: center;">
+        <div class="glow-box" style="border:4px solid var(--g); margin-top:0.5rem; text-align: center; width: 100%; max-width: 850px; padding: 1.5rem;">
           <p style="font-size:1.2rem; font-weight:800; color:#444; margin-bottom:0.5rem;">Target Selesai Hari Ini:</p>
           <p style="font-size:1.4rem; font-weight:800; color:var(--g);">Aplikasi bisa diklik dan bekerja sesuai rencana!</p>
         </div>
@@ -442,27 +457,47 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 
   <!-- S7: SHOW & TELL -->
   <section class="slide" data-slide="7">
-    <div class="isplit" style="max-width:1050px; margin:auto;">
-      <div>
-        <span class="ihl">Show & Tell 🌟</span>
-        <p class="itext" style="margin-bottom:1.5rem;">Ayo pamerkan aplikasi buatanmu dan coba mainkan aplikasi milik teman!</p>
-        <div class="pill-list">
-          <div class="pill"><div style="font-size:1.5rem">🔄</div><div>Tukar tempat duduk dengan teman sebelah.</div></div>
-          <div class="pill"><div style="font-size:1.5rem">🎮</div><div>Coba mainkan aplikasinya (jangan ubah kodenya!).</div></div>
-          <div class="pill"><div style="font-size:1.5rem">💬</div><div>Beri pujian atau masukan: "Wah, idemu keren!"</div></div>
+    <div class="cz" style="text-align: center;">
+      <h2 class="story-title" style="margin-bottom: 1.5rem;">Show & Tell 🌟</h2>
+      <p class="itext" style="margin-bottom:2rem;">Ayo pamerkan aplikasi buatanmu dan coba mainkan aplikasi milik teman!</p>
+      
+      <div class="process-row" style="max-width:850px; margin:auto; margin-bottom: 2.5rem; flex-wrap:wrap;">
+        <div class="process-step">
+          <div class="info-icon">🔄</div>
+          <div class="info-title">Tukar Tempat</div>
+          <div class="info-desc">Pindah ke laptop teman sebelah.</div>
+        </div>
+        <div class="process-arrow">➔</div>
+        <div class="process-step">
+          <div class="info-icon">🎮</div>
+          <div class="info-title">Mainkan Game</div>
+          <div class="info-desc">Coba klik tombolnya.</div>
+        </div>
+        <div class="process-arrow">➔</div>
+        <div class="process-step">
+          <div class="info-icon">💬</div>
+          <div class="info-title">Beri Pujian</div>
+          <div class="info-desc">"Wah, idemu keren banget!"</div>
         </div>
       </div>
-      <div class="rpg" style="padding:2.5rem; text-align:left; background:#fff; border-color:#eee;">
-        <p style="font-size:1.1rem; color:var(--pd); font-weight:800; margin-bottom:1.5rem;">Hal yang bisa dinilai:</p>
-        <div style="display:flex; flex-direction:column; gap:1.2rem;">
-          <div style="background:#E0F7FA; padding:1.2rem; border-radius:16px; border:2px solid #00ACC1;">
-            <p style="color:#00838F; font-weight:800; font-size:1.1rem;">Apakah aplikasinya jelas? 🤔</p>
+
+      <div class="glow-box" style="max-width:1050px; margin:auto; background: #f8fafc; border-color: #cbd5e1; padding: 2rem;">
+        <p style="font-size:1.3rem; color:var(--pd); font-weight:800; margin-bottom:1.5rem;">Cek aplikasi temanmu:</p>
+        <div class="bento-grid">
+          <div class="info-card" style="border-color: #0ea5e9;">
+            <div class="info-icon">🤔</div>
+            <div class="info-title" style="color:#0ea5e9;">Jelas & Paham</div>
+            <div class="info-desc">Apakah cara pakainya mudah dipahami?</div>
           </div>
-          <div style="background:#FFF3E0; padding:1.2rem; border-radius:16px; border:2px solid #FB8C00;">
-            <p style="color:#E65100; font-weight:800; font-size:1.1rem;">Apakah tombolnya bekerja saat diklik? 🖱️</p>
+          <div class="info-card" style="border-color: #f59e0b;">
+            <div class="info-icon">🖱️</div>
+            <div class="info-title" style="color:#f59e0b;">Tombol Aktif</div>
+            <div class="info-desc">Apakah tombolnya bereaksi saat diklik?</div>
           </div>
-          <div style="background:#E8F5E9; padding:1.2rem; border-radius:16px; border:2px solid #4CAF50;">
-            <p style="color:#2E7D32; font-weight:800; font-size:1.1rem;">Apakah warnanya menarik? 🌈</p>
+          <div class="info-card" style="border-color: #10b981;">
+            <div class="info-icon">🌈</div>
+            <div class="info-title" style="color:#10b981;">Desain Menarik</div>
+            <div class="info-desc">Apakah warnanya bagus dan terlihat rapi?</div>
           </div>
         </div>
       </div>
@@ -485,7 +520,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <!-- S9: PENUTUP -->
   <section class="slide" data-slide="9">
     <div class="cz" style="display:flex; flex-direction:column; justify-content:center; align-items:center; flex:1; gap:2rem;">
-      <h1 style="font-size:5rem; font-family:'Fredoka',sans-serif; color:var(--pd); text-shadow: 3px 3px 0px rgba(0,0,0,0.1);">Kerja Bagus Hari Ini! 🎉</h1>
+      <h1 class="grad-text" style="font-size:5rem; font-family:'Fredoka',sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.1);">Kerja Bagus Hari Ini! 🎉</h1>
       <p style="font-size:1.5rem; color:#555; text-align:center; max-width:800px; font-weight:700;">Kalian berhasil merubah ide sketsa menjadi sebuah aplikasi digital di Scratch!</p>
       
       <div style="background:var(--p); padding:3rem; border-radius:30px; box-shadow:0 15px 30px rgba(0,180,216,0.3); max-width:700px; text-align:center; border: 4px solid #fff;">
@@ -537,6 +572,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
     setTimeout(() => {
       slides[cur].classList.add("active");
       slides[cur].style.transform = "translateY(0) scale(1)";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 50);
     updatePag();
   }
