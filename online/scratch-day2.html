@@ -91,12 +91,12 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .slide-cover { background: rgba(255,255,255,0.85); }
 .cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
 .cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
-.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
+.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
 .slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
 .isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
 .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; }
 .cz { position: relative; z-index: 2; width: 100%; text-align: center; }
-.story-title { font-size: 3.4rem; margin-bottom: 1.5rem; line-height: 1.2; background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
+.story-title { font-size: 3.4rem; margin-bottom: 1.5rem; line-height: 1.2; background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
 .box { font-size: 1.3rem; line-height: 1.6; background: rgba(255,255,255,0.9); padding: 2rem 2.5rem; border-radius: 24px; border: 2px solid var(--p); box-shadow: 0 12px 24px rgba(0,180,216,0.1); color: var(--txt); font-weight: 700; transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .box:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,180,216,0.15); }
 .rpg { background: linear-gradient(145deg, #ffffff, #f1f5f9); border: 2px solid #e2e8f0; border-radius: 24px; padding: 2.5rem; text-align: center; max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,.05); }
@@ -143,8 +143,8 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .react-e:hover { transform: scale(1.3) rotate(15deg); }
 .controls { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 1rem 2rem; border-radius: 999px; margin-top: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,.08); border: 1px solid rgba(255,255,255,0.9); }
 /* New Utilities for Overhaul */
-.grad-text { background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.grad-text-o { background: linear-gradient(135deg, #f59e0b, #ea580c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.grad-text { background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.grad-text-o { background: linear-gradient(135deg, #f59e0b, #ea580c); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
 .workbook-field { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; }
 .wb-line { border-bottom: 3px dashed #cbd5e1; height: 35px; width: 100%; transition: border-color 0.3s; }
 .wb-line:hover { border-color: var(--p); }
