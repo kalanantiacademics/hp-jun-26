@@ -74,14 +74,14 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .deco-binary-right { right: 8%; top: 15%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3)); animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate; }
 .deco-code-right { right: 6%; bottom: 28%; width: clamp(60px, 7vw, 100px); filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3)); animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse; }
 @keyframes floatDeco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-25px) rotate(3deg); } }
-.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.2rem 2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255, 255, 255, 0.8); margin-top: 12rem; transition: transform 0.3s ease; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255, 255, 255, 0.8); margin-top: 1.5rem; transition: transform 0.3s ease; }
 .topbar:hover { transform: translateY(-2px); }
 .logo-row { display: flex; align-items: center; gap: 16px; }
 .t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
 .t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
 .kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
-.frame { position: relative; flex: 1; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
-.slide { position: absolute; top: 0; left: 0; width: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); }
+.frame { position: relative; flex: 1; min-height: 750px; display: block; margin-top: 1rem; width: 100%; }
+.slide { position: absolute; top: 0; left: 0; width: 100%; min-height: 750px; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); }
 .slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
 /* Custom Scrollbar for Slides */
 .slide::-webkit-scrollbar { width: 8px; }
@@ -91,12 +91,12 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .slide-cover { background: rgba(255,255,255,0.85); }
 .cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
 .cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
-.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
+.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
 .slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
 .isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
 .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; }
 .cz { position: relative; z-index: 2; width: 100%; text-align: center; }
-.story-title { font-size: 3.4rem; margin-bottom: 1.5rem; line-height: 1.2; background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
+.story-title { font-size: 2.8rem; margin-bottom: 1rem; line-height: 1.2; color: var(--pd); font-weight: 800; text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
 .box { font-size: 1.3rem; line-height: 1.6; background: rgba(255,255,255,0.9); padding: 2rem 2.5rem; border-radius: 24px; border: 2px solid var(--p); box-shadow: 0 12px 24px rgba(0,180,216,0.1); color: var(--txt); font-weight: 700; transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .box:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,180,216,0.15); }
 .rpg { background: linear-gradient(145deg, #ffffff, #f1f5f9); border: 2px solid #e2e8f0; border-radius: 24px; padding: 2.5rem; text-align: center; max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,.05); }
@@ -143,8 +143,8 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .react-e:hover { transform: scale(1.3) rotate(15deg); }
 .controls { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 1rem 2rem; border-radius: 999px; margin-top: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,.08); border: 1px solid rgba(255,255,255,0.9); }
 /* New Utilities for Overhaul */
-.grad-text { background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.grad-text-o { background: linear-gradient(135deg, #f59e0b, #ea580c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.grad-text { background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.grad-text-o { background: linear-gradient(135deg, #f59e0b, #ea580c); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
 .workbook-field { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; }
 .wb-line { border-bottom: 3px dashed #cbd5e1; height: 35px; width: 100%; transition: border-color 0.3s; }
 .wb-line:hover { border-color: var(--p); }
@@ -190,9 +190,6 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <!-- Kiri: Kalananti -->
   <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png" style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="Kalananti Logo">
   
-  <!-- Tengah: Logo Baru (Agak Gede) -->
-  <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png" style="height: 160px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto; margin-top: 10px;" alt="Center Logo">
-  
   <!-- Kanan: RGC Logo -->
   <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/94907efd-30d9-49af-8e62-aa4aee51ad33.png" style="height: 60px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="RGC Logo">
 </div>
@@ -237,8 +234,11 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 <div class="wrap">
   <header class="topbar">
     <div class="logo-row">
-      <div style="font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); margin-right: 8px;">🚀</div>
-      <div><div class="t-main">Scratch Codepreneur</div><div class="t-sub">Hari ke-1 Storyboard!</div></div>
+      <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png" style="height: 90px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); margin-right: 15px;" alt="Scratch Logo">
+      <div style="display:flex; flex-direction:column; justify-content:center;">
+        <div class="t-main" style="font-size:1.8rem;">🚀 Scratch Codepreneur</div>
+        <div class="t-sub" style="font-size:1.1rem;">Hari ke-1 Storyboard!</div>
+      </div>
     </div>
     <div><span class="t-sub" style="color: #888;">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
   </header>
@@ -730,75 +730,239 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
     </div>
   </section>
 
+  <!-- S13B: APA ITU SCRATCH -->
+  <section class="slide" data-slide="13b">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 2rem;">Apa itu Scratch? 🐱</h2>
+      <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2rem; max-width:900px; margin:auto; display:flex; flex-direction:column; align-items:center; gap:1.5rem;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Scratchlogo.svg/960px-Scratchlogo.svg.png?_=20210622065930" alt="Scratch Logo" style="height:100px; object-fit:contain;">
+        <p style="font-size:1.6rem; line-height:1.6; color:var(--pd); text-align:center;">
+          Scratch adalah tempat di mana kita bisa <strong style="color:var(--o);">membuat aplikasi dan game sendiri!</strong><br><br>
+          Kita akan menggunakan Scratch untuk menyulap ide solusi yang baru saja kalian pikirkan menjadi sebuah <strong>App sungguhan</strong> yang bisa digunakan oleh orang lain.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S13C: 3 CONTOH PROJECT -->
+  <section class="slide" data-slide="13c">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 2rem;">Contoh App yang Bisa Dibuat 💡</h2>
+      <p style="font-size:1.2rem; color:#666; margin-bottom:1.5rem;">Berikut adalah contoh aplikasi yang bisa kita buat di Scratch:</p>
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; max-width: 1100px; margin: auto;">
+        
+        <!-- App 1 -->
+        <div class="box rpg" style="background:#F8FAFC; border-color:var(--pd); padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="color:var(--pd); font-size:1.3rem;">☑️ Aplikasi "Cek Satu-Satu"</h3>
+          <!-- Scratch Embed Thumbnail (Modal Trigger) -->
+          <div style="width:100%; aspect-ratio:4/3; background:#E2E8F0; border-radius:8px; overflow:hidden; border:2px solid #CBD5E1; position:relative;">
+            <img src="https://cdn2.scratch.mit.edu/get_image/project/513960469_480x360.png" alt="Thumbnail App Cek Satu-Satu" style="width:100%; height:100%; object-fit:cover; cursor:pointer;" onclick="openScratchModal('https://scratch.mit.edu/projects/513960469/embed')">
+            <button onclick="openScratchModal('https://scratch.mit.edu/projects/513960469/embed')" style="position:absolute; top:10px; right:10px; background:var(--pd); color:#fff; border:none; border-radius:50%; width:40px; height:40px; font-size:1.2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.3); display:flex; justify-content:center; align-items:center; transition:0.2s; z-index:10;" title="Perbesar">🔍</button>
+          </div>
+          <p style="font-size:1rem; color:#555; text-align:left; line-height:1.5;">
+            <strong>(Checklist App)</strong><br>
+            Cocok untuk klien yang sering lupa barang, tugas, atau area yang belum rapi. Aplikasi ini butuh daftar yang bisa dicentang.
+          </p>
+        </div>
+
+        <!-- App 2 -->
+        <div class="box rpg" style="background:#FFF8E1; border-color:var(--o); padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="color:var(--od); font-size:1.3rem;">🧭 Aplikasi "Bantu Pilih"</h3>
+          <!-- Scratch Embed Thumbnail (Modal Trigger) -->
+          <div style="width:100%; aspect-ratio:4/3; background:#FFECB3; border-radius:8px; overflow:hidden; border:2px solid #FCD34D; position:relative;">
+            <img src="https://cdn2.scratch.mit.edu/get_image/project/1325898461_480x360.png" alt="Thumbnail App Bantu Pilih" style="width:100%; height:100%; object-fit:cover; cursor:pointer;" onclick="openScratchModal('https://scratch.mit.edu/projects/1325898461/embed')">
+            <button onclick="openScratchModal('https://scratch.mit.edu/projects/1325898461/embed')" style="position:absolute; top:10px; right:10px; background:var(--od); color:#fff; border:none; border-radius:50%; width:40px; height:40px; font-size:1.2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.3); display:flex; justify-content:center; align-items:center; transition:0.2s; z-index:10;" title="Perbesar">🔍</button>
+          </div>
+          <p style="font-size:1rem; color:#555; text-align:left; line-height:1.5;">
+            <strong>(Guide App)</strong><br>
+            Cocok untuk klien yang kebingungan memilih sesuatu (misal: bekal sehat vs tidak sehat). Butuh informasi & saran.
+          </p>
+        </div>
+
+        <!-- App 3 -->
+        <div class="box rpg" style="background:#FFF0F5; border-color:#D81B60; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="color:#C2185B; font-size:1.3rem;">⏰ Aplikasi "Awas Lupa"</h3>
+          <!-- Scratch Embed Thumbnail (Modal Trigger) -->
+          <div style="width:100%; aspect-ratio:4/3; background:#F8BBD0; border-radius:8px; overflow:hidden; border:2px solid #F472B6; position:relative;">
+            <img src="https://cdn2.scratch.mit.edu/get_image/project/1325919422_480x360.png" alt="Thumbnail App Awas Lupa" style="width:100%; height:100%; object-fit:cover; cursor:pointer;" onclick="openScratchModal('https://scratch.mit.edu/projects/1325919422/embed')">
+            <button onclick="openScratchModal('https://scratch.mit.edu/projects/1325919422/embed')" style="position:absolute; top:10px; right:10px; background:#C2185B; color:#fff; border:none; border-radius:50%; width:40px; height:40px; font-size:1.2rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.3); display:flex; justify-content:center; align-items:center; transition:0.2s; z-index:10;" title="Perbesar">🔍</button>
+          </div>
+          <p style="font-size:1rem; color:#555; text-align:left; line-height:1.5;">
+            <strong>(Reminder App)</strong><br>
+            Cocok untuk klien yang punya target (menabung, minum air) atau jadwal kegiatan. Aplikasi ini butuh peringatan atau alarm.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Modal for Scratch -->
+      <div id="scratchModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
+        <button onclick="closeScratchModal()" style="position:absolute; top:20px; right:30px; background:#ef4444; color:white; border:none; border-radius:50%; width:50px; height:50px; font-size:1.5rem; cursor:pointer; font-weight:bold; box-shadow:0 4px 10px rgba(0,0,0,0.3);">✕</button>
+        <div style="width:90%; max-width:800px; aspect-ratio:4/3; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+          <iframe id="scratchModalIframe" src="" allowtransparency="true" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        </div>
+      </div>
+      <script>
+        function openScratchModal(url) {
+          document.getElementById('scratchModalIframe').src = url;
+          document.getElementById('scratchModal').style.display = 'flex';
+        }
+        function closeScratchModal() {
+          document.getElementById('scratchModal').style.display = 'none';
+          document.getElementById('scratchModalIframe').src = '';
+        }
+      </script>
+
+    </div>
+  </section>
+
+  <!-- S13D: SPRITE & BACKDROP -->
+  <section class="slide" data-slide="13d">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 2rem;">Bagian-Bagian di Scratch 🧩</h2>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 1000px; margin: auto;">
+        
+        <!-- Sprite -->
+        <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2rem; text-align:left;">
+          <h3 style="color:var(--pd); font-size:1.8rem; margin-bottom:1rem;">👾 Sprite</h3>
+          <p style="font-size:1.2rem; line-height:1.5; color:#444; margin-bottom:1rem;">
+            Sprite <strong>tidak selalu berupa karakter!</strong><br><br>
+            Aset, tombol (button), ikon, gambar barang, atau objek apapun di dalam app kamu disebut sebagai Sprite.
+          </p>
+          <div style="width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#F8FAFC; border:2px solid #E2E8F0;">
+            <iframe src="https://jumpshare.com/embed/r6Vcq0arPI15UiJqS7DQ" frameborder="0" width="100%" height="100%" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- Backdrop -->
+        <div class="box rpg glow-box" style="background:#fff; border-color:var(--o); padding:2rem; text-align:left;">
+          <h3 style="color:var(--od); font-size:1.8rem; margin-bottom:1rem;">🖼️ Backdrop</h3>
+          <p style="font-size:1.2rem; line-height:1.5; color:#444; margin-bottom:1rem;">
+            Backdrop adalah latar belakang dari aplikasimu.<br><br>
+            Bisa berupa warna polos, gambar ruangan, atau apapun yang membuat aplikasimu jadi lebih keren.
+          </p>
+          <div style="width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#F8FAFC; border:2px solid #E2E8F0;">
+            <iframe src="https://jumpshare.com/embed/f3btNglHQgxAvdMIvVKp" frameborder="0" width="100%" height="100%" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- S13E: CARA CODING (ANIMATED BLOCKS) -->
+  <section class="slide" data-slide="13e">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 2rem;">Cara Ngoding di Scratch 💻</h2>
+      <div style="display:flex; flex-direction:column; align-items:center; gap: 2rem;">
+        
+        <p style="font-size:1.4rem; color:var(--pd); max-width:800px; line-height:1.6;">
+          Di Scratch, kita <strong>tidak perlu mengetik kode.</strong> <br>
+          Kita menyusun program dengan cara <strong style="color:var(--o);">menyambungkan blok-blok seperti puzzle!</strong>
+        </p>
+
+        <!-- CSS Animated Blocks -->
+        <style>
+          .scratch-block {
+            padding: 12px 20px; color: white; font-weight: bold; font-size: 1.2rem;
+            border-radius: 8px; box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+            position: relative; width: fit-content; border-top-left-radius: 20px;
+          }
+          .block-event { background: #FFBF00; z-index:3; }
+          .block-motion { background: #4C97FF; border-radius:4px; margin-top:5px; z-index:2; animation: snap1 2.5s infinite ease-in-out; }
+          .block-looks { background: #9966FF; border-radius:4px; margin-top:5px; z-index:1; animation: snap2 2.5s infinite ease-in-out; }
+          
+          .bump { position: absolute; bottom: -10px; left: 20px; width: 30px; height: 10px; background: inherit; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; box-shadow: 0 4px 0 rgba(0,0,0,0.2); z-index: 2; }
+          .notch { position: absolute; top: 0; left: 20px; width: 30px; height: 10px; background: rgba(0,0,0,0.1); border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; z-index: 1; }
+          
+          @keyframes snap1 {
+            0% { transform: translateY(30px) rotate(-2deg); opacity: 0; }
+            20%, 80% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(30px) rotate(-2deg); opacity: 0; }
+          }
+          @keyframes snap2 {
+            0%, 25% { transform: translateY(50px) rotate(-2deg); opacity: 0; }
+            45%, 80% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(50px) rotate(-2deg); opacity: 0; }
+          }
+        </style>
+
+        <div style="background:#F8FAFC; border: 4px solid #CBD5E1; border-radius:20px; padding:3rem; width:100%; max-width:600px; display:flex; flex-direction:column; align-items:flex-start; padding-left: 100px;">
+          
+          <div class="scratch-block block-event">
+            <div class="bump"></div>
+            <span>Saat Bendera Hijau 🏁 diklik</span>
+          </div>
+
+          <div class="scratch-block block-motion" style="border-top-left-radius:4px;">
+            <div class="notch"></div>
+            <div class="bump"></div>
+            <span>Pergi ke x: 0 y: 0</span>
+          </div>
+
+          <div class="scratch-block block-looks" style="border-top-left-radius:4px;">
+            <div class="notch"></div>
+            <span>Katakan "Halo!" selama 2 detik</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- S13F: WORKSPACE SCRATCH -->
+  <section class="slide" data-slide="13f">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 2rem;">Ruang Kerja Scratch 💻</h2>
+      <p style="font-size:1.3rem; color:#666; margin-bottom:2rem; max-width:800px; margin-left:auto; margin-right:auto;">
+        Di Scratch, <strong>setiap objek itu mandiri.</strong> Artinya, Sprite Tombol, Sprite Gambar, dan Backdrop <strong style="color:var(--p);">punya tempat ngodingnya masing-masing!</strong>
+      </p>
+
+      <!-- Scratch Workspace Image Layout -->
+      <div style="width:100%; max-width:800px; margin:auto; background:#fff; border-radius:16px; padding:1.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.1); position:relative;">
+        
+        <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b8334f20-31f0-44ec-99c9-03ed422aefb0.png" alt="Scratch Workspace" style="width:100%; height:auto; border-radius:8px; border:2px solid #E2E8F0;">
+        
+        <!-- Backdrop Label -->
+        <div style="position:absolute; top:20%; right:5%; background:rgba(255,255,255,0.95); padding:0.5rem 1rem; border-radius:8px; font-weight:bold; color:var(--o); font-size:1.1rem; box-shadow:0 4px 6px rgba(0,0,0,0.1); border:2px solid var(--o); z-index:5;">
+          🖼️ Backdrop (Punya kode sendiri!)
+        </div>
+
+        <!-- Sprite Label -->
+        <div style="position:absolute; bottom:12%; left:5%; background:rgba(255,255,255,0.95); padding:0.5rem 1rem; border-radius:8px; font-weight:bold; color:var(--p); font-size:1.1rem; box-shadow:0 4px 6px rgba(0,0,0,0.1); border:2px solid var(--p); z-index:5;">
+          👾 Sprite (Punya kode sendiri!)
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- S14: PLAN FEATURES -->
   <section class="slide" data-slide="14">
     <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1.5rem; font-size:2.8rem;">Plan - What is the Plan? 🛠️</h2>
+      <h2 class="story-title" style="margin-bottom: 1.5rem; font-size:2.8rem;">Plan - Rencana Bikin App 🛠️</h2>
       
+      <p style="font-size:1.3rem; color:#666; margin-bottom:2rem;">Kira-kira, <strong style="color:var(--pd);">apa saja isi dan tombol</strong> yang ada di aplikasimu nanti?</p>
+
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 1050px; margin: auto; text-align: left;">
         
         <div class="box rpg glow-box" style="background:#E1F5FE; border-color:var(--p); padding:1.5rem; display:flex; flex-direction:column; justify-content:center;">
-          <p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">Apa <strong style="color:var(--o);">Fitur Menonjol</strong> di aplikasimu?</p>
+          <p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">Tuliskan <strong style="color:var(--o);">Isi / Tombol</strong> di aplikasimu:</p>
           <div class="workbook-field">
             <div class="wb-line"></div>
             <div class="wb-line"></div>
           </div>
+          <p style="font-size:1rem; color:#666; margin-top:1rem;">(Misal: Tombol Mulai, Tombol Sayuran, Gambar Centang Hijau)</p>
         </div>
 
-        <div style="background:#F8FAFC; border:4px solid #CBD5E1; border-radius:16px; padding:1.2rem; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.8rem;">
-            <p style="font-size:1.1rem; font-weight:800; color:var(--pd);">☑️ Checklist App</p>
-            <!-- Mini Visual -->
-            <div style="width:40px; height:55px; background:#fff; border:2px solid #CBD5E1; border-radius:6px; display:flex; flex-direction:column; padding:4px; gap:5px; box-shadow:0 2px 5px rgba(0,0,0,0.05); transform:rotate(5deg);">
-              <div style="width:100%; height:6px; background:#E2E8F0; border-radius:3px;"></div>
-              <div style="display:flex; gap:3px; align-items:center;">
-                <div style="width:7px; height:7px; border:1.5px solid #94A3B8; border-radius:2px;"></div>
-                <div style="width:20px; height:4px; background:#F1F5F9; border-radius:2px;"></div>
-              </div>
-              <div style="display:flex; gap:3px; align-items:center;">
-                <div style="width:7px; height:7px; background:#10B981; border-radius:2px; display:flex; justify-content:center; align-items:center;"><span style="font-size:5px; color:#fff;">✔</span></div>
-                <div style="width:14px; height:4px; background:#F1F5F9; border-radius:2px;"></div>
-              </div>
-              <div style="display:flex; gap:3px; align-items:center;">
-                <div style="width:7px; height:7px; border:1.5px solid #94A3B8; border-radius:2px;"></div>
-                <div style="width:18px; height:4px; background:#F1F5F9; border-radius:2px;"></div>
-              </div>
-            </div>
-          </div>
-          <ul style="font-size:0.95rem; color:#444; margin-left:1.2rem; padding-left:0; line-height:1.4; display:flex; flex-direction:column; gap:0.5rem;">
-            <li>Apa saja daftar benda/tugasnya? (Minimal 3)</li>
-            <li>Gimana cara tahu kalau sudah selesai? <em style="color:#888;">(Misal: ganti costume / hide)</em></li>
-          </ul>
-        </div>
-        
-        <div style="background:#F8FAFC; border:4px solid #CBD5E1; border-radius:16px; padding:1.2rem; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.8rem;">
-            <p style="font-size:1.1rem; font-weight:800; color:#F57F17;">🧭 Guide App</p>
-            <!-- Mini Visual -->
-            <div style="width:40px; height:55px; background:#fff; border:2px solid #CBD5E1; border-radius:6px; display:flex; flex-direction:column; padding:4px; gap:4px; box-shadow:0 2px 5px rgba(0,0,0,0.05); transform:rotate(-5deg); align-items:center;">
-              <div style="width:80%; height:6px; background:#E2E8F0; border-radius:3px;"></div>
-              <div style="width:90%; height:14px; background:#FEF08A; border-radius:4px; display:flex; justify-content:center; align-items:center; font-size:8px;">🍎</div>
-              <div style="width:90%; height:14px; background:#BBF7D0; border-radius:4px; display:flex; justify-content:center; align-items:center; font-size:8px;">🍔</div>
-            </div>
-          </div>
-          <ul style="font-size:0.95rem; color:#444; margin-left:1.2rem; padding-left:0; line-height:1.4; display:flex; flex-direction:column; gap:0.5rem;">
-            <li>Apa saja 2/3 pilihan utama ke user?</li>
-            <li>Pesan rahasia (Broadcast) apa yang dikirim kalau tombol ditekan?</li>
-          </ul>
-        </div>
-        
-        <div style="background:#F8FAFC; border:4px solid #CBD5E1; border-radius:16px; padding:1.2rem; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.8rem;">
-            <p style="font-size:1.1rem; font-weight:800; color:#D32F2F;">⏰ Reminder App</p>
-            <!-- Mini Visual -->
-            <div style="width:40px; height:55px; background:#fff; border:2px solid #CBD5E1; border-radius:6px; display:flex; flex-direction:column; padding:4px; gap:4px; box-shadow:0 2px 5px rgba(0,0,0,0.05); transform:rotate(5deg); align-items:center; justify-content:center;">
-              <div style="font-size:22px; line-height:1; filter:drop-shadow(0 2px 2px rgba(211,47,47,0.3));">⏰</div>
-              <div style="width:70%; height:4px; background:#FECACA; border-radius:2px; margin-top:2px;"></div>
-            </div>
-          </div>
-          <ul style="font-size:0.95rem; color:#444; margin-left:1.2rem; padding-left:0; line-height:1.4; display:flex; flex-direction:column; gap:0.5rem;">
-            <li>Kapan alarm/pengingatnya muncul? <em style="color:#888;">(Pakai Wait / Touching)</em></li>
-            <li>Apa bentuk peringatannya? <em style="color:#888;">(Membesar / Kedip / Suara)</em></li>
+        <div style="background:#F8FAFC; border:4px solid #CBD5E1; border-radius:16px; padding:1.5rem; box-shadow:0 5px 15px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:center;">
+          <h3 style="color:var(--pd); font-size:1.2rem; margin-bottom:1rem;">💡 Contoh Rencana:</h3>
+          <ul style="font-size:1.1rem; color:#444; margin-left:1.2rem; padding-left:0; line-height:1.6; display:flex; flex-direction:column; gap:0.5rem;">
+            <li><strong>App Checklist:</strong> Ada 3 tombol gambar barang bawaan. Kalau ditekan, muncul tanda centang ✔️.</li>
+            <li><strong>App Bantu Pilih:</strong> Ada tombol "Sayuran" dan "Daging". Kalau ditekan, muncul pesan informasi sehat.</li>
+            <li><strong>App Awas Lupa:</strong> Ada tombol "Mulai Belajar". Kalau ditekan, tunggu 30 menit lalu bunyi alarm ⏰.</li>
           </ul>
         </div>
       </div>
@@ -1006,7 +1170,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
         <h2 style="font-size:3rem; color:var(--g); font-family:'Fredoka',sans-serif; text-shadow: 2px 2px 0px rgba(0,0,0,0.2);">Membuat Program di Scratch 💻</h2>
         <p style="font-size:1.2rem; margin-top:1rem; color:#fff; font-weight:600;">Kita akan mulai memindahkan desain yang telah dibuat ke dalam program menggunakan Scratch.</p>
       </div>
-      <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d1eac21e-8e8a-4df9-b7ab-11ca78856496.png" style="width: 300px; margin-top: 1.5rem; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); transform: rotate(-5deg);" alt="Coming Soon">
+      <!-- <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d1eac21e-8e8a-4df9-b7ab-11ca78856496.png" style="width: 300px; margin-top: 1.5rem; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); transform: rotate(-5deg);" alt="Coming Soon"> -->
     </div>
   </section>
 
