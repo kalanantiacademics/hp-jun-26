@@ -74,14 +74,14 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .deco-binary-right { right: 8%; top: 15%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3)); animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate; }
 .deco-code-right { right: 6%; bottom: 28%; width: clamp(60px, 7vw, 100px); filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3)); animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse; }
 @keyframes floatDeco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-25px) rotate(3deg); } }
-.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.2rem 2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255, 255, 255, 0.8); margin-top: 12rem; transition: transform 0.3s ease; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255, 255, 255, 0.8); margin-top: 1.5rem; transition: transform 0.3s ease; }
 .topbar:hover { transform: translateY(-2px); }
 .logo-row { display: flex; align-items: center; gap: 16px; }
 .t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
 .t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
 .kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
 .frame { position: relative; flex: 1; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
-.slide { position: absolute; top: 0; left: 0; width: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); }
+.slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); overflow-y: auto; }
 .slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
 /* Custom Scrollbar for Slides */
 .slide::-webkit-scrollbar { width: 8px; }
@@ -93,10 +93,10 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
 .cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
 .slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
-.isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
-.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; }
-.cz { position: relative; z-index: 2; width: 100%; text-align: center; }
-.story-title { font-size: 3.4rem; margin-bottom: 1.5rem; line-height: 1.2; background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
+.isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; height: 100%; }
+.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; height: 100%; }
+.cz { position: relative; z-index: 2; width: 100%; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; }
+.story-title { font-size: 3.4rem; margin-bottom: 1.5rem; line-height: 1.2; color: var(--pd); text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
 .box { font-size: 1.3rem; line-height: 1.6; background: rgba(255,255,255,0.9); padding: 2rem 2.5rem; border-radius: 24px; border: 2px solid var(--p); box-shadow: 0 12px 24px rgba(0,180,216,0.1); color: var(--txt); font-weight: 700; transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .box:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,180,216,0.15); }
 .rpg { background: linear-gradient(145deg, #ffffff, #f1f5f9); border: 2px solid #e2e8f0; border-radius: 24px; padding: 2.5rem; text-align: center; max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,.05); }
@@ -143,8 +143,8 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .react-e:hover { transform: scale(1.3) rotate(15deg); }
 .controls { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 1rem 2rem; border-radius: 999px; margin-top: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,.08); border: 1px solid rgba(255,255,255,0.9); }
 /* New Utilities for Overhaul */
-.grad-text { background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
 .grad-text-o { background: linear-gradient(135deg, #f59e0b, #ea580c); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.grad-text { color: var(--pd); }
 .workbook-field { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; }
 .wb-line { border-bottom: 3px dashed #cbd5e1; height: 35px; width: 100%; transition: border-color 0.3s; }
 .wb-line:hover { border-color: var(--p); }
@@ -189,9 +189,6 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 <div class="lfix" style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
   <!-- Kiri: Kalananti -->
   <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png" style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="Kalananti Logo">
-  
-  <!-- Tengah: Logo Baru (Agak Gede) -->
-  <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png" style="height: 160px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto; margin-top: 10px;" alt="Center Logo">
   
   <!-- Kanan: RGC Logo -->
   <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/94907efd-30d9-49af-8e62-aa4aee51ad33.png" style="height: 60px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="RGC Logo">
@@ -239,8 +236,11 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 <div class="wrap">
   <header class="topbar">
     <div class="logo-row">
-      <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/8fc78a5f-0532-4837-92e8-b091eed2dc59.png" style="height:45px;width:auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));" alt="Holiday Program">
-      <div><div class="t-main">Scratch Codepreneur</div><div class="t-sub">Hari ke-2 Membuat Program!</div></div>
+      <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png" style="height: 90px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); margin-right: 15px;" alt="Scratch Logo">
+      <div style="display:flex; flex-direction:column; justify-content:center;">
+        <div class="t-main" style="font-size:1.8rem;">🚀 Scratch Codepreneur</div>
+        <div class="t-sub" style="font-size:1.1rem;">Hari ke-2: Waktunya Membuat Program! 💻</div>
+      </div>
     </div>
     <div><span class="t-sub" style="color: #888;">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
   </header>
@@ -302,8 +302,8 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
         <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9ac6bf60-0a30-49e4-bd19-d34fbbb86aaf.png" alt="Berpikir" style="max-height: 400px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
       </div>
       <div>
-        <span class="ihl grad-text">Ingat Kembali Denahmu!</span>
-        <p class="itext" style="margin-bottom:1.5rem;">Buka buku atau catatannya. Mari kita lihat wireframe yang sudah kamu buat kemarin.</p>
+        <span class="story-title" style="font-size: 2.8rem;">Ingat Kembali Wireframe-mu!</span>
+        <p class="itext" style="margin-bottom:1.5rem; font-size: 1.25rem;">Buka buku atau catatannya. Mari kita lihat wireframe yang sudah kamu buat kemarin.</p>
         <div class="glow-box" style="border: 3px solid var(--o); text-align:left; background:#fff7ed;">
           <p style="font-size:1.2rem; color:var(--o); font-weight:800; margin-bottom:1rem;">Pastikan kamu sudah tahu:</p>
           <ul style="font-size:1.1rem; color:#444; margin-left:1.5rem; line-height:1.6; font-weight:700;">
@@ -358,20 +358,23 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
       <div style="display:flex; flex-direction:column; gap: 1.5rem; max-width: 950px; margin: auto; text-align: left;">
         
         <div class="tag-card tc-blue">
-          <div style="font-size:4rem;">🖼️</div>
+          <div style="font-size:4.5rem;">🖼️</div>
           <div style="flex:1;">
-            <p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:0.5rem;">Background (Backdrop)</p>
-            <p style="font-size:1.1rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Buat backdrop kosong atau pilih warna yang keren! Minimal kamu punya latar untuk halaman utama.</p>
+            <p style="font-size:1.5rem; font-weight:800; color:var(--pd); margin-bottom:0.5rem;">Background (Backdrop)</p>
+            <p style="font-size:1.2rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Buat backdrop kosong atau pilih warna yang keren! Minimal kamu punya latar untuk halaman utama.</p>
+            <div style="background:#fff; border-radius:12px; padding:0.8rem; font-size:1.05rem; color:#0284c7; border:2px dashed #0ea5e9; font-weight: 700;">
+              🎨 <em>Contoh di App: Backdrop bisa berupa Tampilan Halaman Utama (Home Screen), Halaman Pengaturan, atau Layar Selesai.</em>
+            </div>
           </div>
         </div>
 
         <div class="tag-card tc-orange">
-          <div style="font-size:4rem;">👾</div>
+          <div style="font-size:4.5rem;">👾</div>
           <div style="flex:1;">
-            <p style="font-size:1.3rem; font-weight:800; color:var(--o); margin-bottom:0.5rem;">Sprite & Tombol</p>
-            <p style="font-size:1.1rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Masih ingat kotak kecil yang kamu gambar di Wireframe? Gambarlah kotak itu di Scratch menggunakan tab <strong>Costumes</strong> (Paint).</p>
-            <div style="background:#fff; border-radius:12px; padding:0.8rem; font-size:0.95rem; color:#666; border:2px dashed #FB8C00;">
-              💡 <em>Tips: Hapus sprite si kucing (Sprite1) kalau kamu tidak membutuhkannya.</em>
+            <p style="font-size:1.5rem; font-weight:800; color:var(--o); margin-bottom:0.5rem;">Sprite & Tombol</p>
+            <p style="font-size:1.2rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Gambarlah elemen interaktif dari Wireframe-mu di Scratch menggunakan tab <strong>Costumes</strong> (Paint).</p>
+            <div style="background:#fff; border-radius:12px; padding:0.8rem; font-size:1.05rem; color:#ea580c; border:2px dashed #FB8C00; font-weight: 700;">
+              👆 <em>Contoh di App: Sprite bisa berupa Tombol 'Mulai', Karakter Ikon, Teks Peringatan, atau Item Checklist.</em>
             </div>
           </div>
         </div>
@@ -382,37 +385,39 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 
   <!-- S5: TUTORIAL HUB INTRODUCTION -->
   <section class="slide" data-slide="5">
-    <div class="isplit" style="max-width:1050px; margin:auto; align-items: center;">
+    <div class="isplit" style="max-width:1150px; margin:auto; align-items: center;">
       <div>
-        <span class="ihl" style="font-size: 2.2rem; color: var(--pd);">Bingung Cara Codingnya? 🤨</span>
-        <p class="itext" style="margin-bottom:1.5rem;">Jangan khawatir! Setiap jenis aplikasi (Checklist, Guide, Reminder) punya fitur andalan.</p>
-        <p style="color:var(--pd); font-size:1.2rem; font-weight:800; margin-bottom:1rem;">Gunakan Tutorial Project Hub:</p>
-        <div class="pill-list">
-          <div class="pill"><div style="font-size:1.5rem">📖</div><div>Buka link proyek panduan dari Gurumu.</div></div>
-          <div class="pill"><div style="font-size:1.5rem">🔍</div><div>Pilih fitur yang ingin kamu pelajari.</div></div>
-          <div class="pill"><div style="font-size:1.5rem">🧠</div><div>Lihat cara kerjanya (kode bloknya), pahami, lalu buat sendiri di proyekmu!</div></div>
+        <span class="story-title" style="font-size: 2.8rem; color: var(--pd); display:block; margin-bottom:1rem;">Bingung Cara Codingnya? 🤨</span>
+        <p class="itext" style="margin-bottom:1.5rem; font-size: 1.25rem;">Jangan khawatir! Setiap jenis aplikasi (Checklist, Guide, Reminder) punya fitur andalan.</p>
+        <p style="color:var(--pd); font-size:1.4rem; font-weight:800; margin-bottom:1rem;">Gunakan Tutorial Project Hub:</p>
+        <div class="pill-list" style="margin-bottom: 2rem;">
+          <div class="pill"><div style="font-size:1.5rem">📖</div><div style="font-size:1.15rem">Buka link proyek panduan dari Gurumu.</div></div>
+          <div class="pill"><div style="font-size:1.5rem">🔍</div><div style="font-size:1.15rem">Pilih fitur yang ingin kamu pelajari.</div></div>
+          <div class="pill"><div style="font-size:1.5rem">🧠</div><div style="font-size:1.15rem">Lihat cara kerjanya (kode bloknya), pahami, lalu buat sendiri di proyekmu!</div></div>
         </div>
+        
+        <a href="https://kalanantiacademics.github.io/hp-jun-26/scratch-tutorials.html" target="_blank" class="pulse-btn" style="font-size: 1.2rem; padding: 1rem 2rem; border-radius: 16px; display:inline-block;">🔗 Buka Tutorial Hub</a>
       </div>
       
-      <div class="glow-box" style="display:flex; flex-direction:column; align-items:center; border:4px solid var(--p); width:100%; padding: 1.5rem;">
-        <p style="color:var(--pd); font-size:1.3rem; font-weight:800; margin-bottom:1rem;">Contoh Fitur di Tutorial Hub:</p>
+      <div class="glow-box" style="display:flex; flex-direction:column; align-items:center; border:4px solid var(--p); width:100%; padding: 2rem;">
+        <p style="color:var(--pd); font-size:1.5rem; font-weight:800; margin-bottom:1.5rem;">Contoh Fitur di Tutorial Hub:</p>
         
-        <div style="display:flex; flex-direction:column; gap:0.8rem; width:100%;">
-          <div style="background:#fff; border-radius:12px; padding:0.8rem; display:flex; align-items:center; gap:0.8rem; border:2px solid #CBD5E1;">
-            <div style="font-size:1.5rem;">☑️</div>
-            <div style="font-weight:700; color:#333; font-size:1rem;">Cara bikin centang (Costume)</div>
+        <div style="display:flex; flex-direction:column; gap:1rem; width:100%;">
+          <div style="background:#fff; border-radius:12px; padding:1rem; display:flex; align-items:center; gap:1rem; border:2px solid #CBD5E1;">
+            <div style="font-size:1.8rem;">☑️</div>
+            <div style="font-weight:700; color:#333; font-size:1.2rem;">Cara bikin centang (Costume)</div>
           </div>
-          <div style="background:#fff; border-radius:12px; padding:0.8rem; display:flex; align-items:center; gap:0.8rem; border:2px solid #CBD5E1;">
-            <div style="font-size:1.5rem;">🧭</div>
-            <div style="font-weight:700; color:#333; font-size:1rem;">Cara kirim pesan (Broadcast)</div>
+          <div style="background:#fff; border-radius:12px; padding:1rem; display:flex; align-items:center; gap:1rem; border:2px solid #CBD5E1;">
+            <div style="font-size:1.8rem;">🧭</div>
+            <div style="font-weight:700; color:#333; font-size:1.2rem;">Cara kirim pesan (Broadcast)</div>
           </div>
-          <div style="background:#fff; border-radius:12px; padding:0.8rem; display:flex; align-items:center; gap:0.8rem; border:2px solid #CBD5E1;">
-            <div style="font-size:1.5rem;">⏰</div>
-            <div style="font-weight:700; color:#333; font-size:1rem;">Cara bikin alarm kedip (Looks/Wait)</div>
+          <div style="background:#fff; border-radius:12px; padding:1rem; display:flex; align-items:center; gap:1rem; border:2px solid #CBD5E1;">
+            <div style="font-size:1.8rem;">⏰</div>
+            <div style="font-weight:700; color:#333; font-size:1.2rem;">Cara bikin alarm kedip (Looks/Wait)</div>
           </div>
-          <div style="background:#FFF9C4; border-radius:12px; padding:0.8rem; display:flex; align-items:center; gap:0.8rem; border:2px dashed #FBC02D; margin-top:0.5rem;">
-            <div style="font-size:1.5rem;">⚠️</div>
-            <div style="font-weight:800; color:#F57F17; font-size:0.9rem;">Guru TIDAK akan mengkodekan proyekmu, kamu yang harus mencoba!</div>
+          <div style="background:#FFF9C4; border-radius:12px; padding:1rem; display:flex; align-items:center; gap:1rem; border:2px dashed #FBC02D; margin-top:1rem;">
+            <div style="font-size:2rem;">⚠️</div>
+            <div style="font-weight:800; color:#F57F17; font-size:1.1rem; line-height: 1.4;">Guru TIDAK akan mengkodekan proyekmu, kamu yang harus mencoba!</div>
           </div>
         </div>
       </div>
@@ -428,7 +433,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
         
         <div class="glow-box tc-orange" style="border:4px dashed var(--o); max-width:850px; padding: 2rem 3rem; width:100%;">
           <p style="font-size:1.4rem; color:#444; line-height:1.6; font-weight:700; margin-bottom: 1.5rem;">
-            Gunakan <strong style="color:var(--pd);">45 Menit</strong> ke depan untuk fokus membuat Sprite dan memasang blok kode!
+            Gunakan <strong style="color:var(--pd);">waktu</strong> ke depan untuk fokus membuat Sprite dan memasang blok kode!
           </p>
           <div style="display:flex; justify-content:center; gap:2rem; margin-top:1.5rem; flex-wrap:wrap;">
             <div style="text-align:center;">
@@ -483,7 +488,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 
       <div class="glow-box" style="max-width:1050px; margin:auto; background: #f8fafc; border-color: #cbd5e1; padding: 2rem;">
         <p style="font-size:1.3rem; color:var(--pd); font-weight:800; margin-bottom:1.5rem;">Cek aplikasi temanmu:</p>
-        <div class="bento-grid">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%;">
           <div class="info-card" style="border-color: #0ea5e9;">
             <div class="info-icon">🤔</div>
             <div class="info-title" style="color:#0ea5e9;">Jelas & Paham</div>
@@ -520,7 +525,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <!-- S9: PENUTUP -->
   <section class="slide" data-slide="9">
     <div class="cz" style="display:flex; flex-direction:column; justify-content:center; align-items:center; flex:1; gap:2rem;">
-      <h1 class="grad-text" style="font-size:5rem; font-family:'Fredoka',sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.1);">Kerja Bagus Hari Ini! 🎉</h1>
+      <h1 class="story-title" style="font-size:5rem; font-family:'Fredoka',sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.1);">Kerja Bagus Hari Ini! 🎉</h1>
       <p style="font-size:1.5rem; color:#555; text-align:center; max-width:800px; font-weight:700;">Kalian berhasil merubah ide sketsa menjadi sebuah aplikasi digital di Scratch!</p>
       
       <div style="background:var(--p); padding:3rem; border-radius:30px; box-shadow:0 15px 30px rgba(0,180,216,0.3); max-width:700px; text-align:center; border: 4px solid #fff;">
