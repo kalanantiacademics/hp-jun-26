@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scratch Tutorial Collection</title>
+  <link rel="icon" type="image/png" href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --p: #00B4D8; --pd: #0284c7; --g: #FFB703; --o: #FB8500; --grn: #10b981;
+      --card: #ffffff; --txt: #1e293b; --muted: #64748b;
+      --r: 24px; --sh: 0 10px 0px rgba(0,0,0,0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Nunito", sans-serif;
+      background-color: #79d0fd;
+      background-attachment: fixed;
+      color: var(--txt);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    h1, h2, h3 { font-family: "Fredoka", sans-serif; letter-spacing: .02em; }
+    
+    .wrap { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; position: relative; z-index: 10; }
+
+    /* ══════════════════════════════════════
+       STAGE — Full-screen scene container
+    ══════════════════════════════════════ */
+    .stage {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        perspective: 1000px;
+        z-index: 0;
+    }
+    .layer-container {
+        position: absolute;
+        inset: -60px;
+        pointer-events: none;
+        will-change: transform;
+        transform-style: preserve-3d;
+    }
+    .pos-abs { position: absolute; }
+    .layer-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .layer-clouds { top: -5%; left: -5%; right: -5%; height: 65%; animation: driftClouds 60s linear infinite; }
+    .layer-clouds img { width: 100%; height: 100%; object-fit: contain; object-position: top center; opacity: 0.85; mix-blend-mode: overlay; }
+    @keyframes driftClouds { 0% { transform: translateX(0) scale(1.1); } 50% { transform: translateX(2%) scale(1.1); } 100% { transform: translateX(0) scale(1.1); } }
+    .layer-skyline { bottom: 10%; left: -2%; right: -2%; width: 104%; }
+    .layer-skyline img { width: 100%; height: auto; display: block; opacity: 0.9; }
+    .layer-bldg-left { bottom: 8%; left: -2%; width: clamp(150px, 20vw, 300px); animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: bottom left; }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
+    .layer-bldg-right { bottom: 8%; right: -2%; width: clamp(150px, 20vw, 300px); animation: slideInRight 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.1s; transform-origin: bottom right; }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
+    .layer-ground { bottom: -40px; left: -40px; right: -40px; width: calc(100% + 80px); }
+    .layer-ground img { width: 100%; height: auto; display: block; filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.1)); }
+    .layer-bush-left { bottom: 6%; left: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.2s; transform-origin: bottom center; }
+    .layer-bush-right { bottom: 6%; right: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.3s; transform-origin: bottom center; transform: scaleX(-1); }
+    @keyframes popInBush { from { opacity: 0; transform: translateY(50px) scale(0.5); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .deco-code-left { left: 8%; top: 22%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(34, 169, 121, 0.3)); animation: floatDeco 6s ease-in-out infinite; }
+    .deco-binary-right { right: 8%; top: 15%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3)); animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate; }
+    .deco-code-right { right: 6%; bottom: 28%; width: clamp(60px, 7vw, 100px); filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3)); animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse; }
+    @keyframes floatDeco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-25px) rotate(3deg); } }
+
+    
+    .header { text-align: center; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 1.5rem 3rem; border-radius: 30px; box-shadow: 0 10px 0px #bae6fd; border: 5px solid #ffffff; position: relative; }
+    .header-icon { margin-bottom: 0.2rem; filter: drop-shadow(0 5px 0px rgba(0,0,0,0.1)); display: inline-block; animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+    .header h1 { font-size: 2.8rem; color: var(--pd); margin-bottom: 0.3rem; text-shadow: 3px 3px 0px #ffffff; line-height: 1.1; }
+    .header p { font-size: 1.15rem; color: var(--muted); font-weight: 800; max-width: 950px; margin: auto; line-height: 1.5; text-shadow: 1px 1px 0px #ffffff; }
+    
+    .main-container { background: #ffffff; border-radius: 40px; padding: 2.5rem; box-shadow: 0 15px 0px rgba(2,132,199,0.3); border: 6px solid #ffffff; min-height: 500px; }
+    
+    .tabs { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
+    .tab-btn { padding: 1rem 3rem; border-radius: 999px; border: 4px solid #cbd5e1; font-size: 1.4rem; font-family: "Fredoka", sans-serif; font-weight: 800; cursor: pointer; transition: all 0.2s; background: #ffffff; color: var(--muted); box-shadow: 0 8px 0px #cbd5e1; display: flex; align-items: center; gap: 0.5rem; transform: translateY(0); }
+    .tab-btn.active { background: var(--pd); color: white; border-color: var(--p); box-shadow: 0 8px 0px #0369a1; }
+    .tab-btn:hover:not(.active) { transform: translateY(-4px); box-shadow: 0 12px 0px #cbd5e1; }
+    .tab-btn:active { transform: translateY(4px) !important; box-shadow: 0 0px 0px transparent !important; }
+    
+    .tab-content { display: none; animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2.5rem; }
+    
+    .project-card {
+      background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 10px 0px var(--p);
+      border: 4px solid var(--p); cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; flex-direction: column; position: relative; transform: translateY(0);
+    }
+    .project-card:nth-child(even) { border-color: var(--g); box-shadow: 0 10px 0px var(--g); }
+    .project-card:nth-child(3n) { border-color: var(--grn); box-shadow: 0 10px 0px var(--grn); }
+    
+    .project-card:hover { transform: translateY(-8px); box-shadow: 0 18px 0px var(--pd); }
+    .project-card:nth-child(even):hover { box-shadow: 0 18px 0px var(--o); }
+    .project-card:nth-child(3n):hover { box-shadow: 0 18px 0px #059669; }
+    .project-card:active { transform: translateY(4px); box-shadow: 0 0px 0px transparent !important; }
+    
+    .card-thumb { width: 100%; aspect-ratio: 4/3; background: #e2e8f0; position: relative; overflow: hidden; border-bottom: 4px solid #f1f5f9; }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .project-card:hover .card-thumb img { transform: scale(1.1); }
+    
+    .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px); }
+    .project-card:hover .play-overlay { opacity: 1; }
+    .play-btn-inner { width: 75px; height: 75px; background: var(--g); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; box-shadow: 0 8px 0px var(--o); padding-left: 6px; transform: scale(0.5); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); border: 4px solid white; }
+    .project-card:hover .play-btn-inner { transform: scale(1) rotate(10deg); }
+    
+    .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; background: #ffffff; }
+    .card-title { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; margin-bottom: 0.5rem; line-height: 1.3; }
+    .card-desc { font-size: 1.05rem; color: var(--muted); font-weight: 700; line-height: 1.5; }
+    
+    .badge { position: absolute; top: 12px; left: 12px; background: var(--grn); color: white; padding: 0.5rem 1rem; border-radius: 99px; font-size: 0.85rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 0px #059669; z-index: 2; border: 2px solid white; }
+    .project-card:nth-child(even) .badge { background: var(--pd); box-shadow: 0 4px 0px #0369a1; }
+    .project-card:nth-child(3n) .badge { background: var(--o); box-shadow: 0 4px 0px #cc5000; }
+    
+    /* Modal Styles */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); z-index: 9999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s; padding: 1.5rem; }
+    .modal-overlay.show { display: flex; opacity: 1; }
+    .modal-content { background: #ffffff; border-radius: 40px; padding: 2rem; width: 100%; max-width: 1100px; position: relative; transform: scale(0.9) translateY(20px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 20px 0px var(--pd); display: flex; flex-direction: column; gap: 1rem; border: 6px solid var(--p); }
+    .modal-overlay.show .modal-content { transform: scale(1) translateY(0); }
+    
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 4px dashed #e2e8f0; }
+    .modal-title { font-size: 2.2rem; color: var(--pd); font-family: "Fredoka", sans-serif; font-weight: 800; }
+    .close-modal { width: 50px; height: 50px; background: #ef4444; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; border: 4px solid white; box-shadow: 0 6px 0px #b91c1c; transition: all 0.2s; font-weight: bold; }
+    .close-modal:hover { transform: translateY(-4px) rotate(90deg); box-shadow: 0 10px 0px #b91c1c; }
+    .close-modal:active { transform: translateY(2px); box-shadow: 0 0px 0px transparent; }
+    
+    .see-inside-btn { background: #855cd6; color: white; padding: 0.6rem 1.2rem; border-radius: 8px; font-family: "Nunito", sans-serif; font-weight: 800; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.6rem; transition: all 0.2s; border: 2px solid transparent; box-shadow: 0 4px 0px #6b47ab; }
+    .see-inside-btn:hover { background: #744dc0; transform: translateY(-2px); box-shadow: 0 6px 0px #5c3b94; }
+    .see-inside-btn:active { transform: translateY(4px); box-shadow: 0 0px 0px transparent; margin-bottom: -4px; }
+    
+    .iframe-wrapper { width: 100%; aspect-ratio: 4/3; background: #f8fafc; border-radius: 24px; overflow: hidden; position: relative; border: 4px solid #e2e8f0; }
+    .iframe-wrapper iframe { width: 100%; height: 100%; border: none; }
+
+    /* Empty State for Video Tab */
+    .empty-state { text-align: center; padding: 5rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .empty-icon { font-size: 6rem; filter: drop-shadow(0 10px 0px rgba(0,0,0,0.1)); animation: bounce 2s infinite; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+    .empty-text { font-size: 2.5rem; color: var(--pd); font-family: "Fredoka", sans-serif; text-shadow: 2px 2px 0px #e2e8f0; }
+    .empty-sub { font-size: 1.3rem; color: var(--muted); font-weight: 700; max-width: 450px; }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 2.5rem; }
+      .tab-btn { padding: 0.8rem 1.5rem; font-size: 1.1rem; }
+      .modal-content { padding: 1.5rem; border-radius: 30px; }
+      .modal-title { font-size: 1.6rem; }
+      .play-btn-inner { width: 55px; height: 55px; font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── 3D Scene Background ─────────── -->
+  <div class="stage" aria-hidden="true">
+      <div class="layer-container parallax" data-depth="0.0">
+          <div class="layer-bg pos-abs" style="inset:0;">
+              <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png" alt="">
+          </div>
+      </div>
+      <div class="layer-container parallax" data-depth="0.02">
+          <div class="layer-clouds pos-abs">
+              <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png" alt="">
+          </div>
+      </div>
+      <div class="layer-container parallax" data-depth="0.05">
+          <div class="layer-skyline pos-abs">
+              <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png" alt="">
+          </div>
+      </div>
+      <div class="layer-container parallax" data-depth="0.08">
+          <img class="layer-bldg-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png" alt="">
+          <img class="layer-bldg-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png" alt="">
+      </div>
+      <div class="layer-container parallax" data-depth="0.12">
+          <div class="layer-ground pos-abs">
+              <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png" alt="">
+          </div>
+      </div>
+      <div class="layer-container parallax" data-depth="0.18">
+          <img class="layer-bush-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
+          <img class="layer-bush-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
+      </div>
+      <div class="layer-container parallax" data-depth="0.25">
+          <img class="deco-code-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png" alt="">
+          <img class="deco-binary-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png" alt="">
+          <img class="deco-code-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png" alt="">
+      </div>
+  </div>
+
+  <div class="wrap">
+    <!-- Header Area -->
+    <div class="header">
+      <div class="header-icon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Scratchlogo.svg/960px-Scratchlogo.svg.png?_=20210622065930" style="height: 65px; width: auto;" alt="Scratch Logo">
+      </div>
+      <h1>Scratch Tutorial Collection</h1>
+      <p>Explore and learn awesome interactive components to upgrade your app. Click on the cards to try out the Scratch projects directly!</p>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-container">
+      
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('scratch')">🧩 Project Scratch</button>
+        <button class="tab-btn" onclick="switchTab('video')">🎬 Video Tutorial</button>
+      </div>
+
+      <!-- Tab Content: Scratch Projects -->
+      <div id="tab-scratch" class="tab-content active">
+        <div class="grid">
+          
+          <!-- Card 1 -->
+          <div class="project-card" onclick="openModal('1329543637', 'Clickable Checklist Item')">
+            <div class="badge">UI Element</div>
+            <div class="card-thumb">
+              <img src="https://uploads.scratch.mit.edu/get_image/project/1329543637_480x360.png" alt="Thumbnail">
+              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Clickable Checklist Item</div>
+              <div class="card-desc">Pelajari cara membuat item *checklist* yang bisa diklik dan berganti status (selesai/belum selesai).</div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="project-card" onclick="openModal('1329565774', 'Progress Counter')">
+            <div class="badge">Logic</div>
+            <div class="card-thumb">
+              <img src="https://uploads.scratch.mit.edu/get_image/project/1329565774_480x360.png" alt="Thumbnail">
+              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Progress Counter</div>
+              <div class="card-desc">Cara menggunakan variabel untuk menghitung jumlah tugas atau target yang sudah diselesaikan.</div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="project-card" onclick="openModal('1329570974', 'Prevent DoubleClick')">
+            <div class="badge">Bug Fix</div>
+            <div class="card-thumb">
+              <img src="https://uploads.scratch.mit.edu/get_image/project/1329570974_480x360.png" alt="Thumbnail">
+              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Prevent DoubleClick</div>
+              <div class="card-desc">Trik cerdas mencegah eror jika tombol diklik berkali-kali secara cepat oleh pengguna.</div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="project-card" onclick="openModal('1329718443', 'Information Box')">
+            <div class="badge">UI Element</div>
+            <div class="card-thumb">
+              <img src="https://uploads.scratch.mit.edu/get_image/project/1329718443_480x360.png" alt="Thumbnail">
+              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Information Box</div>
+              <div class="card-desc">Membuat kotak informasi *pop-up* yang muncul untuk memberikan penjelasan ekstra di aplikasimu.</div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="project-card" onclick="openModal('1329728764', 'Sound When Button Clicked')">
+            <div class="badge">Audio</div>
+            <div class="card-thumb">
+              <img src="https://uploads.scratch.mit.edu/get_image/project/1329728764_480x360.png" alt="Thumbnail">
+              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Sound When Button Clicked</div>
+              <div class="card-desc">Berikan umpan balik instan ke pengguna dengan suara efek lucu setiap kali tombol ditekan.</div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="project-card" onclick="openModal('1329733270', 'Countdown Timer (Input Ask)')">
+            <div class="badge">Time Logic</div>
+            <div class="card-thumb">
+              <img src="https://uploads.scratch.mit.edu/get_image/project/1329733270_480x360.png" alt="Thumbnail">
+              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Countdown Timer (Input Ask)</div>
+              <div class="card-desc">Membuat penghitung waktu mundur di mana pengguna bisa mengetik angka waktunya sendiri.</div>
+            </div>
+          </div>
+
+          <!-- Card 7 -->
+          <div class="project-card" onclick="openModal('1329873356', 'Countdown Timer (Input Button)')">
+            <div class="badge">Time Logic</div>
+            <div class="card-thumb">
+              <img src="https://uploads.scratch.mit.edu/get_image/project/1329873356_480x360.png" alt="Thumbnail">
+              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Countdown Timer (Input Button)</div>
+              <div class="card-desc">Penghitung waktu mundur yang diatur menggunakan tombol tambah/kurang (+/-) interaktif.</div>
+            </div>
+          </div>
+
+          <!-- Card 8 -->
+          <div class="project-card" onclick="openModal('1329874819', 'Popup Reminder')">
+            <div class="badge">Notification</div>
+            <div class="card-thumb">
+              <img src="https://uploads.scratch.mit.edu/get_image/project/1329874819_480x360.png" alt="Thumbnail">
+              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Popup Reminder</div>
+              <div class="card-desc">Sistem notifikasi pengingat yang akan muncul secara otomatis saat kondisi tertentu terpenuhi.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tab Content: Video Tutorials -->
+      <div id="tab-video" class="tab-content">
+        <div class="empty-state">
+          <div class="empty-icon">🚧</div>
+          <div class="empty-text">Videos are in the Making!</div>
+          <div class="empty-sub">Stay tuned for step-by-step video guides to build all the awesome features above. Coming soon!</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scratch Modal Overlay -->
+  <div class="modal-overlay" id="scratchModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Project Title</div>
+        <div style="display: flex; gap: 1.5rem; align-items: center;">
+          <a href="#" id="btnSeeInside" target="_blank" class="see-inside-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2.1l4 4-4 4"/><path d="M3 12.2v-2a4 4 0 0 1 4-4h12.8M7 21.9l-4-4 4-4"/><path d="M21 11.8v2a4 4 0 0 1-4 4H4.2"/></svg>
+            See inside
+          </a>
+          <button class="close-modal" onclick="closeModal()">×</button>
+        </div>
+      </div>
+      <div class="modal-body" style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem;">
+        <div class="iframe-wrapper" style="flex: 2; min-width: 320px;">
+          <iframe id="scratchIframe" src="" allowtransparency="true" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        </div>
+        <div class="project-info" style="flex: 1; min-width: 300px; background: #f8fafc; border-radius: 20px; padding: 1.5rem; border: 4px solid #e2e8f0; max-height: 480px; overflow-y: auto;">
+          <h3 style="color: var(--pd); font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-bottom: 0.5rem; border-bottom: 2px dashed #cbd5e1; padding-bottom: 0.5rem;">📖 Instructions</h3>
+          <div id="modalInstructions" style="color: var(--muted); font-size: 1rem; line-height: 1.5; margin-bottom: 1.5rem; white-space: pre-wrap; font-weight: 600;">Memuat instruksi... ⏳</div>
+          
+          <h3 style="color: var(--pd); font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-bottom: 0.5rem; border-bottom: 2px dashed #cbd5e1; padding-bottom: 0.5rem;">📝 Notes & Credits</h3>
+          <div id="modalDescription" style="color: var(--muted); font-size: 1rem; line-height: 1.5; white-space: pre-wrap; font-weight: 600;">Memuat deskripsi... ⏳</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Parallax Effect for Background Layers
+    const parallaxLayers = document.querySelectorAll('.parallax');
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    
+    function animate() {
+        mouseX += (targetX - mouseX) * 0.1;
+        mouseY += (targetY - mouseY) * 0.1;
+        
+        parallaxLayers.forEach(layer => {
+            const depth = parseFloat(layer.getAttribute('data-depth'));
+            const moveX = mouseX * depth * -100;
+            const moveY = mouseY * depth * -100;
+            layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+        });
+        requestAnimationFrame(animate);
+    }
+    
+    if (window.matchMedia("(min-width: 640px)").matches) {
+        animate();
+        window.addEventListener('mousemove', (e) => {
+            targetX = (e.clientX / window.innerWidth) * 2 - 1;
+            targetY = (e.clientY / window.innerHeight) * 2 - 1;
+        });
+        window.addEventListener('mouseleave', () => {
+            targetX = 0;
+            targetY = 0;
+        });
+    }
+
+    function switchTab(tabId) {
+      // Update buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      // Update contents
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    const modal = document.getElementById('scratchModal');
+    const iframe = document.getElementById('scratchIframe');
+    const mTitle = document.getElementById('modalTitle');
+
+    async function openModal(projectId, title) {
+      mTitle.innerText = title;
+      // Gunakan auto-start false agar tidak berat atau lag
+      iframe.src = `https://scratch.mit.edu/projects/${projectId}/embed`;
+      document.getElementById('btnSeeInside').href = `https://scratch.mit.edu/projects/${projectId}/editor/`;
+      modal.classList.add('show');
+      
+      const elInst = document.getElementById('modalInstructions');
+      const elDesc = document.getElementById('modalDescription');
+      
+      elInst.innerText = "Memuat instruksi... ⏳";
+      elDesc.innerText = "Memuat deskripsi... ⏳";
+      
+      try {
+        const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=";
+        const targetUrl = `https://api.scratch.mit.edu/projects/${projectId}`;
+        const response = await fetch(proxyUrl + targetUrl);
+        if(!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
+        
+        elInst.innerText = data.instructions || "Tidak ada instruksi khusus dari pembuat project.";
+        elDesc.innerText = data.description || "Tidak ada catatan tambahan.";
+      } catch (err) {
+        elInst.innerText = "Gagal memuat instruksi (Koneksi bermasalah).";
+        elDesc.innerText = "Gagal memuat deskripsi.";
+      }
+    }
+
+    function closeModal() {
+      modal.classList.remove('show');
+      // Kosongkan src agar tidak jalan di background
+      setTimeout(() => {
+        iframe.src = "";
+      }, 300);
+    }
+
+    // Tutup jika klik overlay gelap
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
