@@ -82,9 +82,9 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
 .t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
 .kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
-.frame { position: relative; flex: 1; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
+.frame { position: relative; flex: 1; height: 700px; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
 .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); overflow-y: auto; }
-.slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
+.slide.active { position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 100%; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
 
 /* Custom Scrollbar */
 .slide::-webkit-scrollbar { width: 8px; }
@@ -379,24 +379,103 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
     </div>
   </section>
 
-  <!-- S5: SHARK TANK VIDEO -->
+  <!-- S5: SEBELUM NONTON - KONTEKS -->
   <section class="slide" data-slide="5">
-    <div class="cz" style="height:100%;">
-      <h2 class="story-title" style="margin-bottom: 0.8rem;">Yuk Lihat Contoh Nyatanya! 🦈</h2>
-      <p class="itext" style="max-width:900px; margin-bottom: 1rem; font-size: 1.15rem;">
-        <strong>Shark Tank</strong> adalah acara TV Amerika di mana anak-anak muda mempresentasikan produk mereka di depan para <strong style="color:var(--pd);">"Sharks"</strong> — yaitu orang-orang dewasa yang bisa kasih uang dan bantuan supaya produknya bisa dijual ke banyak orang.
-        Video ini menunjukkan <strong style="color:var(--pd);">Tripp</strong>, anak 12 tahun, yang menjual produk fisik (lem LEGO).
-        Perhatikan <strong style="color:var(--o);">CARA</strong> dia pitching — bukan produknya, karena kita akan pitching <strong style="color:var(--grn);">app digital!</strong>
-      </p>
-      <div style="width:100%; max-width:760px; aspect-ratio:16/9; border-radius:20px; overflow:hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 4px solid var(--pd);">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/x9I0iWvru6o" title="Le-Glue Shark Tank Pitch" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom: 1rem;">Siap-Siap Nonton! 🎬</h2>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; max-width:1000px; width:100%; text-align:left; margin-bottom:1.5rem;">
+        <!-- Kiri: Tentang videonya -->
+        <div style="background:#fff; border-radius:24px; padding:1.5rem; border-left:6px solid var(--pd); box-shadow:0 8px 20px rgba(0,0,0,0.05);">
+          <p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:0.8rem;">🦈 Apa itu Shark Tank?</p>
+          <p style="font-size:1.1rem; color:#444; font-weight:600; line-height:1.6;">
+            Shark Tank adalah acara TV di mana anak-anak muda <strong>presentasi produk mereka</strong> di depan orang-orang dewasa yang bisa <strong style="color:var(--o);">kasih uang &amp; bantuan</strong> supaya produknya bisa dipakai banyak orang.
+          </p>
+          <div style="margin-top:0.8rem; background:#f0f9ff; border-radius:12px; padding:0.7rem 1rem; font-size:1rem; font-weight:700; color:var(--pd);">
+            🎥 Kita akan lihat <strong>Tripp</strong>, anak <strong>12 tahun</strong>, yang pitching produknya!
+          </div>
+        </div>
+        <!-- Kanan: Yang penting diperhatiin -->
+        <div style="background:#fff7ed; border-radius:24px; padding:1.5rem; border-left:6px solid var(--o); box-shadow:0 8px 20px rgba(0,0,0,0.05);">
+          <p style="font-size:1.3rem; font-weight:800; color:var(--o); margin-bottom:0.8rem;">👀 Perhatikan ini saat nonton:</p>
+          <ul style="font-size:1.1rem; color:#444; font-weight:700; line-height:2; margin-left:1rem;">
+            <li>Gimana dia <strong>sapa &amp; perkenalkan diri</strong>?</li>
+            <li>Masalah apa yang dia <strong>ceritakan?</strong></li>
+            <li>Gimana dia <strong>demo produknya</strong>?</li>
+            <li>Apa yang dia <strong>minta</strong> di akhir?</li>
+          </ul>
+        </div>
       </div>
-      <p style="margin-top: 0.8rem; color: #64748b; font-weight: 700; font-size: 0.95rem;">💡 Sambil nonton, cari: Bagaimana dia memperkenalkan diri? Apa masalah yang dia ceritakan? Gimana dia demo produknya?</p>
+
+      <!-- Disclaimer produk fisik vs app -->
+      <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:3px solid var(--grn); border-radius:20px; padding:1.2rem 2rem; max-width:1000px; width:100%; display:flex; align-items:center; gap:1.2rem; text-align:left;">
+        <div style="font-size:3rem; flex-shrink:0;">💡</div>
+        <div>
+          <p style="font-size:1.2rem; font-weight:800; color:#166534; margin-bottom:0.3rem;">Produknya beda, tapi CARA pitchingnya SAMA!</p>
+          <p style="font-size:1.05rem; font-weight:600; color:#444; line-height:1.5;">Tripp jual <strong>lem LEGO</strong> — kita akan jual <strong style="color:var(--pd);">app Scratch</strong>. Fokus pada <em>cara bicara, cara cerita masalah, dan cara demo</em> — bukan produknya!</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- S6: PRODUK FISIK VS APP -->
+  <!-- S6: SHARK TANK VIDEO -->
   <section class="slide" data-slide="6">
+    <div class="cz" style="gap:1rem;">
+      <h2 style="font-size:1.6rem; font-weight:800; color:var(--pd); font-family:'Fredoka',sans-serif; margin-bottom:0.2rem;">Yuk Lihat Contoh Nyatanya! 🦈</h2>
+
+      <p style="font-size:1rem; font-weight:600; color:#666;">Perhatikan sampai menit 1:35. Bagian itu adalah <em>elevator pitch</em>-nya — yang paling penting untuk dipelajari.</p>
+        
+
+      <!-- Video embed -->
+      <div style="width:100%; max-width:900px; border-radius:20px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.2); border:4px solid var(--pd); flex-shrink:0;" id="videoWrap">
+        <div style="position:relative; padding-top:56.25%;">
+          <iframe id="sharkVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/x9I0iWvru6o?start=0&end=95&rel=0&cc_load_policy=1&cc_lang_pref=en" title="Le-Glue Shark Tank Pitch" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- Subtitle tip -->
+      <div style="display:flex; align-items:center; gap:0.8rem; background:#f8fafc; border:2px dashed #94a3b8; border-radius:14px; padding:0.5rem 1.2rem; max-width:900px; width:100%;">
+        <div style="font-size:1.8rem;">💬</div>
+        <p style="font-size:1rem; font-weight:700; color:#475569; margin:0;">
+          <strong>Gaada subtitle?</strong> Tenang! Guru akan bantu terjemahkan bagian pentingnya setelah video selesai. Fokus perhatikan <em>ekspresi &amp; cara bicaranya</em> dulu!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7: DISKUSI POST-VIDEO -->
+  <section class="slide" data-slide="7">
+    <div class="cz">
+      <h2 class="story-title" style="margin-bottom:0.5rem;">Gimana Menurut Kalian? 🤔</h2>
+      <p class="itext" style="margin-bottom:1.2rem; font-size:1.15rem;">Dalam <strong style="color:var(--o);">kurang dari 2 menit</strong>, Tripp berhasil menjelaskan: punya apa, bisa apa, dan kenapa kita harus mau beli. Itu keren banget! 🤩</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; max-width:1000px; width:100%; text-align:left; margin-bottom:1.2rem;">
+        <div style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--pd); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+          <p style="font-size:1.1rem; font-weight:800; color:var(--pd); margin-bottom:0.5rem;">🙋 Tripp bilang apa di awal?</p>
+          <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Dia langsung cerita <strong>masalah</strong> yang pernah dialami — supaya kita langsung nyambung &amp; penasaran.</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--o); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+          <p style="font-size:1.1rem; font-weight:800; color:var(--o); margin-bottom:0.5rem;">🎪 Gimana dia demo produknya?</p>
+          <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Dia <strong>langsung peragakan</strong> produknya di depan Sharks — bukan cuma dijelaskan dengan kata-kata.</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--grn); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+          <p style="font-size:1.1rem; font-weight:800; color:var(--grn); margin-bottom:0.5rem;">📢 Apa yang dia minta?</p>
+          <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Di akhir dia bilang <strong>jelas</strong> apa yang dia mau dari Sharks — uang berapa dan untuk apa.</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid #855cd6; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+          <p style="font-size:1.1rem; font-weight:800; color:#855cd6; margin-bottom:0.5rem;">💡 Gimana kita bisa seperti itu?</p>
+          <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Pakai <strong>rumus yang sama</strong>: cerita masalah → kasih solusi (app-mu!) → demo langsung → ajak audience!</p>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,var(--pd),var(--grn)); padding:1rem 2.5rem; border-radius:999px; color:#fff; font-size:1.2rem; font-weight:800; max-width:800px; width:100%;">
+        🚀 Sekarang giliran kalian pitching app yang sudah kalian buat!
+      </div>
+    </div>
+  </section>
+
+  <!-- S8: PRODUK FISIK VS APP -->
+  <section class="slide" data-slide="8">
     <div class="cz">
       <h2 class="story-title" style="margin-bottom: 1.5rem;">Produk Fisik vs. App Kita 🆚</h2>
       <p class="itext" style="margin-bottom: 1.5rem;">Tripp jual lem, kita jual app. Beda produknya, tapi <strong style="color:var(--pd);">cara pitching-nya SAMA!</strong></p>
@@ -426,8 +505,8 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
     </div>
   </section>
 
-  <!-- S6b: RUMUS PITCHING -->
-  <section class="slide" data-slide="7">
+  <!-- S9: RUMUS PITCHING -->
+  <section class="slide" data-slide="9">
     <div class="cz">
       <h2 class="story-title" style="margin-bottom: 1rem;">Script Pitch-mu! 📝</h2>
       <p class="itext" style="margin-bottom:1.5rem;">Isi titik-titik ini sesuai app-mu. Kamu bisa catat di buku!</p>
@@ -464,8 +543,8 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
     </div>
   </section>
 
-  <!-- S8: SHOWTIME -->
-  <section class="slide" data-slide="8">
+  <!-- S10: SHOWTIME -->
+  <section class="slide" data-slide="10">
     <div class="cz" style="text-align: center;">
       <h2 class="story-title" style="margin-bottom: 1rem; font-size: 3.5rem;">Showtime, Sharks! 🎤🦈</h2>
       <p class="itext" style="margin-bottom:1.5rem; font-size: 1.3rem;">Sekarang giliran kalian! Satu per satu maju dan tunjukkan app Scratch-mu ke kelas.</p>
@@ -493,8 +572,8 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
     </div>
   </section>
 
-  <!-- S9: PENUTUP -->
-  <section class="slide" data-slide="9">
+  <!-- S11: PENUTUP -->
+  <section class="slide" data-slide="11">
     <div class="cz" style="gap:2rem;">
       <h1 class="story-title" style="font-size:4.5rem; text-shadow: 3px 3px 0px rgba(0,0,0,0.1);">Luar Biasa! 🎉</h1>
       <p style="font-size:1.4rem; color:#555; text-align:center; max-width:800px; font-weight:700;">Kalian baru saja belajar hal yang bahkan banyak orang dewasa belum tahu: cara pitching ide sendiri!</p>

@@ -80,9 +80,9 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
 .t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
 .t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
 .kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
-.frame { position: relative; flex: 1; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
+.frame { position: relative; flex: 1; height: 700px; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
 .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); overflow-y: auto; }
-.slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
+.slide.active { position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 100%; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
 /* Custom Scrollbar for Slides */
 .slide::-webkit-scrollbar { width: 8px; }
 .slide::-webkit-scrollbar-track { background: transparent; margin: 1rem; }
@@ -396,7 +396,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
           <div class="pill"><div style="font-size:1.5rem">🧠</div><div style="font-size:1.15rem">Lihat cara kerjanya (kode bloknya), pahami, lalu buat sendiri di proyekmu!</div></div>
         </div>
         
-        <a href="https://kalanantiacademics.github.io/hp-jun-26/scratch-tutorials.html" target="_blank" class="pulse-btn" style="font-size: 1.2rem; padding: 1rem 2rem; border-radius: 16px; display:inline-block;">🔗 Buka Tutorial Hub</a>
+        <a href="https://kalanantiacademics.github.io/hp-jun-26/scratch-tutorials.html" target="_blank" class="pulse-btn" style="font-size: 1.2rem; padding: 1rem 2rem; border-radius: 16px; display:inline-block;">🔗 [bit.ly/hp-tutorial-hub]</a>
       </div>
       
       <div class="glow-box" style="display:flex; flex-direction:column; align-items:center; border:4px solid var(--p); width:100%; padding: 2rem;">
@@ -464,7 +464,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
   <section class="slide" data-slide="7">
     <div class="cz" style="text-align: center;">
       <h2 class="story-title" style="margin-bottom: 1.5rem;">Show & Tell 🌟</h2>
-      <p class="itext" style="margin-bottom:2rem;">Ayo pamerkan aplikasi buatanmu dan coba mainkan aplikasi milik teman!</p>
+      <!-- <p class="itext" style="margin-bottom:2rem;">Ayo pamerkan aplikasi buatanmu dan coba mainkan aplikasi milik teman!</p> -->
       
       <div class="process-row" style="max-width:850px; margin:auto; margin-bottom: 2.5rem; flex-wrap:wrap;">
         <div class="process-step">
@@ -486,7 +486,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
         </div>
       </div>
 
-      <div class="glow-box" style="max-width:1050px; margin:auto; background: #f8fafc; border-color: #cbd5e1; padding: 2rem;">
+      <!-- <div class="glow-box" style="max-width:1050px; margin:auto; background: #f8fafc; border-color: #cbd5e1; padding: 2rem;"> -->
         <p style="font-size:1.3rem; color:var(--pd); font-weight:800; margin-bottom:1.5rem;">Cek aplikasi temanmu:</p>
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%;">
           <div class="info-card" style="border-color: #0ea5e9;">
@@ -505,7 +505,7 @@ h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-se
             <div class="info-desc">Apakah warnanya bagus dan terlihat rapi?</div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </section>
 
