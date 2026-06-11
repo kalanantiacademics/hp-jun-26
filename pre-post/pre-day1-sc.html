@@ -230,6 +230,10 @@
             flex: 1 1 auto;
             min-height: 40px; /* Vertical padding */
         }
+
+        .center-wrapper.quiz-mode::before {
+            min-height: 90px;
+        }
         
         /* ── Custom Scrollbar for Wrapper ─────────── */
         .center-wrapper::-webkit-scrollbar {
@@ -696,6 +700,53 @@
             border-color: var(--orange);
         }
 
+
+        /* ── Image Support for Quiz Questions/Options ──────────────────── */
+        .question-image {
+            display: block;
+            width: 100%;
+            max-height: 260px;
+            object-fit: contain;
+            margin-top: 14px;
+            border-radius: 16px;
+            background: #ffffff;
+            border: 2px solid rgba(238, 242, 245, 1);
+            box-shadow: 0 6px 16px rgba(13, 47, 92, 0.08);
+        }
+
+        .option-label.has-image {
+            align-items: flex-start;
+        }
+
+        .option-label.has-image input[type="radio"] {
+            margin-top: 8px;
+        }
+
+        .option-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .option-image {
+            display: block;
+            width: min(220px, 100%);
+            max-height: 170px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 2px solid rgba(238, 242, 245, 1);
+            box-shadow: 0 4px 12px rgba(13, 47, 92, 0.08);
+        }
+
+        .image-fallback-link {
+            color: var(--teal);
+            font-weight: 800;
+            word-break: break-word;
+        }
+
         /* ── Result UI ────────────────────────── */
         .score-circle {
             width: 150px;
@@ -919,8 +970,8 @@
             <!-- Title -->
             <div class="hero-top">
                 <div class="kicker">Halo, Codepreneur! 👋</div>
-                <h1 class="title-main">Pre-Test <em>Day 1</em></h1>
-                <div class="badge">✦ Scratch Online ✦</div>
+                <h1 class="title-main">Pre-Test</h1>
+                <div class="badge">✦ Scratch Codepreneur ✦</div> 
             </div>
 
             <!-- State panels inside the Card -->
@@ -1226,6 +1277,7 @@ form.addEventListener('submit', async (e) => {
     // Transition state
     stateForm.classList.remove('active');
     stateQuiz.classList.add('active');
+    document.querySelector('.center-wrapper').classList.add('quiz-mode');
     document.getElementById('main-card').classList.add('card-wide');
     
     const quizOverlay = document.getElementById('quiz-overlay');
@@ -1251,17 +1303,76 @@ form.addEventListener('submit', async (e) => {
     }
 });
 
+function getImageUrlFromLink(url) {
+    const cleanUrl = String(url || '').trim().replace(/[)\].,;!?]+$/, '');
+
+    // Support Google Drive sharing links if they are used as image sources
+    const driveFileMatch = cleanUrl.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+    if (driveFileMatch) {
+        return `https://drive.google.com/thumbnail?id=${driveFileMatch[1]}&sz=w1000`;
+    }
+
+    const driveIdMatch = cleanUrl.match(/[?&]id=([^&]+)/);
+    if (cleanUrl.includes('drive.google.com') && driveIdMatch) {
+        return `https://drive.google.com/thumbnail?id=${driveIdMatch[1]}&sz=w1000`;
+    }
+
+    return cleanUrl;
+}
+
+function extractLinks(text) {
+    const value = String(text || '');
+    return value.match(/https?:\/\/[^\s<>"']+/g) || [];
+}
+
+function appendTextAndImages(parent, value, imageClass, altText) {
+    const rawText = String(value || '');
+    const links = extractLinks(rawText);
+    const textOnly = rawText.replace(/https?:\/\/[^\s<>"']+/g, '').trim();
+
+    if (textOnly) {
+        parent.appendChild(document.createTextNode(textOnly));
+    }
+
+    links.forEach((link, idx) => {
+        const img = document.createElement('img');
+        img.className = imageClass;
+        img.src = getImageUrlFromLink(link);
+        img.alt = links.length > 1 ? `${altText} ${idx + 1}` : altText;
+        img.loading = 'lazy';
+
+        img.onerror = () => {
+            img.style.display = 'none';
+
+            const fallback = document.createElement('a');
+            fallback.href = link;
+            fallback.target = '_blank';
+            fallback.rel = 'noopener noreferrer';
+            fallback.className = 'image-fallback-link';
+            fallback.textContent = 'Lihat gambar';
+            parent.appendChild(fallback);
+        };
+
+        parent.appendChild(img);
+    });
+
+    if (!textOnly && links.length === 0) {
+        parent.appendChild(document.createTextNode(rawText));
+    }
+}
+
 function renderQuestions() {
     const container = document.getElementById('questions-container');
     container.innerHTML = '';
-    
+
     quizData.forEach((q, index) => {
         const card = document.createElement('div');
         card.className = 'question-card';
-        
+
         const title = document.createElement('div');
         title.className = 'question-title';
-        title.textContent = `${index + 1}. ${q.question}`;
+        title.appendChild(document.createTextNode(`${index + 1}. `));
+        appendTextAndImages(title, q.question, 'question-image', `Gambar soal nomor ${index + 1}`);
         card.appendChild(title);
 
         const optionsDiv = document.createElement('div');
@@ -1271,20 +1382,27 @@ function renderQuestions() {
             if (q.options[optKey]) {
                 const label = document.createElement('label');
                 label.className = 'option-label';
-                
+                if (extractLinks(q.options[optKey]).length > 0) {
+                    label.classList.add('has-image');
+                }
+
                 const radio = document.createElement('input');
                 radio.type = 'radio';
                 radio.name = `q${index}`;
                 radio.value = optKey;
-                
+
                 radio.addEventListener('change', () => {
                     const siblings = optionsDiv.querySelectorAll('.option-label');
                     siblings.forEach(sib => sib.classList.remove('selected'));
                     if(radio.checked) label.classList.add('selected');
                 });
 
+                const optionContent = document.createElement('div');
+                optionContent.className = 'option-content';
+                appendTextAndImages(optionContent, q.options[optKey], 'option-image', `Gambar pilihan ${optKey} nomor ${index + 1}`);
+
                 label.appendChild(radio);
-                label.appendChild(document.createTextNode(q.options[optKey]));
+                label.appendChild(optionContent);
                 optionsDiv.appendChild(label);
             }
         });
