@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Roblox Codepreneur - Day 1 Online</title>
+<link rel="icon" type="image/png" href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p: #00B4D8; --pd: #0284c7; --g: #FFB703; --o: #FB8500; --grn: #10b981;
+  --card: rgba(255, 255, 255, 0.65); --txt: #1e293b; --muted: #64748b;
+  --r: 32px; --sh: 0 25px 50px -12px rgba(0,0,0,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  font-family: "Nunito", sans-serif; 
+  background-color: #79d0fd;
+  background-attachment: fixed;
+  color: var(--txt); 
+  min-height: 100vh; 
+  display: flex; 
+  align-items: stretch; 
+  justify-content: center; 
+  padding: 1.5rem; 
+  overflow-x: hidden;
+}
+h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-serif; letter-spacing: .02em; }
+.wrap { max-width: 1200px; width: 100%; margin: auto; display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 10; }
+.lfix { position: fixed; z-index: 20; pointer-events: none; }
+.lfix.l { top: 30px; left: 30px; }
+.lfix.r { top: 30px; right: 30px; }
+/* ══════════════════════════════════════
+   STAGE — Full-screen scene container
+══════════════════════════════════════ */
+.stage {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    z-index: 0;
+}
+.layer-container {
+    position: absolute;
+    inset: -60px; /* Oversized to prevent edges showing during parallax */
+    pointer-events: none;
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+.pos-abs { position: absolute; }
+
+/* ── Layers ──────────── */
+.layer-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.layer-clouds { top: -5%; left: -5%; right: -5%; height: 65%; animation: driftClouds 60s linear infinite; }
+.layer-clouds img { width: 100%; height: 100%; object-fit: contain; object-position: top center; opacity: 0.85; mix-blend-mode: overlay; }
+@keyframes driftClouds { 0% { transform: translateX(0) scale(1.1); } 50% { transform: translateX(2%) scale(1.1); } 100% { transform: translateX(0) scale(1.1); } }
+.layer-skyline { bottom: 10%; left: -2%; right: -2%; width: 104%; }
+.layer-skyline img { width: 100%; height: auto; display: block; opacity: 0.9; }
+.layer-bldg-left { bottom: 8%; left: -2%; width: clamp(150px, 20vw, 300px); animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: bottom left; }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
+.layer-bldg-right { bottom: 8%; right: -2%; width: clamp(150px, 20vw, 300px); animation: slideInRight 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.1s; transform-origin: bottom right; }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
+.layer-ground { bottom: -40px; left: -40px; right: -40px; width: calc(100% + 80px); }
+.layer-ground img { width: 100%; height: auto; display: block; filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.1)); }
+.layer-bush-left { bottom: 6%; left: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.2s; transform-origin: bottom center; }
+.layer-bush-right { bottom: 6%; right: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.3s; transform-origin: bottom center; transform: scaleX(-1); }
+@keyframes popInBush { from { opacity: 0; transform: translateY(50px) scale(0.5); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.deco-code-left { left: 8%; top: 22%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(34, 169, 121, 0.3)); animation: floatDeco 6s ease-in-out infinite; }
+.deco-binary-right { right: 8%; top: 15%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3)); animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate; }
+.deco-code-right { right: 6%; bottom: 28%; width: clamp(60px, 7vw, 100px); filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3)); animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse; }
+@keyframes floatDeco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-25px) rotate(3deg); } }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255, 255, 255, 0.8); margin-top: 1.5rem; transition: transform 0.3s ease; }
+.topbar:hover { transform: translateY(-2px); }
+.logo-row { display: flex; align-items: center; gap: 16px; }
+.t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
+.t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
+.kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
+.frame { position: relative; flex: 1; min-height: 750px; display: block; margin-top: 1rem; width: 100%; }
+.slide { position: absolute; top: 0; left: 0; width: 100%; min-height: 750px; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); }
+.slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
+/* Custom Scrollbar for Slides */
+.slide::-webkit-scrollbar { width: 8px; }
+.slide::-webkit-scrollbar-track { background: transparent; margin: 1rem; }
+.slide::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+.slide::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.3); }
+.slide-cover { background: rgba(255,255,255,0.85); }
+.cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
+.cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
+.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
+.slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
+.isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
+.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; }
+.cz { position: relative; z-index: 2; width: 100%; text-align: center; }
+.story-title { font-size: 2.8rem; margin-bottom: 1rem; line-height: 1.2; color: var(--pd); font-weight: 800; text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
+.box { font-size: 1.3rem; line-height: 1.6; background: rgba(255,255,255,0.9); padding: 2rem 2.5rem; border-radius: 24px; border: 2px solid var(--p); box-shadow: 0 12px 24px rgba(0,180,216,0.1); color: var(--txt); font-weight: 700; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.box:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,180,216,0.15); }
+.rpg { background: linear-gradient(145deg, #ffffff, #f1f5f9); border: 2px solid #e2e8f0; border-radius: 24px; padding: 2.5rem; text-align: center; max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,.05); }
+.ihl { color: var(--o); font-weight: 800; font-size: 2rem; display: block; margin-bottom: 1rem; font-family: "Fredoka", sans-serif; }
+.itext { font-size: 1.3rem; line-height: 1.6; font-weight: 600; color: var(--muted); }
+.pill-list { display: flex; flex-direction: column; gap: 1.2rem; }
+.pill { display: flex; align-items: center; gap: 1.5rem; padding: 1.2rem 1.8rem; border-radius: 24px; background: #ffffff; border: 1px solid #e2e8f0; transition: all .3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 1.2rem; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,.03); }
+.pill:hover { transform: translateX(12px) scale(1.02); border-color: var(--p); background: #f0f9ff; box-shadow: 0 8px 20px rgba(0,180,216,.1); }
+.pill-idx { min-width: 44px; height: 44px; background: linear-gradient(135deg, var(--p), var(--pd)); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 1.3rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,119,182,0.3); }
+
+/* New Layout CSS */
+.bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-top: 1rem; width: 100%; }
+.info-card { background: #ffffff; padding: 1.5rem; border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); border: 2px solid #e2e8f0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
+.info-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,180,216,0.12); border-color: var(--p); }
+.info-icon { font-size: 3.5rem; margin-bottom: 0.5rem; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
+.info-card:hover .info-icon { transform: scale(1.1) rotate(5deg); }
+.info-title { font-size: 1.3rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
+.info-desc { font-size: 1.05rem; color: #64748b; font-weight: 600; line-height: 1.5; }
+
+.process-row { display: flex; align-items: stretch; justify-content: space-between; gap: 1rem; width: 100%; margin-top: 1rem; flex-wrap: wrap; }
+.process-step { background: #fff; border: 3px solid #e2e8f0; padding: 1.5rem 1rem; border-radius: 24px; flex: 1; min-width: 150px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; gap: 0.8rem; position: relative; transition: all 0.3s ease; }
+.process-step:hover { border-color: var(--p); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,180,216,0.15); }
+.process-arrow { font-size: 2.5rem; color: #cbd5e1; display: flex; align-items: center; justify-content: center; font-weight: 900; animation: pulseArrow 2s infinite; }
+@keyframes pulseArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); color: var(--o); } }
+
+.num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; }
+.num-card { background: #ffffff; border-radius: 28px; padding: 2rem; border: 1px solid #e2e8f0; transition: .4s cubic-bezier(.175, .885, .32, 1.275); box-shadow: 0 10px 25px rgba(0,0,0,.04); position: relative; overflow: hidden; }
+.num-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--p), var(--grn)); opacity: 0; transition: opacity 0.3s; }
+.num-card:hover::before { opacity: 1; }
+.num-card:hover { transform: translateY(-10px); box-shadow: 0 25px 40px rgba(0,0,0,.08); border-color: transparent; }
+.num-lbl { font-size: 3rem; margin-bottom: 1rem; transition: transform 0.3s ease; }
+.num-card:hover .num-lbl { transform: scale(1.1); }
+.num-title { font-weight: 800; color: var(--pd); font-size: 1.4rem; margin-bottom: .6rem; font-family: "Fredoka", sans-serif; }
+.num-desc { font-size: 1.05rem; color: var(--muted); line-height: 1.5; font-weight: 600; }
+.tag-l { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--pd); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
+.tag-o { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--o); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
+.tag-g { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--grn); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
+.ph-box { background: rgba(255,255,255,0.5); backdrop-filter: blur(10px); border: 2px dashed #94a3b8; border-radius: 32px; padding: 4rem; text-align: center; color: #475569; transition: all 0.3s ease; }
+.ph-box:hover { border-color: var(--p); background: rgba(255,255,255,0.8); transform: scale(1.02); }
+.link-box { background: linear-gradient(135deg, #ffffff, #f8fafc); border: 3px solid var(--g); border-radius: 24px; padding: 1.5rem 3rem; display: inline-block; font-size: 2.4rem; font-family: "Fredoka", sans-serif; color: var(--pd); letter-spacing: 2px; margin: 2rem 0; box-shadow: 0 10px 0 var(--g), 0 20px 30px rgba(0,0,0,0.1); font-weight: 800; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+.link-box:hover { transform: translateY(4px); box-shadow: 0 6px 0 var(--g), 0 10px 20px rgba(0,0,0,0.1); }
+.link-box:active { transform: translateY(10px); box-shadow: 0 0 0 var(--g), 0 5px 10px rgba(0,0,0,0.1); }
+.react-e { font-size: 5rem; cursor: pointer; transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; }
+.react-e:hover { transform: scale(1.3) rotate(15deg); }
+.controls { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 1rem 2rem; border-radius: 999px; margin-top: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,.08); border: 1px solid rgba(255,255,255,0.9); }
+/* New Utilities for Overhaul */
+.grad-text { background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.grad-text-o { background: linear-gradient(135deg, #f59e0b, #ea580c); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.workbook-field { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; }
+.wb-line { border-bottom: 3px dashed #cbd5e1; height: 35px; width: 100%; transition: border-color 0.3s; }
+.wb-line:hover { border-color: var(--p); }
+.glow-box { background: #fff; border: 2px solid transparent; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
+.glow-box:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,180,216,0.15); border-color: var(--p); }
+.pulse-btn { display: inline-block; padding: 1.2rem 3rem; font-size: 2.2rem; font-family: "Fredoka", sans-serif; color: #fff; background: linear-gradient(135deg, var(--o), #ea580c); border-radius: 999px; text-decoration: none; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); animation: pulseBtn 2s infinite; border: 4px solid rgba(255,255,255,0.5); letter-spacing: 2px; transition: transform 0.3s; }
+.pulse-btn:hover { transform: scale(1.05); }
+@keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
+.tag-card { display: flex; gap: 1.5rem; align-items: center; padding: 1.5rem; background: #fff; border-radius: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; }
+.tag-card:hover { transform: translateY(-5px) translateX(5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+.tag-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; border-radius: 8px 0 0 8px; }
+.tc-blue::before { background: var(--p); } .tc-blue { background: #f0f9ff; }
+.tc-orange::before { background: var(--o); } .tc-orange { background: #fffbeb; }
+.tc-red::before { background: #ef4444; } .tc-red { background: #fef2f2; }
+.tc-green::before { background: #22c55e; } .tc-green { background: #f0fdf4; }
+
+.btn { cursor: pointer; padding: .6rem 1.2rem; font-weight: 700; border: none; border-radius: 12px; font-size: 1.1rem; transition: all .2s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: .8rem; }
+.btn-p { background: #f1f5f9; color: #475569; box-shadow: 0 4px 0 #cbd5e1; }
+.btn-p:hover { background: #e2e8f0; transform: translateY(-2px); box-shadow: 0 6px 0 #94a3b8; }
+.btn-p:active { transform: translateY(4px); box-shadow: 0 0 0 #cbd5e1; }
+.btn-n { background: linear-gradient(135deg, var(--g), #f59e0b); color: #fff; box-shadow: 0 6px 0 #b45309; text-shadow: 1px 1px 0 rgba(0,0,0,0.2); }
+.btn-n:hover { background: linear-gradient(135deg, #f59e0b, #ea580c); transform: translateY(-2px); box-shadow: 0 8px 0 #9a3412; }
+.btn-n:active { transform: translateY(4px); box-shadow: 0 0 0 #b45309; }
+.pag { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0.6rem 1.2rem; background: rgba(0,0,0,0.03); border-radius: 30px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+.dot { width: 12px; height: 12px; background: rgba(0,0,0,0.15); border-radius: 10px; cursor: pointer; transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1); border: none; }
+.dot:hover { background: rgba(0,0,0,0.3); transform: scale(1.1); }
+.dot.active { width: 36px; background: linear-gradient(135deg, var(--p), var(--pd)); box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4); transform: scale(1.1); }
+.desc { font-size: 1.3rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; font-weight: 600; }
+
+@media(max-width:900px){
+  .sc,.cov-inner,.isplit,.twocol { grid-template-columns: 1fr; padding: 1.5rem; gap: 2rem; }
+  .cov-h { font-size: 3.2rem; }
+  .hero-img { height: auto !important; margin-top: 2rem !important; }
+  .hero-img img { width: 80%; margin: auto; display: block; position: static !important; }
+  .lfix { display: none; } /* Hide fixed logos on small screens */
+}
+
+
+/* ══════════════════════════════════════
+   ROBLOX DAY 1 DARK MODE OVERRIDE
+══════════════════════════════════════ */
+:root {
+  --p: #22d3ee;
+  --pd: #38bdf8;
+  --g: #facc15;
+  --o: #fb923c;
+  --grn: #34d399;
+  --violet: #a78bfa;
+  --pink: #f472b6;
+  --card: rgba(15, 23, 42, 0.88);
+  --card2: rgba(30, 41, 59, 0.92);
+  --txt: #e5f3ff;
+  --muted: #a8b8cc;
+  --line: rgba(148, 163, 184, 0.32);
+  --r: 32px;
+  --sh: 0 25px 60px -18px rgba(0,0,0,0.65), 0 0 35px rgba(34,211,238,0.08);
+}
+body {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(34,211,238,0.24), transparent 30%),
+    radial-gradient(circle at 80% 0%, rgba(167,139,250,0.18), transparent 32%),
+    radial-gradient(circle at 50% 100%, rgba(251,146,60,0.12), transparent 35%),
+    #020617;
+  color: var(--txt);
+}
+.stage { filter: brightness(.45) saturate(1.25) hue-rotate(178deg); opacity: .75; }
+.stage::after { content:""; position:fixed; inset:0; background: linear-gradient(180deg, rgba(2,6,23,.38), rgba(2,6,23,.88)); pointer-events:none; }
+.topbar, .controls {
+  background: rgba(15, 23, 42, .86);
+  border: 1px solid rgba(125, 211, 252, .25);
+  box-shadow: 0 14px 35px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.03);
+}
+.t-main, .slide-title, .story-title, .info-title, .num-title, .ihl { color: var(--pd); }
+.t-sub, .desc, .itext, .info-desc, .num-desc { color: var(--muted); }
+.kbd { background: linear-gradient(135deg, var(--p), var(--violet)); box-shadow: 0 4px 0 rgba(12,74,110,.9); }
+.slide, .slide-cover {
+  background: linear-gradient(145deg, rgba(15,23,42,.92), rgba(15,23,42,.78));
+  border: 1px solid rgba(125, 211, 252, .26);
+  box-shadow: var(--sh);
+  color: var(--txt);
+  overflow: hidden;
+}
+.slide::before {
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(circle at 10% 0%, rgba(34,211,238,.12), transparent 24%), radial-gradient(circle at 100% 20%, rgba(167,139,250,.12), transparent 28%);
+  pointer-events:none;
+}
+.box, .rpg, .info-card, .process-step, .num-card, .glow-box, .tag-card, .tag-l, .tag-o, .tag-g, .ph-box {
+  background: rgba(30, 41, 59, .9) !important;
+  color: var(--txt) !important;
+  border-color: rgba(125, 211, 252, .25) !important;
+  box-shadow: 0 14px 28px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.03) !important;
+}
+.info-card:hover, .process-step:hover, .num-card:hover, .glow-box:hover, .box:hover {
+  border-color: var(--p) !important;
+  box-shadow: 0 18px 34px rgba(0,0,0,.42), 0 0 24px rgba(34,211,238,.16) !important;
+}
+.info-desc, .num-desc, .itext, .box p, .tag-card div, .tag-card p, .rpg p, .rpg li { color: var(--muted) !important; }
+.info-title, .num-title, .story-title { text-shadow: none; }
+.cov-h { color: #e0f2fe; text-shadow: 0 0 30px rgba(34,211,238,.25) !important; }
+.cov-h span { background: linear-gradient(135deg, #22d3ee, #a78bfa, #facc15); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter:none; }
+.btn-n, .pulse-btn, .big-link {
+  background: linear-gradient(135deg, #22d3ee, #6366f1) !important;
+  box-shadow: 0 8px 0 rgba(30,64,175,.88), 0 14px 30px rgba(34,211,238,.18) !important;
+  color: #fff !important;
+}
+.btn-p { background: rgba(30,41,59,.95); color: #dbeafe; box-shadow: 0 4px 0 rgba(15,23,42,.95); border: 1px solid rgba(125,211,252,.25); }
+.dot { background: rgba(148,163,184,.28); }
+.dot.active { background: linear-gradient(135deg, var(--p), var(--violet)); }
+.workbook-field label { color: #dbeafe; font-weight:800; font-size:1.05rem; }
+.wb-line { border-bottom-color: rgba(125,211,252,.45); }
+
+.mission-badge { display:inline-flex; align-items:center; gap:.6rem; padding:.55rem 1rem; border-radius:999px; background:rgba(34,211,238,.12); color:#bae6fd; border:1px solid rgba(125,211,252,.35); font-weight:900; letter-spacing:.02em; }
+.hero-chip-row { display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin:1.2rem auto; }
+.hero-chip { background:rgba(30,41,59,.9); color:#e0f2fe; padding:.8rem 1.1rem; border:1px solid rgba(125,211,252,.25); border-radius:999px; font-weight:800; box-shadow:0 8px 20px rgba(0,0,0,.22); }
+.dark-panel { background:rgba(2,6,23,.5); border:1px solid rgba(125,211,252,.22); border-radius:28px; padding:2rem; }
+.grid-command { display:grid; grid-template-columns: repeat(4, 1fr); gap:.75rem; max-width:520px; margin:0 auto; }
+.grid-cell { aspect-ratio:1/1; border-radius:18px; background:rgba(15,23,42,.92); border:2px solid rgba(125,211,252,.25); display:flex; align-items:center; justify-content:center; font-size:2.2rem; font-weight:900; box-shadow:inset 0 0 18px rgba(34,211,238,.05); }
+.grid-cell.label { flex-direction:column; gap:.15rem; font-size:1.1rem; color:#bae6fd; }
+.key-row { display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-top:1.2rem; }
+.key-pill { border-radius:16px; padding:.8rem 1rem; background:rgba(30,41,59,.95); border:1px solid rgba(125,211,252,.28); font-size:1.25rem; font-weight:900; color:#e0f2fe; }
+.preview-game { position:relative; min-height:370px; border-radius:30px; background:linear-gradient(180deg, rgba(14,116,144,.2), rgba(15,23,42,.9)); border:2px solid rgba(125,211,252,.3); overflow:hidden; box-shadow:inset 0 0 60px rgba(34,211,238,.1); }
+.preview-game .floor { position:absolute; left:5%; right:5%; bottom:12%; height:30%; border-radius:26px; background:repeating-linear-gradient(45deg, rgba(148,163,184,.18) 0 12px, rgba(51,65,85,.28) 12px 24px); border:1px solid rgba(125,211,252,.22); }
+.preview-game .avatar { position:absolute; left:10%; bottom:31%; font-size:3.8rem; animation: collectMove 6s ease-in-out infinite; filter:drop-shadow(0 16px 20px rgba(0,0,0,.45)); }
+.preview-game .item { position:absolute; left:38%; bottom:35%; font-size:3.2rem; animation:itemBlink 6s infinite; }
+.preview-game .bucket { position:absolute; right:12%; bottom:34%; font-size:4rem; filter:drop-shadow(0 12px 18px rgba(0,0,0,.35)); }
+.preview-game .score { position:absolute; top:1.2rem; right:1.2rem; padding:.8rem 1.2rem; border-radius:18px; background:rgba(2,6,23,.78); border:1px solid rgba(52,211,153,.42); color:#bbf7d0; font-weight:900; font-size:1.3rem; animation:scorePulse 6s infinite; }
+.preview-game .path { position:absolute; left:16%; right:20%; bottom:46%; height:6px; background:linear-gradient(90deg, var(--p), var(--violet), var(--grn)); border-radius:999px; opacity:.65; }
+@keyframes collectMove { 0%, 15% { transform:translate(0,0); } 35%, 50% { transform:translate(260px,0); } 75%, 100% { transform:translate(610px,0); } }
+@keyframes itemBlink { 0%,35% { opacity:1; transform:scale(1); } 45%,100% { opacity:.15; transform:scale(.7); } }
+@keyframes scorePulse { 0%,70% { transform:scale(1); color:#bbf7d0; } 82% { transform:scale(1.16); color:#fef3c7; } 100% { transform:scale(1); color:#bbf7d0; } }
+.link-card { display:flex; flex-direction:column; gap:.8rem; padding:1.4rem; border-radius:24px; background:rgba(30,41,59,.9); border:1px solid rgba(125,211,252,.28); text-decoration:none; color:#e0f2fe; transition:.25s ease; }
+.link-card:hover { transform:translateY(-6px); border-color:var(--p); box-shadow:0 18px 35px rgba(0,0,0,.35), 0 0 28px rgba(34,211,238,.15); }
+.link-card .icon { font-size:3rem; }
+.link-card .title { font-family:"Fredoka",sans-serif; font-weight:900; font-size:1.35rem; color:var(--pd); }
+.link-card .url { font-size:.95rem; color:var(--muted); overflow-wrap:anywhere; }
+.editor-map { position:relative; border-radius:26px; background:rgba(2,6,23,.72); border:2px solid rgba(125,211,252,.3); overflow:hidden; min-height:430px; box-shadow:0 18px 40px rgba(0,0,0,.35); }
+.editor-map .bar { position:absolute; top:0; left:0; right:0; height:58px; background:rgba(30,41,59,.95); border-bottom:1px solid rgba(125,211,252,.25); display:flex; align-items:center; padding:0 1rem; gap:.65rem; }
+.editor-map .bubble { width:14px; height:14px; border-radius:50%; background:var(--o); box-shadow:24px 0 var(--g), 48px 0 var(--grn); }
+.editor-map .viewport { position:absolute; left:22%; top:72px; right:22%; bottom:24px; border-radius:20px; background:linear-gradient(180deg, rgba(14,165,233,.22), rgba(30,41,59,.45)); border:2px dashed rgba(34,211,238,.42); display:flex; align-items:center; justify-content:center; color:#e0f2fe; font-weight:900; font-size:1.4rem; }
+.editor-map .side-l { position:absolute; left:16px; top:72px; bottom:24px; width:18%; border-radius:18px; background:rgba(30,41,59,.8); border:1px solid rgba(125,211,252,.22); padding:1rem; color:#bae6fd; font-weight:900; }
+.editor-map .side-r { position:absolute; right:16px; top:72px; bottom:24px; width:18%; border-radius:18px; background:rgba(30,41,59,.8); border:1px solid rgba(125,211,252,.22); padding:1rem; color:#bae6fd; font-weight:900; }
+.editor-label { display:inline-block; margin:.25rem 0; padding:.5rem .8rem; border-radius:12px; background:rgba(34,211,238,.12); color:#bae6fd; border:1px solid rgba(125,211,252,.25); font-size:.95rem; }
+.field-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:1rem; }
+.field-card { background:rgba(30,41,59,.85); border:1px solid rgba(125,211,252,.28); border-radius:20px; padding:1.2rem; text-align:left; }
+.field-card strong { display:block; color:#e0f2fe; margin-bottom:.7rem; font-size:1.05rem; }
+.field-line { height:36px; border-bottom:3px dashed rgba(125,211,252,.35); }
+.flow-line { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:.7rem; margin:1.2rem 0; }
+.flow-chip { padding:.8rem 1rem; border-radius:18px; background:rgba(34,211,238,.12); border:1px solid rgba(125,211,252,.28); font-weight:900; color:#e0f2fe; }
+.image-slots { display:grid; grid-template-columns: repeat(4, 1fr); gap:1rem; }
+.image-slot { min-height:210px; border:2px dashed rgba(125,211,252,.45); border-radius:24px; padding:1.2rem; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:.8rem; background:rgba(15,23,42,.68); color:#cbd5e1; text-align:center; }
+.image-slot .plus { font-size:3rem; color:var(--pd); }
+.checklist-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; }
+.check-item { background:rgba(30,41,59,.9); border:1px solid rgba(52,211,153,.28); color:#d1fae5; border-radius:18px; padding:1rem; font-weight:900; text-align:left; }
+.small-note { color:var(--muted); font-size:1.05rem; font-weight:700; line-height:1.55; }
+@media(max-width:900px){ .grid-command, .field-grid, .image-slots, .checklist-grid { grid-template-columns:1fr 1fr; } .preview-game .avatar { animation:none; left:10%; } }
+
+</style>
+</head>
+<body>
+
+<!-- High-Resolution Top Logos -->
+<div class="lfix" style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
+  <!-- Kiri: Kalananti -->
+  <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png" style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="Kalananti Logo">
+  
+  <!-- Kanan: RGC Logo -->
+  <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/94907efd-30d9-49af-8e62-aa4aee51ad33.png" style="height: 60px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="RGC Logo">
+</div>
+
+<!-- ── 3D Scene Background ─────────── -->
+<div class="stage" aria-hidden="true">
+    <div class="layer-container parallax" data-depth="0.0">
+        <div class="layer-bg pos-abs" style="inset:0;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png" alt="">
+        </div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.02">
+        <div class="layer-clouds pos-abs">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png" alt="">
+        </div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.05">
+        <div class="layer-skyline pos-abs">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png" alt="">
+        </div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.08">
+        <img class="layer-bldg-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png" alt="">
+        <img class="layer-bldg-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png" alt="">
+    </div>
+    <div class="layer-container parallax" data-depth="0.12">
+        <div class="layer-ground pos-abs">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png" alt="">
+        </div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.18">
+        <img class="layer-bush-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
+        <img class="layer-bush-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
+    </div>
+    <div class="layer-container parallax" data-depth="0.25">
+        <img class="deco-code-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png" alt="">
+        <img class="deco-binary-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png" alt="">
+        <img class="deco-code-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png" alt="">
+    </div>
+</div>
+
+<div class="wrap">
+  <header class="topbar">
+    <div class="logo-row">
+      <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png" style="height: 72px; width: 72px; object-fit:contain; filter: invert(1) drop-shadow(0 4px 12px rgba(34,211,238,0.25)); margin-right: 14px;" alt="Roblox Logo">
+      <div style="display:flex; flex-direction:column; justify-content:center;">
+        <div class="t-main" style="font-size:1.8rem;">🎮 Roblox Codepreneur</div>
+        <div class="t-sub" style="font-size:1.1rem;">Hari ke-1: Persona, Roblox Studio & Level Design Plan</div>
+      </div>
+    </div>
+    <div><span class="t-sub">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
+  </header>
+  
+  <main class="frame">
+
+  <!-- S0: COVER -->
+  <section class="slide slide-cover active" data-slide="0" style="padding-top: 1rem;">
+    <div class="cov-inner" style="display:flex; flex-direction:column; justify-content:center; text-align:center;">
+      <div style="margin-bottom: 0.5rem; z-index: 5;">
+        <div class="mission-badge">DAY 1 • ONLINE CLASS</div>
+        <h1 class="cov-h" style="font-size: 4.4rem; margin: 1rem 0;">Roblox <span>Codepreneur</span></h1>
+        <p class="desc" style="font-size: 1.45rem; max-width: 860px; margin: 0 auto 1.5rem auto;">Dari masalah sehari-hari menjadi kreasi Roblox yang bisa dimainkan.</p>
+        <div class="hero-chip-row">
+          <div class="hero-chip">🎮 Game as Digital Product</div>
+          <div class="hero-chip">🧩 Collecting Item Game</div>
+          <div class="hero-chip">🗺️ Level Design Plan</div>
+        </div>
+        <button class="btn btn-n" id="startBtn" style="font-size: 1.5rem; padding: 1rem 3rem; margin-top:1rem;">Mulai Belajar!</button>
+      </div>
+      <div class="hero-img" style="position:relative; display:flex; justify-content:center; align-items:flex-end; gap: 1rem; height: 310px; width:100%; margin-top: -10px;">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/eb42c311-4643-4da2-b19b-b8c4d6345a08.png" style="position:absolute; bottom: -70px; left:-5%; width:110%; height:150%; z-index:0; opacity:0.25; object-fit: cover; filter:hue-rotate(180deg) saturate(1.4);" alt="Wave Background">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/94219915-9f28-4712-a6dc-44a26382e77d.png" alt="Karakter 1" style="height: 85%; z-index: 1; filter: drop-shadow(0 18px 30px rgba(0,0,0,0.45));">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2256195a-2f18-4e3f-abbd-5db8c82acea4.png" alt="Karakter 2" style="height: 100%; z-index: 2; filter: drop-shadow(0 22px 35px rgba(0,0,0,0.55)); margin-bottom: 10px;">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2aa26094-08cf-429c-ba80-78fb40454eb1.png" alt="Karakter 3" style="height: 90%; z-index: 1; filter: drop-shadow(0 18px 30px rgba(0,0,0,0.45)); transform: scaleX(-1);">
+      </div>
+    </div>
+  </section>
+
+  <!-- S1: TODAY'S MISSION -->
+  <section class="slide" data-slide="1">
+    <div class="cz">
+      <h2 class="story-title">Misi Hari Ini 🛰️</h2>
+      <p class="itext" style="max-width:860px; margin:0 auto 1rem auto;">Hari ini kita belum membuat game penuh. Kita mulai dari memahami misi, mengenal Roblox Studio, dan membuat rencana dunia game.</p>
+      <div class="bento-grid" style="max-width:1080px; margin:auto;">
+        <div class="info-card"><div class="info-icon">💼</div><div class="info-title">Codepreneur</div><div class="info-desc">Melihat masalah lalu membuat produk digital.</div></div>
+        <div class="info-card"><div class="info-icon">📝</div><div class="info-title">Pretest</div><div class="info-desc">Cek pemahaman awal sebelum mulai project.</div></div>
+        <div class="info-card"><div class="info-icon">🤖</div><div class="info-title">Ice Breaking</div><div class="info-desc">Memberi instruksi jelas seperti saat coding.</div></div>
+        <div class="info-card"><div class="info-icon">🃏</div><div class="info-title">Persona Card</div><div class="info-desc">Roll kartu untuk mendapatkan misi game.</div></div>
+        <div class="info-card"><div class="info-icon">🎮</div><div class="info-title">Roblox Studio</div><div class="info-desc">Mengenal tempat membuat dunia Roblox.</div></div>
+        <div class="info-card"><div class="info-icon">🗺️</div><div class="info-title">Level Design</div><div class="info-desc">Membuat wireframe versi dunia 3D.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S2: CODEPRENEUR -->
+  <section class="slide" data-slide="2">
+    <div class="cz">
+      <h2 class="story-title">Apa itu Codepreneur?</h2>
+      <p class="itext" style="max-width:850px; margin:0 auto 1.3rem auto;">Codepreneur bukan hanya membuat sesuatu yang bisa dimainkan. Codepreneur membuat produk digital yang punya tujuan.</p>
+      <div class="twocol" style="max-width:980px; margin:1rem auto;">
+        <div class="tag-card tc-blue" style="flex-direction:column; text-align:center; padding:2rem;"><div style="font-size:4rem; margin-bottom:1rem;">👨‍💻</div><h3 style="color:var(--p); margin-bottom:1rem; font-size:2rem;">Coder</h3><p style="font-size:1.15rem;">Membuat kreasi dengan teknologi dan kode.</p></div>
+        <div class="tag-card tc-orange" style="flex-direction:column; text-align:center; padding:2rem;"><div style="font-size:4rem; margin-bottom:1rem;">💡</div><h3 style="color:var(--o); margin-bottom:1rem; font-size:2rem;">Preneur</h3><p style="font-size:1.15rem;">Melihat masalah dan mencari solusi untuk orang lain.</p></div>
+      </div>
+      <div class="box" style="margin:2rem auto; max-width:880px; font-size:1.45rem;">
+        <strong style="color:var(--g);">Codepreneur</strong> membuat produk digital yang membantu orang lain belajar, memilih, mencoba, atau menyelesaikan misi.
+      </div>
+    </div>
+  </section>
+
+  <!-- S3: PRETEST -->
+  <section class="slide" data-slide="3">
+    <div class="isplit" style="max-width:1100px; margin:auto; grid-template-columns: .85fr 1.5fr; gap: 3rem;">
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2256195a-2f18-4e3f-abbd-5db8c82acea4.png" alt="Pretest" style="max-height: 300px; filter: drop-shadow(0 18px 32px rgba(0,0,0,0.55));">
+      </div>
+      <div class="cz" style="text-align: left; display: flex; flex-direction: column; gap: 1.4rem;">
+        <h2 class="story-title" style="text-align: left; font-size: 2.8rem;">Pretest Time</h2>
+        <div class="box rpg" style="text-align:left; padding: 1.7rem 2rem;">
+          <p style="font-size:1.28rem; margin-bottom:0.5rem; font-weight:800; color:#e0f2fe !important;">Sebelum mulai membuat game, kita kerjakan pretest dulu.</p>
+          <p class="small-note">Jawab sesuai pemahamanmu sekarang. Tidak perlu takut salah, karena ini untuk melihat titik awal belajar kita.</p>
+        </div>
+        <div class="rpg" style="padding:2.4rem; text-align:center; border-color:var(--o) !important;">
+          <p style="color:var(--pd) !important; margin-bottom:1rem; font-size: 1.3rem; font-weight: 800;">Waktu: <strong style="color:var(--g); font-size: 1.6rem;">10 menit</strong></p>
+          <a href="https://bit.ly/pre-roblox-cp" target="_blank" class="pulse-btn" style="margin: 1rem 0; padding: 1.2rem 3rem; font-size: 2.1rem; display: inline-block; text-decoration:none;">bit.ly/pre-roblox-cp</a>
+          <p class="small-note" style="margin-top:1rem;">Setelah submit, kembali ke kelas online.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: ICE BREAKING -->
+  <section class="slide" data-slide="4">
+    <div class="cz">
+      <h2 class="story-title">Ice Breaking: Command the Character 🤖</h2>
+      <p class="itext" style="max-width:880px; margin:0 auto 1.2rem auto;">Bantu karakter bergerak dari START ke ITEM, lalu bawa item ke BUCKET. Tulis instruksi di chat.</p>
+      <div class="twocol" style="max-width:1080px; margin:auto; align-items:center;">
+        <div class="dark-panel">
+          <div class="grid-command">
+            <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell">🧃</div><div class="grid-cell"></div>
+            <div class="grid-cell label">🤖<span>START</span></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell label">🪣<span>BUCKET</span></div>
+            <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell label">🏁<span>FINISH</span></div>
+          </div>
+          <div class="key-row">
+            <div class="key-pill">⬆️ Up</div><div class="key-pill">⬇️ Down</div><div class="key-pill">⬅️ Left</div><div class="key-pill">➡️ Right</div><div class="key-pill">✋ Pick Up</div><div class="key-pill">🪣 Drop</div>
+          </div>
+        </div>
+        <div class="dark-panel" style="text-align:left;">
+          <span class="ihl" style="font-size:2rem;">Diskusi Cepat</span>
+          <div class="pill-list" style="margin-top:1rem;">
+            <div class="pill" style="color:#1e293b !important;"><span class="pill-idx">1</span><span>Apa yang terjadi kalau instruksinya kurang jelas?</span></div>
+            <div class="pill" style="color:#1e293b !important;"><span class="pill-idx">2</span><span>Kenapa urutan langkah penting?</span></div>
+            <div class="pill" style="color:#1e293b !important;"><span class="pill-idx">3</span><span>Apa hubungan aktivitas ini dengan coding?</span></div>
+          </div>
+          <div class="box" style="margin-top:1.4rem; padding:1.2rem 1.4rem; font-size:1.15rem;">
+            Coding adalah cara kita memberi instruksi ke komputer. Di Roblox, instruksi membuat dunia game merespons dan punya aturan.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5: GAME AS SOLUTION -->
+  <section class="slide" data-slide="5">
+    <div class="cz">
+      <h2 class="story-title">Game Juga Bisa Jadi Solusi Digital</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1.4rem auto;">Solusi digital tidak selalu berbentuk aplikasi. Game juga bisa membantu pemain belajar lewat aksi, pilihan, dan konsekuensi.</p>
+      <div class="twocol" style="max-width:1050px; margin:auto;">
+        <div class="glow-box" style="padding:2rem;">
+          <div style="font-size:4rem; margin-bottom:1rem;">📱</div>
+          <h3 style="font-size:2rem; color:var(--pd); margin-bottom:.8rem;">Aplikasi</h3>
+          <div class="pill-list"><div class="pill" style="color:#1e293b !important;">Tombol</div><div class="pill" style="color:#1e293b !important;">Checklist</div><div class="pill" style="color:#1e293b !important;">Reminder</div><div class="pill" style="color:#1e293b !important;">Layar informasi</div></div>
+        </div>
+        <div class="glow-box" style="padding:2rem; border-color:var(--violet) !important;">
+          <div style="font-size:4rem; margin-bottom:1rem;">🎮</div>
+          <h3 style="font-size:2rem; color:var(--violet); margin-bottom:.8rem;">Roblox Game</h3>
+          <div class="pill-list"><div class="pill" style="color:#1e293b !important;">Misi</div><div class="pill" style="color:#1e293b !important;">Item</div><div class="pill" style="color:#1e293b !important;">Area 3D</div><div class="pill" style="color:#1e293b !important;">Score & feedback</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- S7: ROLL PERSONA CARD -->
+  <section class="slide" data-slide="7">
+    <div class="cz" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; gap:2rem;">
+      <h2 class="story-title">Roll Your Persona Card 🃏</h2>
+      <div class="box glow-box" style="max-width:760px; font-size:1.3rem; text-align:center; border-color:var(--p) !important;">
+        <p style="margin-bottom:1.5rem; color:#e0f2fe !important;">Setiap kreator akan mendapatkan satu persona card. Baca masalahnya, pahami misinya, lalu gunakan card itu sebagai tema game Roblox-mu.</p>
+        <a href="https://bit.ly/gacha-persona" target="_blank" class="pulse-btn" style="font-size: 2rem; display: inline-block; padding: 1.2rem 3rem; text-decoration:none;">bit.ly/gacha-persona</a>
+      </div>
+      <div style="background:rgba(251,146,60,.12); border:1px solid rgba(251,146,60,.35); border-radius:20px; padding:1.4rem 2rem; max-width:680px;">
+        <p style="color:#fed7aa; font-size:1.2rem; font-weight:800;">Setelah kartumu muncul, kembali ke halaman ini dan isi misi game-mu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S8: READ MISSION CARD -->
+  <section class="slide" data-slide="8">
+    <div class="cz">
+      <h2 class="story-title">Read Your Mission Card</h2>
+      <p class="itext" style="max-width:860px; margin:0 auto 1.2rem auto;">Jangan langsung membangun. Pahami dulu masalahnya supaya game yang kamu buat punya tujuan.</p>
+      <div class="field-grid" style="max-width:1000px; margin:auto;">
+        <div class="field-card"><strong>Nama persona</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Masalah yang dialami</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Misi pemain</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Item yang harus dikumpulkan</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Item yang harus dihindari</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Kapan pemain berhasil?</strong><div class="field-line"></div></div>
+      </div>
+    </div>
+  </section>
+  <!-- S8B: BRAINSTORM COLLECTING GAME -->
+  <section class="slide" data-slide="8b">
+    <div class="cz">
+      <h2 class="story-title">Brainstorm: Masalah apa yang ada di Card?</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1.2rem auto; font-size:1.35rem;">Sekarang kita ubah masalah di Mission Card menjadi game Roblox. Fokus kita adalah membuat pemain mencari, mengambil, dan membawa item yang tepat.</p>
+      <div class="twocol" style="max-width:1080px; margin:auto; align-items:stretch;">
+        <div class="dark-panel" style="text-align:left;">
+          <span class="ihl" style="font-size:2rem;">Pikirkan dulu:</span>
+          <div class="pill-list" style="margin-top:1rem;">
+            <div class="pill" style="color:#1e293b !important;"><span class="pill-idx">1</span><span>Item apa yang harus dicari pemain?</span></div>
+            <div class="pill" style="color:#1e293b !important;"><span class="pill-idx">2</span><span>Item apa yang perlu dihindari?</span></div>
+            <div class="pill" style="color:#1e293b !important;"><span class="pill-idx">3</span><span>Di area mana item akan diletakkan?</span></div>
+            <div class="pill" style="color:#1e293b !important;"><span class="pill-idx">4</span><span>Kapan pemain mendapat poin atau menang?</span></div>
+          </div>
+        </div>
+        <div class="dark-panel" style="text-align:center;">
+          <div style="font-size:4rem; margin-bottom:.8rem;">🎮</div>
+          <h3 style="font-size:2rem; color:var(--pd); margin-bottom:1rem;">Collecting Game Flow</h3>
+          <div class="flow-line" style="margin-top:1rem;">
+            <div class="flow-chip">Explore Area</div>
+            <div class="process-arrow">➔</div>
+            <div class="flow-chip">Find Item</div>
+            <div class="process-arrow">➔</div>
+            <div class="flow-chip">Collect</div>
+            <div class="process-arrow">➔</div>
+            <div class="flow-chip">Drop to Goal</div>
+            <div class="process-arrow">➔</div>
+            <div class="flow-chip">Score / Win</div>
+          </div>
+          <div class="box" style="margin-top:1.3rem; padding:1.2rem 1.5rem; font-size:1.15rem;">Tujuannya: pemain belajar memilih item yang tepat melalui aksi di dalam game.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S6: PROJECT PREVIEW -->
+  <section class="slide" data-slide="6">
+    <div class="cz">
+      <h2 class="story-title">Project Preview: Collecting Item Game</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1.2rem auto;">Pemain mencari item, membawa item ke tempat tujuan, lalu mendapatkan poin jika pilihannya benar.</p>
+      <div class="preview-game" aria-label="Animated collecting item game preview">
+        <div class="score">Score +1</div>
+        <div class="path"></div>
+        <div class="floor"></div>
+        <div class="item">🍎</div>
+        <div class="bucket">🪣</div>
+        <div class="avatar">🧍</div>
+      </div>
+      <div class="flow-line">
+        <div class="flow-chip">Explore</div><div class="process-arrow">➔</div><div class="flow-chip">Collect</div><div class="process-arrow">➔</div><div class="flow-chip">Drop</div><div class="process-arrow">➔</div><div class="flow-chip">Score</div><div class="process-arrow">➔</div><div class="flow-chip">Mission Complete</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- S9: INTRO ROBLOX STUDIO -->
+  <section class="slide" data-slide="9">
+    <div class="cz">
+      <h2 class="story-title">Meet Roblox Studio</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1.3rem auto;">Roblox Studio adalah tempat kita membangun dunia 3D, mengatur objek, dan menulis kode untuk membuat game Roblox.</p>
+      <div class="twocol" style="max-width:1080px; margin:auto; align-items:center;">
+        <div class="dark-panel" style="text-align:center;">
+          <img src="https://club.jollymax.com/wp-content/uploads/2025/05/210-cover.jpg" alt="Roblox Studio Logo" style="width:100%; max-height:320px; object-fit:cover; border-radius:24px; border:2px solid rgba(125,211,252,.35); box-shadow:0 18px 40px rgba(0,0,0,.35);">
+          <p class="small-note" style="margin-top:1rem;">Roblox Studio = tempat membuat dan mengatur pengalaman Roblox.</p>
+        </div>
+        <div class="bento-grid" style="grid-template-columns:1fr; margin:0;">
+          <a class="link-card" href="https://www.roblox.com/" target="_blank"><div class="icon">👤</div><div class="title">Buat Akun Roblox</div><div class="url">roblox.com</div></a>
+          <a class="link-card" href="https://create.roblox.com" target="_blank"><div class="icon">⬇️</div><div class="title">Download Studio</div><div class="url">create.roblox.com</div></a>
+          <a class="link-card" href="https://create.roblox.com/docs/studio/setup" target="_blank"><div class="icon">🛠️</div><div class="title">Setup Guide</div><div class="url">Creator Hub</div></a>
+        </div>
+      </div>
+      <div class="box" style="max-width:850px; margin:1.5rem auto 0 auto; padding:1.2rem 1.6rem;">
+        Pastikan kamu memakai akun Roblox khusus untuk kelas ini. Setelah akun siap, buka Roblox Studio dan login.
+      </div>
+    </div>
+  </section>
+
+  <!-- S9B: DOWNLOAD ROBLOX STUDIO -->
+  <section class="slide" data-slide="9b">
+    <div class="cz">
+      <h2 class="story-title">Download Roblox Studio</h2>
+      <p class="itext" style="max-width:850px; margin:0 auto 1.3rem auto;">Untuk yang belum punya Roblox Studio, buka link berikut dan ikuti instruksi download.</p>
+      <a href="https://create.roblox.com" target="_blank" class="pulse-btn" style="font-size:2.6rem; padding:1.4rem 4rem; display:inline-block; text-decoration:none;">create.roblox.com</a>
+      <div class="process-row" style="max-width:980px; margin:2rem auto 0;">
+        <div class="process-step"><div class="info-icon">🌐</div><div class="info-title">1. Open Link</div><div class="info-desc">Buka create.roblox.com</div></div>
+        <div class="process-arrow">➔</div>
+        <div class="process-step"><div class="info-icon">⬇️</div><div class="info-title">2. Download</div><div class="info-desc">Ikuti instruksi download Roblox Studio</div></div>
+        <div class="process-arrow">➔</div>
+        <div class="process-step"><div class="info-icon">🛠️</div><div class="info-title">3. Install</div><div class="info-desc">Pastikan Roblox Studio bisa dibuka</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S9C: LOGIN ROBLOX STUDIO -->
+  <section class="slide" data-slide="9c">
+    <div class="isplit" style="max-width:1080px; margin:auto; align-items:center;">
+      <div class="dark-panel" style="text-align:center;">
+        <img src="https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/5X/6/a/5/a/6a5af3cfaa2b8834cfa6eb2184977dc4ba8d3294.jpeg" alt="Roblox Login" style="width:100%; max-height:420px; object-fit:contain; border-radius:24px; border:2px solid rgba(125,211,252,.35); background:#fff;">
+      </div>
+      <div>
+        <span class="ihl" style="font-size:2.4rem;">Login dengan Akun Roblox</span>
+        <p class="itext" style="margin:1rem 0 1.3rem 0; font-size:1.35rem;">Sebelum mulai membangun, pastikan kamu sudah bisa masuk ke akun Roblox yang akan dipakai selama kelas.</p>
+        <div class="checklist-grid" style="grid-template-columns:1fr;">
+          <div class="check-item">✅ Username dan password sudah siap</div>
+          <div class="check-item">✅ Bisa login ke Roblox Studio</div>
+          <div class="check-item">✅ Tidak memakai akun pribadi jika kelas meminta akun khusus</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- S10: EDITOR TOUR -->
+  <section class="slide" data-slide="10">
+    <div class="cz">
+      <h2 class="story-title">Roblox Studio Editor Tour</h2>
+      <p class="itext" style="max-width:860px; margin:0 auto 1rem auto;">Hari ini kita cukup tahu area penting yang akan dipakai untuk membuat collecting item game.</p>
+      <div style="position:relative; max-width:1000px; margin:auto;">
+        <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/fdcd58ac-ab23-4200-a764-1e2be6b09f16.png" alt="Roblox Studio Editor" style="width:100%; max-height:520px; object-fit:contain; border-radius:26px; border:2px solid rgba(125,211,252,.35); box-shadow:0 18px 40px rgba(0,0,0,.35); background:rgba(2,6,23,.72);">
+        <!-- <div style="position:absolute; top:5%; left:32%; padding:.55rem .8rem; border-radius:14px; background:rgba(34,211,238,.92); color:#032b38; font-weight:900;">Toolbar</div> -->
+        <!-- <div style="position:absolute; top:44%; left:44%; padding:.55rem .8rem; border-radius:14px; background:rgba(250,204,21,.94); color:#422006; font-weight:900;">Workspace / Viewport</div> -->
+        <!-- <div style="position:absolute; top:22%; left:4%; padding:.55rem .8rem; border-radius:14px; background:rgba(52,211,153,.94); color:#052e1b; font-weight:900;">Explorer</div> -->
+        <!-- <div style="position:absolute; top:22%; right:5%; padding:.55rem .8rem; border-radius:14px; background:rgba(167,139,250,.94); color:#1e1b4b; font-weight:900;">Properties</div> -->
+      </div>
+      <div class="flow-line" style="margin-top:1.2rem;">
+        <div class="flow-chip">Toolbar: pilih tools</div>
+        <div class="flow-chip">Workspace: lihat dunia game</div>
+        <div class="flow-chip">Explorer: daftar objek</div>
+        <div class="flow-chip">Properties: ubah detail objek</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S10B: WHAT CAN WE MAKE IN ROBLOX STUDIO -->
+<section class="slide" data-slide="10b">
+  <div class="cz">
+    <h2 class="story-title">Apa yang Bisa Kita Buat di Roblox Studio?</h2>
+    <p class="itext" style="max-width:900px; margin:0 auto 1.2rem auto;">
+      Roblox Studio bisa dipakai untuk membuat dunia 3D dengan berbagai tujuan. Gunakan contoh ini sebagai inspirasi sebelum membuat wireframe.
+    </p>
+
+    <div class="bento-grid" style="max-width:1080px; margin:auto; grid-template-columns:repeat(2,1fr); gap:1.4rem;">
+      
+      <div class="info-card" style="padding:1.2rem; text-align:left; align-items:stretch;">
+        <img src="https://tr.rbxcdn.com/180DAY-49e22823cd88c4990605f3ba0bc94bcd/500/280/Image/Jpeg/noFilter" 
+             alt="Contoh Obby Roblox" 
+             style="width:100%; height:190px; object-fit:cover; border-radius:18px; border:1px solid rgba(125,211,252,.28); margin-bottom:1rem;">
+        <div class="info-title">Obby</div>
+        <div class="info-desc">Jalur rintangan, checkpoint, dan finish area.</div>
+      </div>
+
+      <div class="info-card" style="padding:1.2rem; text-align:left; align-items:stretch;">
+        <img src="https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/3/b/4/3b4abae0af1e88c52191ef5e1a157d3b4bf094d6.jpeg" 
+             alt="Contoh Collecting Game Roblox" 
+             style="width:100%; height:190px; object-fit:cover; border-radius:18px; border:1px solid rgba(125,211,252,.28); margin-bottom:1rem;">
+        <div class="info-title">Collecting Game</div>
+        <div class="info-desc">Pemain mencari item, membawa ke goal, lalu mendapat score.</div>
+      </div>
+
+      <div class="info-card" style="padding:1.2rem; text-align:left; align-items:stretch;">
+        <img src="https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/optimized/4X/b/1/4/b142030d45663dcda62a3f8611767b7b902de262_2_690x331.png" 
+             alt="Contoh City Map Roblox" 
+             style="width:100%; height:190px; object-fit:cover; border-radius:18px; border:1px solid rgba(125,211,252,.28); margin-bottom:1rem;">
+        <div class="info-title">City / School Map</div>
+        <div class="info-desc">Dunia 3D seperti sekolah, kantin, taman, atau kota kecil.</div>
+      </div>
+
+      <div class="info-card" style="padding:1.2rem; text-align:left; align-items:stretch;">
+        <img src="https://i.ytimg.com/vi/OPz8X_ovQ0Q/maxresdefault.jpg" 
+             alt="Contoh Quiz Game Roblox" 
+             style="width:100%; height:190px; object-fit:cover; border-radius:18px; border:1px solid rgba(125,211,252,.28); margin-bottom:1rem;">
+        <div class="info-title">Quiz Area</div>
+        <div class="info-desc">Pemain memilih jawaban atau melewati gerbang yang tepat.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- S11: WIREFRAME LEVEL DESIGN -->
+  <section class="slide" data-slide="11">
+    <div class="isplit" style="max-width:1100px; margin:auto; align-items:center; grid-template-columns:1.05fr .95fr;">
+      <div>
+        <span class="ihl" style="font-size:2.55rem;">Roblox Wireframe: Level Design Plan</span>
+        <p class="itext" style="margin:1rem 0 1.4rem 0; font-size:1.4rem; line-height:1.6;">Wireframe adalah rancangan awal sebelum kita membangun. Kalau di Roblox, wireframe membantu kita menentukan posisi area, item, tantangan, dan tujuan pemain di dunia 3D.</p>
+        <div class="box" style="text-align:left; padding:1.7rem; font-size:1.25rem;">
+          <p style="color:#e0f2fe !important; font-weight:900; margin-bottom:.8rem;">Level Design Plan harus menjawab:</p>
+          <ul style="margin-left:1.5rem; line-height:1.9; font-weight:800; color:var(--muted);">
+            <li><strong style="color:#bae6fd;">Start Area:</strong> pemain mulai dari mana?</li>
+            <li><strong style="color:#bae6fd;">Item Area:</strong> item sehat/target diletakkan di mana?</li>
+            <li><strong style="color:#bae6fd;">Challenge Area:</strong> apa yang harus dilewati atau dihindari?</li>
+            <li><strong style="color:#bae6fd;">Goal Area:</strong> item harus dibawa ke mana?</li>
+            <li><strong style="color:#bae6fd;">Win Condition:</strong> kapan pemain berhasil?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dark-panel" style="text-align:center;">
+        <h3 style="font-size:1.8rem; color:var(--pd); margin-bottom:1rem;">Ilustrasi Wireframe Game</h3>
+        <div style="position:relative; min-height:420px; border-radius:26px; background:rgba(15,23,42,.85); border:2px solid rgba(125,211,252,.35); overflow:hidden;">
+          <div style="position:absolute; left:7%; top:38%; width:28%; height:26%; border-radius:20px; background:rgba(34,211,238,.18); border:2px solid rgba(34,211,238,.55); display:flex; align-items:center; justify-content:center; font-weight:900;">START</div>
+          <div style="position:absolute; left:38%; top:18%; width:24%; height:24%; border-radius:20px; background:rgba(250,204,21,.18); border:2px solid rgba(250,204,21,.55); display:flex; align-items:center; justify-content:center; font-weight:900;">ITEM</div>
+          <div style="position:absolute; left:38%; bottom:12%; width:24%; height:22%; border-radius:20px; background:rgba(251,146,60,.18); border:2px solid rgba(251,146,60,.55); display:flex; align-items:center; justify-content:center; font-weight:900;">CHALLENGE</div>
+          <div style="position:absolute; right:7%; top:38%; width:28%; height:26%; border-radius:20px; background:rgba(52,211,153,.18); border:2px solid rgba(52,211,153,.55); display:flex; align-items:center; justify-content:center; font-weight:900;">GOAL</div>
+          <div style="position:absolute; left:31%; top:49%; right:31%; height:8px; border-radius:999px; background:linear-gradient(90deg,var(--p),var(--g),var(--grn));"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- S12: LEVEL DESIGN TEMPLATE -->
+  <section class="slide" data-slide="12">
+    <div class="cz">
+      <h2 class="story-title">Isi Level Design Plan-mu</h2>
+      <p class="itext" style="max-width:850px; margin:0 auto 1.2rem auto;">Gunakan jawaban dari persona card untuk merancang dunia Roblox-mu.</p>
+      <div class="field-grid" style="max-width:1050px; margin:auto;">
+        <div class="field-card"><strong>Judul game</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Misi pemain</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Start Area</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Item Area</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Challenge Area</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Goal / Bucket Area</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Item yang dikumpulkan</strong><div class="field-line"></div></div>
+        <div class="field-card"><strong>Win condition</strong><div class="field-line"></div></div>
+      </div>
+      <div class="flow-line"><div class="flow-chip">Start</div><div class="process-arrow">➔</div><div class="flow-chip">Find Item</div><div class="process-arrow">➔</div><div class="flow-chip">Collect</div><div class="process-arrow">➔</div><div class="flow-chip">Drop</div><div class="process-arrow">➔</div><div class="flow-chip">Win</div></div>
+    </div>
+  </section>
+
+
+  <!-- S14: FIRST ROBLOX SETUP -->
+  <section class="slide" data-slide="14">
+    <div class="cz">
+      <h2 class="story-title">First Roblox Setup</h2>
+      <p class="itext" style="max-width:850px; margin:0 auto 1.2rem auto;">Hari ini kita belum membuat semua bagian game. Kita mulai dari mengenal tempat kerja dan mencoba mengatur objek sederhana.</p>
+      <div class="process-row" style="max-width:1080px; margin:auto; flex-wrap:wrap;">
+        <div class="process-step"><div class="info-icon">🎮</div><div class="info-title">1. Open Studio</div><div class="info-desc">Buka Roblox Studio dan login.</div></div>
+        <div class="process-arrow">➔</div>
+        <div class="process-step"><div class="info-icon">🧱</div><div class="info-title">2. Baseplate</div><div class="info-desc">Buat project baru dari Baseplate.</div></div>
+        <div class="process-arrow">➔</div>
+        <div class="process-step"><div class="info-icon">🏷️</div><div class="info-title">3. Rename</div><div class="info-desc">Simpan nama project sesuai misi.</div></div>
+        <div class="process-arrow">➔</div>
+        <div class="process-step"><div class="info-icon">🔁</div><div class="info-title">4. Try Tools</div><div class="info-desc">Coba Move, Scale, Rotate, dan Play.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S15: CHECKPOINT -->
+  <section class="slide" data-slide="15">
+    <div class="cz">
+      <h2 class="story-title">Day 1 Checkpoint ✅</h2>
+      <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Sebelum selesai, pastikan semua persiapan dasar sudah siap untuk Day 2.</p>
+      <div class="checklist-grid" style="max-width:1080px; margin:auto;">
+        <div class="check-item">✅ Pretest selesai</div>
+        <div class="check-item">✅ Sudah roll persona card</div>
+        <div class="check-item">✅ Paham masalah persona</div>
+        <div class="check-item">✅ Melihat contoh collecting game</div>
+        <div class="check-item">✅ Login Roblox Studio</div>
+        <div class="check-item">✅ Mengenal editor Studio</div>
+        <div class="check-item">✅ Level Design Plan terisi</div>
+        <div class="check-item">✅ Referensi item terkumpul</div>
+        <div class="check-item">✅ Project awal dibuat</div>
+      </div>
+      <div class="box" style="max-width:900px; margin:1.5rem auto 0; text-align:left;">
+        <strong style="color:var(--g);">Exit Ticket:</strong><br>
+        Game saya akan membantu pemain belajar tentang ________. Item utama yang akan saya buat adalah ________. Area tujuan item saya adalah ________.
+      </div>
+    </div>
+  </section>
+
+  </main>
+  
+  <footer class="controls">
+    <button class="btn btn-p" id="prevBtn">← Kembali</button>
+    <div class="pag" id="pagination"></div>
+    <button class="btn btn-n" id="nextBtn">Lanjut →</button>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const startBtn = document.getElementById("startBtn");
+  const pagination = document.getElementById("pagination");
+  let cur = 0;
+  
+  function createPag(){
+    slides.forEach((_,i) => {
+      const d = document.createElement("button");
+      d.className = "dot"; d.title = `Slide ${i+1}`;
+      d.addEventListener("click", () => goTo(i));
+      pagination.appendChild(d);
+    });
+  }
+  
+  function updatePag(){
+    pagination.querySelectorAll(".dot").forEach((d,i) => d.classList.toggle("active", i === cur));
+  }
+  
+  function goTo(i){
+    if(i < 0) i = 0; 
+    if(i >= slides.length) i = slides.length - 1;
+    slides.forEach(s => {
+      s.classList.remove("active");
+      s.style.transform = "translateY(50px) scale(.95)";
+    });
+    cur = i;
+    setTimeout(() => {
+      slides[cur].classList.add("active");
+      slides[cur].style.transform = "translateY(0) scale(1)";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
+    updatePag();
+  }
+  
+  createPag(); 
+  updatePag();
+  
+  prevBtn.addEventListener("click", () => goTo(cur - 1));
+  nextBtn.addEventListener("click", () => goTo(cur + 1));
+  if(startBtn) startBtn.addEventListener("click", () => goTo(1));
+  
+  window.addEventListener("keydown", e => {
+    if(e.key === "ArrowRight") goTo(cur + 1);
+    if(e.key === "ArrowLeft") goTo(cur - 1);
+  });
+
+  // Parallax Effect for Background Layers
+  const parallaxLayers = document.querySelectorAll('.parallax');
+  let mouseX = 0;
+  let mouseY = 0;
+  let targetX = 0;
+  let targetY = 0;
+  
+  function animate() {
+      mouseX += (targetX - mouseX) * 0.1;
+      mouseY += (targetY - mouseY) * 0.1;
+      
+      parallaxLayers.forEach(layer => {
+          const depth = parseFloat(layer.getAttribute('data-depth'));
+          const moveX = mouseX * depth * -100;
+          const moveY = mouseY * depth * -100;
+          layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+      });
+      requestAnimationFrame(animate);
+  }
+  
+  if (window.matchMedia("(min-width: 640px)").matches) {
+      animate();
+      window.addEventListener('mousemove', (e) => {
+          targetX = (e.clientX / window.innerWidth) * 2 - 1;
+          targetY = (e.clientY / window.innerHeight) * 2 - 1;
+      });
+      window.addEventListener('mouseleave', () => {
+          targetX = 0;
+          targetY = 0;
+      });
+  }
+
+  // Game Tebak Logo Logic
+  const logos = [
+    { src: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg', name: 'WhatsApp' },
+    { src: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg', name: 'YouTube' },
+    { src: 'https://lelogama.go-jek.com/cms_editor/2021/05/28/info-gojek-2.png', name: 'Gojek' },
+    { src: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', name: 'TikTok' },
+    { src: 'https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg', name: 'Roblox' },
+    { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSvZxedWxYBQ8Hme4IKXPAuOzK6lu4xSJ8Q&s', name: 'Duolingo' }
+  ];
+  let curLogo = 0;
+  const imgLogo = document.getElementById("guessLogoImg");
+  const overlayLogo = document.getElementById("guessLogoOverlay");
+  const qText = document.getElementById("guessLogoQuestion");
+  const aText = document.getElementById("guessLogoAnswer");
+  const btnReveal = document.getElementById("btnRevealLogo");
+  const btnNextLogo = document.getElementById("btnNextLogo");
+  const logoCounter = document.getElementById("guessLogoCounter");
+
+  if (btnReveal) {
+    function loadLogo() {
+      imgLogo.src = logos[curLogo].src;
+      imgLogo.style.filter = "blur(6px) grayscale(50%) brightness(0.8)";
+      overlayLogo.style.display = "flex";
+      qText.style.display = "block";
+      aText.style.display = "none";
+      aText.innerText = logos[curLogo].name;
+      btnReveal.style.display = "inline-block";
+      btnNextLogo.style.display = "none";
+      logoCounter.innerText = curLogo + 1;
+    }
+
+    btnReveal.addEventListener("click", () => {
+      imgLogo.style.filter = "blur(0px) contrast(1) brightness(1)";
+      overlayLogo.style.display = "none";
+      qText.style.display = "none";
+      aText.style.display = "block";
+      btnReveal.style.display = "none";
+      if (curLogo < logos.length - 1) {
+        btnNextLogo.style.display = "inline-block";
+      }
+    });
+
+    btnNextLogo.addEventListener("click", () => {
+      if (curLogo < logos.length - 1) {
+        curLogo++;
+        loadLogo();
+      }
+    });
+    
+    loadLogo();
+  }
+
+})();
+</script>
+</body>
+</html>
