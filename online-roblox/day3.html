@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Roblox Codepreneur - Day 3 Scripting</title>
+<link rel="icon" type="image/png" href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p: #00B4D8; --pd: #0284c7; --g: #FFB703; --o: #FB8500; --grn: #10b981;
+  --card: rgba(255, 255, 255, 0.65); --txt: #1e293b; --muted: #64748b;
+  --r: 32px; --sh: 0 25px 50px -12px rgba(0,0,0,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  font-family: "Nunito", sans-serif; 
+  background-color: #79d0fd;
+  background-attachment: fixed;
+  color: var(--txt); 
+  min-height: 100vh; 
+  display: flex; 
+  align-items: stretch; 
+  justify-content: center; 
+  padding: 1.5rem; 
+  overflow-x: hidden;
+}
+h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-serif; letter-spacing: .02em; }
+.wrap { max-width: 1200px; width: 100%; margin: auto; display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 10; }
+.lfix { position: fixed; z-index: 20; pointer-events: none; }
+.lfix.l { top: 30px; left: 30px; }
+.lfix.r { top: 30px; right: 30px; }
+
+/* ── STAGE ── */
+.stage { position: fixed; inset: 0; width: 100vw; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; perspective: 1000px; z-index: 0; }
+.layer-container { position: absolute; inset: -60px; pointer-events: none; will-change: transform; transform-style: preserve-3d; }
+.pos-abs { position: absolute; }
+.layer-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.layer-clouds { top: -5%; left: -5%; right: -5%; height: 65%; animation: driftClouds 60s linear infinite; }
+.layer-clouds img { width: 100%; height: 100%; object-fit: contain; object-position: top center; opacity: 0.85; mix-blend-mode: overlay; }
+@keyframes driftClouds { 0% { transform: translateX(0) scale(1.1); } 50% { transform: translateX(2%) scale(1.1); } 100% { transform: translateX(0) scale(1.1); } }
+.layer-skyline { bottom: 10%; left: -2%; right: -2%; width: 104%; }
+.layer-skyline img { width: 100%; height: auto; display: block; opacity: 0.9; }
+.layer-bldg-left { bottom: 8%; left: -2%; width: clamp(150px, 20vw, 300px); animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: bottom left; }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
+.layer-bldg-right { bottom: 8%; right: -2%; width: clamp(150px, 20vw, 300px); animation: slideInRight 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.1s; transform-origin: bottom right; }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
+.layer-ground { bottom: -40px; left: -40px; right: -40px; width: calc(100% + 80px); }
+.layer-ground img { width: 100%; height: auto; display: block; filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.1)); }
+.layer-bush-left { bottom: 6%; left: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.2s; transform-origin: bottom center; }
+.layer-bush-right { bottom: 6%; right: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.3s; transform-origin: bottom center; transform: scaleX(-1); }
+@keyframes popInBush { from { opacity: 0; transform: translateY(50px) scale(0.5); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.deco-code-left { left: 8%; top: 22%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(34, 169, 121, 0.3)); animation: floatDeco 6s ease-in-out infinite; }
+.deco-binary-right { right: 8%; top: 15%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3)); animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate; }
+.deco-code-right { right: 6%; bottom: 28%; width: clamp(60px, 7vw, 100px); filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3)); animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse; }
+@keyframes floatDeco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-25px) rotate(3deg); } }
+
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255, 255, 255, 0.8); margin-top: 1.5rem; transition: transform 0.3s ease; }
+.logo-row { display: flex; align-items: center; gap: 16px; }
+.t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); line-height: 1.2; }
+.t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
+.kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
+
+.frame { position: relative; flex: 1; min-height: 750px; display: block; margin-top: 1rem; width: 100%; }
+.slide { position: absolute; top: 0; left: 0; width: 100%; min-height: 750px; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); }
+.slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
+.slide::-webkit-scrollbar { width: 8px; }
+.slide::-webkit-scrollbar-track { background: transparent; margin: 1rem; }
+.slide::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+.slide-cover { background: rgba(255,255,255,0.85); }
+.cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
+.cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
+.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
+
+.isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
+.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; }
+.cz { position: relative; z-index: 2; width: 100%; text-align: center; }
+.story-title { font-size: 2.8rem; margin-bottom: 1rem; line-height: 1.2; color: var(--pd); font-weight: 800; text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
+.box { font-size: 1.3rem; line-height: 1.6; background: rgba(255,255,255,0.9); padding: 2rem 2.5rem; border-radius: 24px; border: 2px solid var(--p); box-shadow: 0 12px 24px rgba(0,180,216,0.1); color: var(--txt); font-weight: 700; transition: transform 0.3s ease; }
+.box:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,180,216,0.15); }
+.itext { font-size: 1.3rem; line-height: 1.6; font-weight: 600; color: var(--muted); }
+
+.bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-top: 1rem; width: 100%; }
+.info-card { background: #ffffff; padding: 1.5rem; border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); border: 2px solid #e2e8f0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; transition: transform 0.3s; }
+.info-card:hover { transform: translateY(-8px); border-color: var(--p); }
+.info-icon { font-size: 3.5rem; margin-bottom: 0.5rem; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1)); }
+.info-title { font-size: 1.3rem; font-weight: 800; color: var(--pd); line-height: 1.2; }
+.info-desc { font-size: 1.05rem; color: #64748b; font-weight: 600; line-height: 1.5; }
+
+.controls { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 1rem 2rem; border-radius: 999px; margin-top: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,.08); border: 1px solid rgba(255,255,255,0.9); }
+.btn { cursor: pointer; padding: .6rem 1.2rem; font-weight: 700; border: none; border-radius: 12px; font-size: 1.1rem; transition: all .2s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: .8rem; }
+.btn-p { background: #f1f5f9; color: #475569; box-shadow: 0 4px 0 #cbd5e1; }
+.btn-p:hover { background: #e2e8f0; transform: translateY(-2px); box-shadow: 0 6px 0 #94a3b8; }
+.btn-n { background: linear-gradient(135deg, var(--g), #f59e0b); color: #fff; box-shadow: 0 6px 0 #b45309; text-shadow: 1px 1px 0 rgba(0,0,0,0.2); }
+.btn-n:hover { background: linear-gradient(135deg, #f59e0b, #ea580c); transform: translateY(-2px); box-shadow: 0 8px 0 #9a3412; }
+.pag { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0.6rem 1.2rem; background: rgba(0,0,0,0.03); border-radius: 30px; }
+.dot { width: 12px; height: 12px; background: rgba(0,0,0,0.15); border-radius: 10px; cursor: pointer; transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1); border: none; }
+.dot.active { width: 36px; background: linear-gradient(135deg, var(--p), var(--pd)); box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4); transform: scale(1.1); }
+
+/* ══════════════════════════════════════
+   ROBLOX DARK MODE OVERRIDE
+══════════════════════════════════════ */
+:root {
+  --p: #22d3ee; --pd: #38bdf8; --g: #facc15; --o: #fb923c; --grn: #34d399;
+  --violet: #a78bfa; --card: rgba(15, 23, 42, 0.88); --txt: #e5f3ff; --muted: #a8b8cc;
+  --sh: 0 25px 60px -18px rgba(0,0,0,0.65), 0 0 35px rgba(34,211,238,0.08);
+}
+body { background: #020617; color: var(--txt); }
+.stage { filter: brightness(.45) saturate(1.25) hue-rotate(178deg); opacity: .75; }
+.stage::after { content:""; position:fixed; inset:0; background: linear-gradient(180deg, rgba(2,6,23,.38), rgba(2,6,23,.88)); pointer-events:none; }
+.topbar, .controls { background: rgba(15, 23, 42, .86); border: 1px solid rgba(125, 211, 252, .25); box-shadow: 0 14px 35px rgba(0,0,0,.35); }
+.t-main, .story-title, .info-title { color: var(--pd); }
+.t-sub, .itext, .info-desc { color: var(--muted); }
+.kbd { background: linear-gradient(135deg, var(--p), var(--violet)); box-shadow: 0 4px 0 rgba(12,74,110,.9); }
+.slide, .slide-cover { background: linear-gradient(145deg, rgba(15,23,42,.92), rgba(15,23,42,.78)); border: 1px solid rgba(125, 211, 252, .26); color: var(--txt); }
+.box, .info-card { background: rgba(30, 41, 59, .9) !important; color: var(--txt) !important; border-color: rgba(125, 211, 252, .25) !important; box-shadow: 0 14px 28px rgba(0,0,0,.28) !important; }
+.info-card:hover, .box:hover { border-color: var(--p) !important; box-shadow: 0 18px 34px rgba(0,0,0,.42), 0 0 24px rgba(34,211,238,.16) !important; }
+.info-desc, .itext, .box p { color: var(--muted) !important; }
+.cov-h { color: #e0f2fe; text-shadow: 0 0 30px rgba(34,211,238,.25) !important; }
+.cov-h span { background: linear-gradient(135deg, #22d3ee, #a78bfa, #facc15); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter:none; }
+.btn-n { background: linear-gradient(135deg, #22d3ee, #6366f1) !important; box-shadow: 0 8px 0 rgba(30,64,175,.88) !important; color: #fff !important; }
+.btn-p { background: rgba(30,41,59,.95); color: #dbeafe; box-shadow: 0 4px 0 rgba(15,23,42,.95); border: 1px solid rgba(125,211,252,.25); }
+.dot { background: rgba(148,163,184,.28); }
+.dot.active { background: linear-gradient(135deg, var(--p), var(--violet)); }
+
+/* Code Snippet Styles */
+.code-wrap { text-align: left; background: #1e1e1e; border: 2px solid rgba(125,211,252,.35); border-radius: 20px; box-shadow: 0 16px 40px rgba(0,0,0,.5); overflow: hidden; margin-top: 1rem; }
+.code-header { background: #2d2d2d; padding: 0.8rem 1.5rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid #444; }
+.code-dot { width: 14px; height: 14px; border-radius: 50%; }
+.cd-r { background: #ff5f56; } .cd-y { background: #ffbd2e; } .cd-g { background: #27c93f; }
+.code-title { color: #d4d4d4; font-family: 'Consolas', monospace; font-weight: bold; font-size: 1.1rem; margin-left: 1rem; }
+.code-body { padding: 1.5rem; overflow-x: auto; font-family: 'Consolas', 'Courier New', monospace; font-size: 1.25rem; line-height: 1.6; color: #d4d4d4; white-space: pre; }
+.kw { color: #c586c0; font-weight: bold; } /* keyword pink/purple */
+.fn { color: #dcdcaa; } /* function yellow */
+.st { color: #ce9178; } /* string orange */
+.op { color: #d4d4d4; } /* operator */
+.nm { color: #b5cea8; } /* number green */
+.cm { color: #6a9955; font-style: italic; } /* comment */
+.vr { color: #9cdcfe; } /* variable blue */
+.tb { color: #4ec9b0; } /* class/table teal */
+
+.slide { justify-content: center; align-items: center; overflow-y: auto; }
+.slide .cz { min-height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; }
+.mission-badge { display:inline-flex; align-items:center; gap:.6rem; padding:.55rem 1rem; border-radius:999px; background:rgba(34,211,238,.12); color:#bae6fd; border:1px solid rgba(125,211,252,.35); font-weight:900; letter-spacing:.02em; }
+.hero-chip-row { display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin:1.2rem auto; }
+.hero-chip { background:rgba(30,41,59,.9); color:#e0f2fe; padding:.8rem 1.1rem; border:1px solid rgba(125,211,252,.25); border-radius:999px; font-weight:800; box-shadow:0 8px 20px rgba(0,0,0,.22); }
+.big-note { font-size: 1.45rem; font-weight: 800; line-height: 1.45; color: #bae6fd; }
+.highlight { color: var(--grn); font-weight: 900; }
+.highlight-o { color: var(--o); font-weight: 900; }
+</style>
+</head>
+<body>
+
+<!-- High-Resolution Top Logos -->
+<div class="lfix" style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
+  <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png" style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="Kalananti Logo">
+  <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/94907efd-30d9-49af-8e62-aa4aee51ad33.png" style="height: 60px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="RGC Logo">
+</div>
+
+<!-- 3D Scene Background -->
+<div class="stage" aria-hidden="true">
+    <div class="layer-container parallax" data-depth="0.0">
+        <div class="layer-bg pos-abs" style="inset:0;"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png" alt=""></div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.02">
+        <div class="layer-clouds pos-abs"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png" alt=""></div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.05">
+        <div class="layer-skyline pos-abs"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png" alt=""></div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.08">
+        <img class="layer-bldg-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png" alt="">
+        <img class="layer-bldg-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png" alt="">
+    </div>
+    <div class="layer-container parallax" data-depth="0.12">
+        <div class="layer-ground pos-abs"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png" alt=""></div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.25">
+        <img class="deco-code-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png" alt="">
+        <img class="deco-binary-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png" alt="">
+        <img class="deco-code-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png" alt="">
+    </div>
+</div>
+
+<div class="wrap">
+  <header class="topbar">
+    <div class="logo-row">
+      <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png" style="height: 72px; width: 72px; object-fit:contain; filter: invert(1) drop-shadow(0 4px 12px rgba(34,211,238,0.25)); margin-right: 14px;" alt="Roblox Logo">
+      <div style="display:flex; flex-direction:column; justify-content:center;">
+        <div class="t-main" style="font-size:1.8rem;">🎮 Roblox Codepreneur</div>
+        <div class="t-sub" style="font-size:1.1rem;">Hari ke-3: Scripting & Logic Game</div>
+      </div>
+    </div>
+    <div><span class="t-sub">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
+  </header>
+  
+  <main class="frame">
+
+  <!-- S0: COVER -->
+  <section class="slide slide-cover active" data-slide="0" style="padding-top: 1rem;">
+    <div class="cov-inner" style="display:flex; flex-direction:column; justify-content:center; text-align:center;">
+      <div style="margin-bottom: 0.5rem; z-index: 5;">
+        <div class="mission-badge">DAY 3 • ONLINE CLASS</div>
+        <h1 class="cov-h" style="font-size: 4.4rem; margin: 1rem 0;">Roblox <span>Scripting</span></h1>
+        <p class="desc" style="font-size: 1.45rem; max-width: 860px; margin: 0 auto 1.5rem auto;">Hari ini kita akan memberikan "otak" pada layout kita dengan menambahkan kode program (Script) agar gamenya bisa dimainkan.</p>
+        <div class="hero-chip-row">
+          <div class="hero-chip">📜 Leaderboard</div>
+          <div class="hero-chip">✋ Pick Up Logic</div>
+          <div class="hero-chip">🪣 Sorting System</div>
+        </div>
+        <button class="btn btn-n" id="startBtn" style="font-size: 1.5rem; padding: 1rem 3rem; margin-top:1rem;">Mulai Ngoding!</button>
+      </div>
+      <div class="hero-img" style="position:relative; display:flex; justify-content:center; align-items:flex-end; gap: 1rem; height: 310px; width:100%; margin-top: -10px;">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/eb42c311-4643-4da2-b19b-b8c4d6345a08.png" style="position:absolute; bottom: -70px; left:-5%; width:110%; height:150%; z-index:0; opacity:0.25; object-fit: cover; filter:hue-rotate(180deg) saturate(1.4);" alt="Wave Background">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/94219915-9f28-4712-a6dc-44a26382e77d.png" alt="Karakter 1" style="height: 85%; z-index: 1; filter: drop-shadow(0 18px 30px rgba(0,0,0,0.45));">
+      </div>
+    </div>
+  </section>
+
+  <!-- S1: TARGET HARI INI -->
+  <section class="slide" data-slide="1">
+    <div class="cz">
+      <h2 class="story-title">Apa yang Kita Buat Hari Ini?</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1.5rem auto;">Kita akan menambahkan <strong style="color:var(--pd);">3 Script Penting</strong> agar game berfungsi sempurna.</p>
+      
+      <div class="bento-grid" style="max-width:1050px; margin:auto; grid-template-columns: repeat(3, 1fr);">
+        <div class="info-card">
+          <div class="info-icon">📊</div><div class="info-title" style="font-size:1.6rem;">1. Leaderboard</div>
+          <div class="info-desc" style="font-size:1.15rem; margin-top:0.5rem;">Menampilkan poin di ujung layar pemain.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🎒</div><div class="info-title" style="font-size:1.6rem;">2. PickUpScript</div>
+          <div class="info-desc" style="font-size:1.15rem; margin-top:0.5rem;">Mencatat siapa yang mengambil item (Tool) ke dalam tas.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🪣</div><div class="info-title" style="font-size:1.6rem;">3. SortingScript</div>
+          <div class="info-desc" style="font-size:1.15rem; margin-top:0.5rem;">Mengecek apakah item ditaruh di tempat (bucket) yang benar.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S2: DIMANA KITA NGODING? -->
+  <section class="slide" data-slide="2">
+    <div class="cz">
+      <h2 class="story-title">Lokasi Script di Roblox Studio</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1.5rem auto;">Setiap script punya tempat khususnya masing-masing di <strong>Explorer</strong>.</p>
+      
+      <div class="twocol" style="max-width:1000px; margin:auto;">
+        <div class="box" style="text-align:left;">
+          <h3 style="color:var(--pd); font-size:1.6rem; margin-bottom:1rem;">⚙️ ServerScriptService</h3>
+          <p style="color:var(--muted); font-size:1.2rem; line-height:1.5;">Tempat menaruh script yang mengatur seluruh jalannya game, seperti skor dan pemain masuk.</p>
+          <div style="margin-top:1rem; padding:0.8rem; background:rgba(0,0,0,0.3); border-radius:12px; font-family:monospace; color:#bae6fd; font-size:1.1rem;">
+            ▶️ Script 1: Leaderboard
+          </div>
+        </div>
+        <div class="box" style="text-align:left;">
+          <h3 style="color:var(--grn); font-size:1.6rem; margin-bottom:1rem;">🌍 Workspace (Dalam Objek)</h3>
+          <p style="color:var(--muted); font-size:1.2rem; line-height:1.5;">Tempat menaruh script di dalam benda secara langsung agar benda itu bisa melakukan sesuatu saat disentuh.</p>
+          <div style="margin-top:1rem; padding:0.8rem; background:rgba(0,0,0,0.3); border-radius:12px; font-family:monospace; color:#bae6fd; font-size:1.1rem;">
+            ▶️ Script 2 & 3: PickUp & Sorting
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3: SCRIPT 1 - LEADERBOARD -->
+  <section class="slide" data-slide="3">
+    <div class="cz">
+      <h2 class="story-title">1. Membuat Leaderboard</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1rem auto;">Pergi ke <strong>ServerScriptService</strong> (di kanan layer Explorer), klik <span class="kbd" style="background:#475569;">+</span> lalu tambahkan <strong>Script</strong>. Ganti namanya jadi <strong style="color:white;">leaderboard</strong>.</p>
+      
+      <div class="code-wrap" style="max-width:950px; margin:auto;">
+        <div class="code-header">
+          <div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div>
+          <div class="code-title">ServerScriptService > leaderboard</div>
+        </div>
+        <div class="code-body"><span class="kw">local</span> <span class="vr">Players</span> <span class="op">=</span> <span class="tb">game</span>:<span class="fn">GetService</span>(<span class="st">"Players"</span>)
+
+<span class="vr">Players</span>.<span class="vr">PlayerAdded</span>:<span class="fn">Connect</span>(<span class="kw">function</span>(<span class="vr">player</span>)
+    <span class="kw">local</span> <span class="vr">leaderstats</span> <span class="op">=</span> <span class="tb">Instance</span>.<span class="fn">new</span>(<span class="st">"Folder"</span>)
+    <span class="vr">leaderstats</span>.<span class="vr">Name</span> <span class="op">=</span> <span class="st">"leaderstats"</span>
+    <span class="vr">leaderstats</span>.<span class="vr">Parent</span> <span class="op">=</span> <span class="vr">player</span>
+
+    <span class="kw">local</span> <span class="vr">items</span> <span class="op">=</span> <span class="tb">Instance</span>.<span class="fn">new</span>(<span class="st">"IntValue"</span>)
+    <span class="vr">items</span>.<span class="vr">Name</span> <span class="op">=</span> <span class="st">"Organic"</span>
+    <span class="vr">items</span>.<span class="vr">Value</span> <span class="op">=</span> <span class="nm">0</span>
+    <span class="vr">items</span>.<span class="vr">Parent</span> <span class="op">=</span> <span class="vr">leaderstats</span>
+    
+    <span class="kw">local</span> <span class="vr">items2</span> <span class="op">=</span> <span class="tb">Instance</span>.<span class="fn">new</span>(<span class="st">"IntValue"</span>)
+    <span class="vr">items2</span>.<span class="vr">Name</span> <span class="op">=</span> <span class="st">"Non Organic"</span>
+    <span class="vr">items2</span>.<span class="vr">Value</span> <span class="op">=</span> <span class="nm">0</span>
+    <span class="vr">items2</span>.<span class="vr">Parent</span> <span class="op">=</span> <span class="vr">leaderstats</span>
+<span class="kw">end</span>)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: PENJELASAN LEADERBOARD -->
+  <section class="slide" data-slide="4">
+    <div class="cz">
+      <h2 class="story-title">Fungsi Leaderboard Script</h2>
+      <div class="box" style="max-width:900px; margin:auto; text-align:left; font-size:1.4rem;">
+        <p style="margin-bottom:1.5rem; color:white !important;">Script ini berfungsi membuat <strong>buku catatan</strong> poin di pojok kanan atas layar setiap ada pemain yang masuk.</p>
+        <p style="margin-bottom:1.5rem; color:#bae6fd !important;">Di dalam script tadi, kita membuat dua jenis skor:</p>
+        <ol style="margin-left:2rem; line-height:1.8; color:#e0f2fe;">
+          <li>Skor untuk item <strong>"Organic"</strong></li>
+          <li>Skor untuk item <strong>"Non Organic"</strong></li>
+        </ol>
+        <div style="margin-top:2rem; padding:1.2rem; background:rgba(245,158,11,0.15); border-left:6px solid var(--o); border-radius:12px;">
+          <strong style="color:var(--o);">PENTING:</strong> Kamu bisa dan HARUS mengubah teks <span class="st">"Organic"</span> dan <span class="st">"Non Organic"</span> di script sesuai dengan kategori barang di game-mu. Misalnya: <span class="st">"Barang Sehat"</span>, <span class="st">"Buku"</span>, dll.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5: SCRIPT 2 - PICKUP -->
+  <section class="slide" data-slide="5">
+    <div class="cz">
+      <h2 class="story-title">2. Membuat Pick Up Script</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1rem auto;">Pilih salah satu item/Tool kamu di Workspace. Tambahkan <strong>Script</strong> di dalam Tool tersebut, beri nama <strong style="color:white;">PickUpScript</strong>.</p>
+      
+      <div class="code-wrap" style="max-width:950px; margin:auto;">
+        <div class="code-header">
+          <div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div>
+          <div class="code-title">Workspace > (Nama Tool Kamu) > PickUpScript</div>
+        </div>
+        <div class="code-body"><span class="kw">local</span> <span class="vr">Players</span> <span class="op">=</span> <span class="tb">game</span>:<span class="fn">GetService</span>(<span class="st">"Players"</span>)
+<span class="kw">local</span> <span class="vr">tool</span> <span class="op">=</span> <span class="kw">script</span>.<span class="vr">Parent</span>
+
+<span class="vr">tool</span>.<span class="vr">Equipped</span>:<span class="fn">Connect</span>(<span class="kw">function</span>()
+    <span class="kw">local</span> <span class="vr">character</span> <span class="op">=</span> <span class="vr">tool</span>.<span class="vr">Parent</span>
+    <span class="kw">local</span> <span class="vr">player</span> <span class="op">=</span> <span class="vr">Players</span>:<span class="fn">GetPlayerFromCharacter</span>(<span class="vr">character</span>)
+
+    <span class="kw">if</span> <span class="vr">player</span> <span class="kw">then</span>
+        <span class="vr">tool</span>:<span class="fn">SetAttribute</span>(<span class="st">"OwnerUserId"</span>, <span class="vr">player</span>.<span class="vr">UserId</span>)
+        <span class="fn">print</span>(<span class="st">"Owner saved:"</span>, <span class="vr">player</span>.<span class="vr">Name</span>, <span class="vr">player</span>.<span class="vr">UserId</span>)
+    <span class="kw">end</span>
+<span class="kw">end</span>)</div>
+      </div>
+      <p class="itext" style="margin-top:1rem; color:var(--g);">*Ingat: Script ini harus di-copy/paste ke dalam SEMUA item yang bisa diambil!</p>
+    </div>
+  </section>
+
+  <!-- S6: PENJELASAN PICKUP -->
+  <section class="slide" data-slide="6">
+    <div class="cz">
+      <h2 class="story-title">Fungsi PickUpScript</h2>
+      <div class="twocol" style="max-width:1050px; margin:auto; align-items:center;">
+        <div class="box" style="padding:3rem; font-size:1.5rem; line-height:1.6; text-align:left;">
+          Script ini menempel pada setiap <strong>Tool</strong> (barang). 
+          <br><br>
+          Ketika pemain menyentuh atau mengambil barang tersebut masuk ke tas, script ini langsung memberikan <strong>tanda pengenal (ID)</strong> pemain pada barang itu.
+          <br><br>
+          <strong style="color:var(--pd);">Tujuannya?</strong> Agar Roblox tahu barang tersebut adalah "milik" pemain yang mana.
+        </div>
+        <div class="info-card" style="padding:3rem; background:rgba(34,211,238,0.1);">
+          <div style="font-size:7rem; margin-bottom:1rem; filter:drop-shadow(0 10px 20px rgba(0,0,0,0.5));">🏷️</div>
+          <h3 style="color:var(--txt); font-size:1.8rem;">Memberi Label Kepemilikan</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7: SCRIPT 3 - SORTING -->
+  <section class="slide" data-slide="7">
+    <div class="cz">
+      <h2 class="story-title">3. Membuat Sorting Script</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1rem auto;">Tambahkan <strong>Script</strong> ke dalam objek <strong>Dropping Place (Part)</strong> kamu, beri nama <strong style="color:white;">SortingScript</strong>.</p>
+      
+      <div class="code-wrap" style="max-width:950px; margin:auto; font-size:1.1rem; max-height: 480px; overflow-y: auto;">
+        <div class="code-header">
+          <div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div>
+          <div class="code-title">Workspace > (Nama Bucket/Part) > SortingScript</div>
+        </div>
+        <div class="code-body"><span class="kw">local</span> <span class="vr">Players</span> <span class="op">=</span> <span class="tb">game</span>:<span class="fn">GetService</span>(<span class="st">"Players"</span>)
+
+<span class="cm">-- UBAH DAFTAR NAMA INI SESUAI NAMA ITEM-MU!</span>
+<span class="kw">local</span> <span class="vr">organicItemList</span> <span class="op">=</span> {<span class="st">"leaf"</span>, <span class="st">"potato"</span>, <span class="st">"banana"</span>}
+
+<span class="kw">script</span>.<span class="vr">Parent</span>.<span class="vr">Touched</span>:<span class="fn">Connect</span>(<span class="kw">function</span>(<span class="vr">object</span>)
+    <span class="kw">local</span> <span class="vr">tool</span> <span class="op">=</span> <span class="vr">object</span>:<span class="fn">FindFirstAncestorOfClass</span>(<span class="st">"Tool"</span>)
+
+    <span class="kw">if</span> <span class="vr">tool</span> <span class="kw">and</span> <span class="tb">table</span>.<span class="fn">find</span>(<span class="vr">organicItemList</span>, <span class="vr">tool</span>.<span class="vr">Name</span>) <span class="kw">then</span>
+        <span class="kw">local</span> <span class="vr">ownerId</span> <span class="op">=</span> <span class="vr">tool</span>:<span class="fn">GetAttribute</span>(<span class="st">"OwnerUserId"</span>)
+        <span class="kw">local</span> <span class="vr">player</span> <span class="op">=</span> <span class="vr">Players</span>:<span class="fn">GetPlayerByUserId</span>(<span class="vr">ownerId</span>)
+
+        <span class="kw">if</span> <span class="vr">player</span> <span class="kw">then</span>
+            <span class="kw">local</span> <span class="vr">leaderstats</span> <span class="op">=</span> <span class="vr">player</span>:<span class="fn">FindFirstChild</span>(<span class="st">"leaderstats"</span>)
+            <span class="kw">local</span> <span class="vr">items</span> <span class="op">=</span> <span class="vr">leaderstats</span> <span class="kw">and</span> <span class="vr">leaderstats</span>:<span class="fn">FindFirstChild</span>(<span class="st">"Organic"</span>)
+
+            <span class="kw">if</span> <span class="vr">items</span> <span class="kw">then</span>
+                <span class="vr">items</span>.<span class="vr">Value</span> <span class="op">+=</span> <span class="nm">1</span>
+            <span class="kw">end</span>
+        <span class="kw">end</span>
+        <span class="vr">tool</span>:<span class="fn">Destroy</span>()
+    <span class="kw">else</span>
+        <span class="kw">if</span> <span class="vr">tool</span> <span class="kw">then</span>
+            <span class="kw">local</span> <span class="vr">ownerId</span> <span class="op">=</span> <span class="vr">tool</span>:<span class="fn">GetAttribute</span>(<span class="st">"OwnerUserId"</span>)
+            <span class="kw">if</span> <span class="vr">ownerId</span> <span class="kw">then</span>
+                <span class="kw">local</span> <span class="vr">player</span> <span class="op">=</span> <span class="vr">Players</span>:<span class="fn">GetPlayerByUserId</span>(<span class="vr">ownerId</span>)
+                <span class="kw">if</span> <span class="vr">player</span> <span class="kw">then</span>
+                    <span class="kw">local</span> <span class="vr">backpack</span> <span class="op">=</span> <span class="vr">player</span>:<span class="fn">FindFirstChild</span>(<span class="st">"Backpack"</span>)
+                    <span class="kw">if</span> <span class="vr">backpack</span> <span class="kw">then</span>
+                        <span class="vr">tool</span>.<span class="vr">Parent</span> <span class="op">=</span> <span class="vr">backpack</span>
+                    <span class="kw">end</span>
+                <span class="kw">end</span>
+            <span class="kw">end</span>
+        <span class="kw">end</span>
+    <span class="kw">end</span>
+<span class="kw">end</span>)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S8: PENJELASAN SORTING -->
+  <section class="slide" data-slide="8">
+    <div class="cz">
+      <h2 class="story-title">Memahami Sorting Script</h2>
+      <p class="itext" style="max-width:900px; margin:0 auto 1.5rem auto;">Ini adalah "juri" yang menentukan apakah pemain memasukkan item ke tempat yang benar.</p>
+      
+      <div class="bento-grid" style="max-width:1050px; margin:auto; grid-template-columns: repeat(2, 1fr);">
+        <div class="box" style="text-align:left;">
+          <h3 style="color:var(--grn); font-size:1.6rem; margin-bottom:1rem;">✅ Jika Item Benar</h3>
+          <p style="font-size:1.2rem; color:#bae6fd !important; line-height:1.5;">Script akan mengecek kecocokan nama item. Jika sesuai, script akan <strong>menambahkan skor</strong> pemain +1, dan langsung menghancurkan item (`tool:Destroy()`) agar tidak menumpuk.</p>
+        </div>
+        <div class="box" style="text-align:left;">
+          <h3 style="color:var(--o); font-size:1.6rem; margin-bottom:1rem;">❌ Jika Item Salah</h3>
+          <p style="font-size:1.2rem; color:#bae6fd !important; line-height:1.5;">Jika pemain menjatuhkan item yang salah ke bucket, item tersebut tidak akan hilang. Script akan <strong>mengembalikan item tersebut secara paksa</strong> ke dalam tas (`Backpack`) pemain.</p>
+        </div>
+      </div>
+
+      <div class="box" style="max-width:1050px; margin:1.5rem auto 0 auto; background:rgba(245,158,11,0.15); border-left:6px solid var(--o); text-align:left;">
+        <strong style="color:var(--o); font-size:1.4rem;">🚨 PENTING: Perhatikan Baris ke-4!</strong><br>
+        <code style="display:inline-block; margin-top:0.5rem; padding:0.5rem; background:#1e1e1e; border-radius:8px; color:#ce9178;">local organicItemList = {"leaf", "potato", "banana"}</code>
+        <p style="margin-top:0.5rem; font-size:1.15rem; color:#e0f2fe !important;">Kata <span style="color:#ce9178;">"leaf"</span>, <span style="color:#ce9178;">"potato"</span>, dan <span style="color:#ce9178;">"banana"</span> <strong>WAJIB</strong> kamu ganti agar sama persis dengan nama-nama item (Tool) yang ada di Workspace-mu. Pastikan huruf besar-kecilnya sama!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S9: PLAYTESTING -->
+  <section class="slide" data-slide="9">
+    <div class="cz">
+      <h2 class="story-title">Saatnya Uji Coba Game! (Playtest)</h2>
+      <div style="font-size:6rem; margin:1rem 0; animation: floatDeco 4s infinite alternate;">▶️</div>
+      <p class="itext" style="max-width:850px; margin:0 auto 1.5rem auto; font-size:1.4rem; color:white;">
+        Klik tombol <strong>Play</strong> di Roblox Studio dan coba mainkan game-mu!
+      </p>
+      
+      <div class="bento-grid" style="max-width:900px; margin:auto; grid-template-columns: repeat(2, 1fr);">
+        <div class="info-card">
+          <div class="info-icon">1️⃣</div>
+          <div class="info-title">Ambil Item</div>
+          <div class="info-desc">Cari dan ambil item, pastikan item masuk ke tas (muncul di bawah layar).</div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">2️⃣</div>
+          <div class="info-title">Drop Item</div>
+          <div class="info-desc">Pegang item, tekan <kbd class="kbd" style="font-size:1.2rem;">Backspace</kbd> tepat di atas Drop Place. Apakah skor bertambah?</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S10: EXIT CHECK -->
+  <section class="slide" data-slide="10">
+    <div class="cz">
+      <h2 class="story-title">Level Up & Exit Check</h2>
+      <div class="bento-grid" style="max-width:1050px; margin:0 auto 2rem auto; grid-template-columns: repeat(3, 1fr);">
+        <div class="num-card" style="border-top:6px solid var(--pd);">
+          <div class="num-title" style="font-size:1.5rem;">📜 Leaderboard</div>
+          <div class="num-desc" style="font-size:1.1rem; margin-top:0.5rem;">Skor muncul di pojok kanan atas?</div>
+        </div>
+        <div class="num-card" style="border-top:6px solid var(--o);">
+          <div class="num-title" style="font-size:1.5rem;">✋ Pick Up</div>
+          <div class="num-desc" style="font-size:1.1rem; margin-top:0.5rem;">Item bisa diambil dan masuk tas?</div>
+        </div>
+        <div class="num-card" style="border-top:6px solid var(--grn);">
+          <div class="num-title" style="font-size:1.5rem;">🪣 Sorting</div>
+          <div class="num-desc" style="font-size:1.1rem; margin-top:0.5rem;">Drop item benar poin nambah? Salah, item balik tas?</div>
+        </div>
+      </div>
+      
+      <div class="box glow-box" style="max-width:900px; margin:auto; border-color:var(--grn) !important;">
+        <h3 style="color:var(--grn); font-size:1.8rem; margin-bottom:1rem;">⭐ Tantangan Level Pro</h3>
+        <p style="font-size:1.3rem; color:white !important; line-height:1.5;">
+          Buatlah <strong>dua buah Dropping Place</strong>! (Contoh: Satu untuk tempat Sampah Organik, satu lagi untuk Anorganik). Pastikan setiap Drop Place memiliki Sorting Script dengan daftar list barang yang berbeda!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  </main>
+  
+  <footer class="controls">
+    <button class="btn btn-p" id="prevBtn">← Kembali</button>
+    <div class="pag" id="pagination"></div>
+    <button class="btn btn-n" id="nextBtn">Lanjut →</button>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const startBtn = document.getElementById("startBtn");
+  const pagination = document.getElementById("pagination");
+  let cur = 0;
+  
+  function createPag(){
+    slides.forEach((_,i) => {
+      const d = document.createElement("button");
+      d.className = "dot"; d.title = `Slide ${i+1}`;
+      d.addEventListener("click", () => goTo(i));
+      pagination.appendChild(d);
+    });
+  }
+  
+  function updatePag(){
+    pagination.querySelectorAll(".dot").forEach((d,i) => d.classList.toggle("active", i === cur));
+  }
+  
+  function goTo(i){
+    if(i < 0) i = 0; 
+    if(i >= slides.length) i = slides.length - 1;
+    slides.forEach(s => {
+      s.classList.remove("active");
+      s.style.transform = "translateY(50px) scale(.95)";
+    });
+    cur = i;
+    setTimeout(() => {
+      slides[cur].classList.add("active");
+      slides[cur].style.transform = "translateY(0) scale(1)";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
+    updatePag();
+  }
+  
+  createPag(); 
+  updatePag();
+  
+  prevBtn.addEventListener("click", () => goTo(cur - 1));
+  nextBtn.addEventListener("click", () => goTo(cur + 1));
+  if(startBtn) startBtn.addEventListener("click", () => goTo(1));
+  
+  window.addEventListener("keydown", e => {
+    if(e.key === "ArrowRight") goTo(cur + 1);
+    if(e.key === "ArrowLeft") goTo(cur - 1);
+  });
+
+  // Parallax Effect
+  const parallaxLayers = document.querySelectorAll('.parallax');
+  let mouseX = 0; let mouseY = 0; let targetX = 0; let targetY = 0;
+  
+  function animate() {
+      mouseX += (targetX - mouseX) * 0.1;
+      mouseY += (targetY - mouseY) * 0.1;
+      parallaxLayers.forEach(layer => {
+          const depth = parseFloat(layer.getAttribute('data-depth'));
+          const moveX = mouseX * depth * -100;
+          const moveY = mouseY * depth * -100;
+          layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+      });
+      requestAnimationFrame(animate);
+  }
+  
+  if (window.matchMedia("(min-width: 640px)").matches) {
+      animate();
+      window.addEventListener('mousemove', (e) => {
+          targetX = (e.clientX / window.innerWidth) * 2 - 1;
+          targetY = (e.clientY / window.innerHeight) * 2 - 1;
+      });
+      window.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; });
+  }
+})();
+</script>
+</body>
+</html>
