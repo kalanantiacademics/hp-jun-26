@@ -1,1193 +1,2348 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<title>Scratch Codepreneur - Day 1 Online</title>
-<link rel="icon" type="image/png" href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  --p: #00B4D8; --pd: #0284c7; --g: #FFB703; --o: #FB8500; --grn: #10b981;
-  --card: rgba(255, 255, 255, 0.65); --txt: #1e293b; --muted: #64748b;
-  --r: 32px; --sh: 0 25px 50px -12px rgba(0,0,0,0.15);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-  font-family: "Nunito", sans-serif; 
-  background-color: #79d0fd;
-  background-attachment: fixed;
-  color: var(--txt); 
-  min-height: 100vh; 
-  display: flex; 
-  align-items: stretch; 
-  justify-content: center; 
-  padding: 1.5rem; 
-  overflow-x: hidden;
-}
-h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-serif; letter-spacing: .02em; }
-.wrap { max-width: 1200px; width: 100%; margin: auto; display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 10; }
-.lfix { position: fixed; z-index: 20; pointer-events: none; }
-.lfix.l { top: 30px; left: 30px; }
-.lfix.r { top: 30px; right: 30px; }
-/* ══════════════════════════════════════
-   STAGE — Full-screen scene container
-══════════════════════════════════════ */
-.stage {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 1000px;
-    z-index: 0;
-}
-.layer-container {
-    position: absolute;
-    inset: -60px; /* Oversized to prevent edges showing during parallax */
-    pointer-events: none;
-    will-change: transform;
-    transform-style: preserve-3d;
-}
-.pos-abs { position: absolute; }
-
-/* ── Layers ──────────── */
-.layer-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.layer-clouds { top: -5%; left: -5%; right: -5%; height: 65%; animation: driftClouds 60s linear infinite; }
-.layer-clouds img { width: 100%; height: 100%; object-fit: contain; object-position: top center; opacity: 0.85; mix-blend-mode: overlay; }
-@keyframes driftClouds { 0% { transform: translateX(0) scale(1.1); } 50% { transform: translateX(2%) scale(1.1); } 100% { transform: translateX(0) scale(1.1); } }
-.layer-skyline { bottom: 10%; left: -2%; right: -2%; width: 104%; }
-.layer-skyline img { width: 100%; height: auto; display: block; opacity: 0.9; }
-.layer-bldg-left { bottom: 8%; left: -2%; width: clamp(150px, 20vw, 300px); animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: bottom left; }
-@keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
-.layer-bldg-right { bottom: 8%; right: -2%; width: clamp(150px, 20vw, 300px); animation: slideInRight 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.1s; transform-origin: bottom right; }
-@keyframes slideInRight { from { opacity: 0; transform: translateX(100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
-.layer-ground { bottom: -40px; left: -40px; right: -40px; width: calc(100% + 80px); }
-.layer-ground img { width: 100%; height: auto; display: block; filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.1)); }
-.layer-bush-left { bottom: 6%; left: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.2s; transform-origin: bottom center; }
-.layer-bush-right { bottom: 6%; right: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.3s; transform-origin: bottom center; transform: scaleX(-1); }
-@keyframes popInBush { from { opacity: 0; transform: translateY(50px) scale(0.5); } to { opacity: 1; transform: translateY(0) scale(1); } }
-.deco-code-left { left: 8%; top: 22%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(34, 169, 121, 0.3)); animation: floatDeco 6s ease-in-out infinite; }
-.deco-binary-right { right: 8%; top: 15%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3)); animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate; }
-.deco-code-right { right: 6%; bottom: 28%; width: clamp(60px, 7vw, 100px); filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3)); animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse; }
-@keyframes floatDeco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-25px) rotate(3deg); } }
-.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255, 255, 255, 0.8); margin-top: 1.5rem; transition: transform 0.3s ease; }
-.topbar:hover { transform: translateY(-2px); }
-.logo-row { display: flex; align-items: center; gap: 16px; }
-.t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
-.t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
-.kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
-.frame { position: relative; flex: 1; min-height: 750px; display: block; margin-top: 1rem; width: 100%; }
-.slide { position: absolute; top: 0; left: 0; width: 100%; min-height: 750px; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); }
-.slide.active { position: relative; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
-/* Custom Scrollbar for Slides */
-.slide::-webkit-scrollbar { width: 8px; }
-.slide::-webkit-scrollbar-track { background: transparent; margin: 1rem; }
-.slide::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
-.slide::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.3); }
-.slide-cover { background: rgba(255,255,255,0.85); }
-.cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
-.cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
-.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
-.slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
-.isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; }
-.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; }
-.cz { position: relative; z-index: 2; width: 100%; text-align: center; }
-.story-title { font-size: 2.8rem; margin-bottom: 1rem; line-height: 1.2; color: var(--pd); font-weight: 800; text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
-.box { font-size: 1.3rem; line-height: 1.6; background: rgba(255,255,255,0.9); padding: 2rem 2.5rem; border-radius: 24px; border: 2px solid var(--p); box-shadow: 0 12px 24px rgba(0,180,216,0.1); color: var(--txt); font-weight: 700; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.box:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,180,216,0.15); }
-.rpg { background: linear-gradient(145deg, #ffffff, #f1f5f9); border: 2px solid #e2e8f0; border-radius: 24px; padding: 2.5rem; text-align: center; max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,.05); }
-.ihl { color: var(--o); font-weight: 800; font-size: 2rem; display: block; margin-bottom: 1rem; font-family: "Fredoka", sans-serif; }
-.itext { font-size: 1.3rem; line-height: 1.6; font-weight: 600; color: var(--muted); }
-.pill-list { display: flex; flex-direction: column; gap: 1.2rem; }
-.pill { display: flex; align-items: center; gap: 1.5rem; padding: 1.2rem 1.8rem; border-radius: 24px; background: #ffffff; border: 1px solid #e2e8f0; transition: all .3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 1.2rem; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,.03); }
-.pill:hover { transform: translateX(12px) scale(1.02); border-color: var(--p); background: #f0f9ff; box-shadow: 0 8px 20px rgba(0,180,216,.1); }
-.pill-idx { min-width: 44px; height: 44px; background: linear-gradient(135deg, var(--p), var(--pd)); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 1.3rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,119,182,0.3); }
-
-/* New Layout CSS */
-.bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-top: 1rem; width: 100%; }
-.info-card { background: #ffffff; padding: 1.5rem; border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); border: 2px solid #e2e8f0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
-.info-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,180,216,0.12); border-color: var(--p); }
-.info-icon { font-size: 3.5rem; margin-bottom: 0.5rem; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
-.info-card:hover .info-icon { transform: scale(1.1) rotate(5deg); }
-.info-title { font-size: 1.3rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
-.info-desc { font-size: 1.05rem; color: #64748b; font-weight: 600; line-height: 1.5; }
-
-.process-row { display: flex; align-items: stretch; justify-content: space-between; gap: 1rem; width: 100%; margin-top: 1rem; flex-wrap: wrap; }
-.process-step { background: #fff; border: 3px solid #e2e8f0; padding: 1.5rem 1rem; border-radius: 24px; flex: 1; min-width: 150px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; gap: 0.8rem; position: relative; transition: all 0.3s ease; }
-.process-step:hover { border-color: var(--p); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,180,216,0.15); }
-.process-arrow { font-size: 2.5rem; color: #cbd5e1; display: flex; align-items: center; justify-content: center; font-weight: 900; animation: pulseArrow 2s infinite; }
-@keyframes pulseArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); color: var(--o); } }
-
-.num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; }
-.num-card { background: #ffffff; border-radius: 28px; padding: 2rem; border: 1px solid #e2e8f0; transition: .4s cubic-bezier(.175, .885, .32, 1.275); box-shadow: 0 10px 25px rgba(0,0,0,.04); position: relative; overflow: hidden; }
-.num-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--p), var(--grn)); opacity: 0; transition: opacity 0.3s; }
-.num-card:hover::before { opacity: 1; }
-.num-card:hover { transform: translateY(-10px); box-shadow: 0 25px 40px rgba(0,0,0,.08); border-color: transparent; }
-.num-lbl { font-size: 3rem; margin-bottom: 1rem; transition: transform 0.3s ease; }
-.num-card:hover .num-lbl { transform: scale(1.1); }
-.num-title { font-weight: 800; color: var(--pd); font-size: 1.4rem; margin-bottom: .6rem; font-family: "Fredoka", sans-serif; }
-.num-desc { font-size: 1.05rem; color: var(--muted); line-height: 1.5; font-weight: 600; }
-.tag-l { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--pd); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
-.tag-o { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--o); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
-.tag-g { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--grn); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
-.ph-box { background: rgba(255,255,255,0.5); backdrop-filter: blur(10px); border: 2px dashed #94a3b8; border-radius: 32px; padding: 4rem; text-align: center; color: #475569; transition: all 0.3s ease; }
-.ph-box:hover { border-color: var(--p); background: rgba(255,255,255,0.8); transform: scale(1.02); }
-.link-box { background: linear-gradient(135deg, #ffffff, #f8fafc); border: 3px solid var(--g); border-radius: 24px; padding: 1.5rem 3rem; display: inline-block; font-size: 2.4rem; font-family: "Fredoka", sans-serif; color: var(--pd); letter-spacing: 2px; margin: 2rem 0; box-shadow: 0 10px 0 var(--g), 0 20px 30px rgba(0,0,0,0.1); font-weight: 800; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
-.link-box:hover { transform: translateY(4px); box-shadow: 0 6px 0 var(--g), 0 10px 20px rgba(0,0,0,0.1); }
-.link-box:active { transform: translateY(10px); box-shadow: 0 0 0 var(--g), 0 5px 10px rgba(0,0,0,0.1); }
-.react-e { font-size: 5rem; cursor: pointer; transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; }
-.react-e:hover { transform: scale(1.3) rotate(15deg); }
-.controls { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 1rem 2rem; border-radius: 999px; margin-top: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,.08); border: 1px solid rgba(255,255,255,0.9); }
-/* New Utilities for Overhaul */
-.grad-text { background: linear-gradient(135deg, var(--p), var(--pd)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
-.grad-text-o { background: linear-gradient(135deg, #f59e0b, #ea580c); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
-.workbook-field { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; }
-.wb-line { border-bottom: 3px dashed #cbd5e1; height: 35px; width: 100%; transition: border-color 0.3s; }
-.wb-line:hover { border-color: var(--p); }
-.glow-box { background: #fff; border: 2px solid transparent; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
-.glow-box:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,180,216,0.15); border-color: var(--p); }
-.pulse-btn { display: inline-block; padding: 1.2rem 3rem; font-size: 2.2rem; font-family: "Fredoka", sans-serif; color: #fff; background: linear-gradient(135deg, var(--o), #ea580c); border-radius: 999px; text-decoration: none; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); animation: pulseBtn 2s infinite; border: 4px solid rgba(255,255,255,0.5); letter-spacing: 2px; transition: transform 0.3s; }
-.pulse-btn:hover { transform: scale(1.05); }
-@keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
-.tag-card { display: flex; gap: 1.5rem; align-items: center; padding: 1.5rem; background: #fff; border-radius: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; }
-.tag-card:hover { transform: translateY(-5px) translateX(5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
-.tag-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; border-radius: 8px 0 0 8px; }
-.tc-blue::before { background: var(--p); } .tc-blue { background: #f0f9ff; }
-.tc-orange::before { background: var(--o); } .tc-orange { background: #fffbeb; }
-.tc-red::before { background: #ef4444; } .tc-red { background: #fef2f2; }
-.tc-green::before { background: #22c55e; } .tc-green { background: #f0fdf4; }
-
-.btn { cursor: pointer; padding: .6rem 1.2rem; font-weight: 700; border: none; border-radius: 12px; font-size: 1.1rem; transition: all .2s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: .8rem; }
-.btn-p { background: #f1f5f9; color: #475569; box-shadow: 0 4px 0 #cbd5e1; }
-.btn-p:hover { background: #e2e8f0; transform: translateY(-2px); box-shadow: 0 6px 0 #94a3b8; }
-.btn-p:active { transform: translateY(4px); box-shadow: 0 0 0 #cbd5e1; }
-.btn-n { background: linear-gradient(135deg, var(--g), #f59e0b); color: #fff; box-shadow: 0 6px 0 #b45309; text-shadow: 1px 1px 0 rgba(0,0,0,0.2); }
-.btn-n:hover { background: linear-gradient(135deg, #f59e0b, #ea580c); transform: translateY(-2px); box-shadow: 0 8px 0 #9a3412; }
-.btn-n:active { transform: translateY(4px); box-shadow: 0 0 0 #b45309; }
-.pag { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0.6rem 1.2rem; background: rgba(0,0,0,0.03); border-radius: 30px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
-.dot { width: 12px; height: 12px; background: rgba(0,0,0,0.15); border-radius: 10px; cursor: pointer; transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1); border: none; }
-.dot:hover { background: rgba(0,0,0,0.3); transform: scale(1.1); }
-.dot.active { width: 36px; background: linear-gradient(135deg, var(--p), var(--pd)); box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4); transform: scale(1.1); }
-.desc { font-size: 1.3rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; font-weight: 600; }
-
-@media(max-width:900px){
-  .sc,.cov-inner,.isplit,.twocol { grid-template-columns: 1fr; padding: 1.5rem; gap: 2rem; }
-  .cov-h { font-size: 3.2rem; }
-  .hero-img { height: auto !important; margin-top: 2rem !important; }
-  .hero-img img { width: 80%; margin: auto; display: block; position: static !important; }
-  .lfix { display: none; } /* Hide fixed logos on small screens */
-}
-</style>
-</head>
-<body>
-
-<!-- High-Resolution Top Logos -->
-<div class="lfix" style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
-  <!-- Kiri: Kalananti -->
-  <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png" style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="Kalananti Logo">
-  
-  <!-- Kanan: RGC Logo -->
-  <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/94907efd-30d9-49af-8e62-aa4aee51ad33.png" style="height: 60px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="RGC Logo">
-</div>
-
-<!-- ── 3D Scene Background ─────────── -->
-<div class="stage" aria-hidden="true">
-    <div class="layer-container parallax" data-depth="0.0">
-        <div class="layer-bg pos-abs" style="inset:0;">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png" alt="">
-        </div>
-    </div>
-    <div class="layer-container parallax" data-depth="0.02">
-        <div class="layer-clouds pos-abs">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png" alt="">
-        </div>
-    </div>
-    <div class="layer-container parallax" data-depth="0.05">
-        <div class="layer-skyline pos-abs">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png" alt="">
-        </div>
-    </div>
-    <div class="layer-container parallax" data-depth="0.08">
-        <img class="layer-bldg-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png" alt="">
-        <img class="layer-bldg-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png" alt="">
-    </div>
-    <div class="layer-container parallax" data-depth="0.12">
-        <div class="layer-ground pos-abs">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png" alt="">
-        </div>
-    </div>
-    <div class="layer-container parallax" data-depth="0.18">
-        <img class="layer-bush-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
-        <img class="layer-bush-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
-    </div>
-    <div class="layer-container parallax" data-depth="0.25">
-        <img class="deco-code-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png" alt="">
-        <img class="deco-binary-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png" alt="">
-        <img class="deco-code-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png" alt="">
-    </div>
-</div>
-
-<div class="wrap">
-  <header class="topbar">
-    <div class="logo-row">
-      <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png" style="height: 90px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); margin-right: 15px;" alt="Scratch Logo">
-      <div style="display:flex; flex-direction:column; justify-content:center;">
-        <div class="t-main" style="font-size:1.8rem;">🚀 Scratch Codepreneur</div>
-        <div class="t-sub" style="font-size:1.1rem;">Hari ke-1: Codepreneur & Wireframe Online</div>
-      </div>
-    </div>
-    <div><span class="t-sub" style="color: #888;">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
-  </header>
-  
-  <main class="frame">
-
-  <!-- S0: COVER -->
-  <section class="slide slide-cover active" data-slide="0" style="padding-top: 1rem;">
-    <div class="cov-inner" style="display:flex; flex-direction:column; justify-content:center; text-align:center;">
-      <div style="margin-bottom: 0.5rem; z-index: 5;">
-        <h1 class="cov-h" style="font-size: 4.5rem; text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom: 1rem;">Scratch <span>Codepreneur</span></h1>
-        <p class="desc" style="font-size: 1.4rem; color: #555; max-width: 820px; margin: 0 auto 1.5rem auto;">Selama 5 hari ini, kita akan belajar membuat app di Scratch. App kita akan membantu masalah user dari Persona Card.</p>
-        <button class="btn btn-n" id="startBtn" style="font-size: 1.5rem; padding: 1rem 3rem;">Mulai Belajar!</button>
-      </div>
-      
-      <div class="hero-img" style="position:relative; display:flex; justify-content:center; align-items:flex-end; gap: 1rem; height: 320px; width:100%; margin-top: -20px;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/eb42c311-4643-4da2-b19b-b8c4d6345a08.png" style="position:absolute; bottom: -60px; left:-5%; width:110%; height:150%; z-index:0; opacity:0.8; object-fit: cover;" alt="Wave Background">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/94219915-9f28-4712-a6dc-44a26382e77d.png" alt="Anak 1" style="height: 85%; z-index: 1; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2256195a-2f18-4e3f-abbd-5db8c82acea4.png" alt="Anak 2" style="height: 100%; z-index: 2; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.3)); margin-bottom: 10px;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2aa26094-08cf-429c-ba80-78fb40454eb1.png" alt="Anak 3" style="height: 90%; z-index: 1; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); transform: scaleX(-1);">
-      </div>
-    </div>
-  </section>
-
-  <!-- S1: Agenda Hari Ini 📅 -->
-  <section class="slide" data-slide="1">
-    <div class="cz">
-      <h2 class="story-title">Agenda Hari Ini 📅</h2>
-      <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Hari ini kita belum coding penuh, tapi kita akan mulai dari ide, kenalan Scratch, dan membuat rancangan app.</p>
-      <div class="bento-grid" style="max-width:1050px; margin:auto;">
-        <div class="info-card">
-          <div class="info-icon">💼</div>
-          <div class="info-title">Codepreneur</div>
-          <div class="info-desc">Mengenal cara berpikir entrepreneur dan coder.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🃏</div>
-          <div class="info-title">Persona Card</div>
-          <div class="info-desc">Mendapatkan karakter, masalah, dan kebutuhan user.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🧠</div>
-          <div class="info-title">Brainstorm</div>
-          <div class="info-desc">Menentukan ide solusi dan isi Guide App.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🐱</div>
-          <div class="info-title">Scratch</div>
-          <div class="info-desc">Masuk Scratch dan mengenal workspace.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">✏️</div>
-          <div class="info-title">Wireframe</div>
-          <div class="info-desc">Membuat rancangan layar app.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide" data-slide="2">
-    <div class="isplit" style="max-width:1000px; margin:auto;">
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/94219915-9f28-4712-a6dc-44a26382e77d.png" alt="Ice Breaker" style="max-height: 450px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
-      </div>
-      <div class="cz" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; gap:1.5rem;">
-        <div class="glow-box" style="width:100%; min-height:350px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; border-color: var(--o); background: #FFF3E0;">
-          <div style="font-size:4rem">🎯</div>
-          <h2 style="color:var(--pd); font-size:2.2rem;">Ice Breaker</h2>
-          <p style="font-size:1.15rem; color:#555; max-width:400px; line-height:1.6; font-weight:600;">Sebelum masuk ke materi, mari kita lakukan aktivitas singkat bersama-sama.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S2A: SIMON SAYS -->
-  <section class="slide" data-slide="2a">
-    <div class="cz">
-      <h2 class="story-title">Ice Breaking: Simon Berkata 🗣️</h2>
-      <div class="twocol" style="max-width:1050px; margin:auto;">
-        <div class="rpg" style="text-align:center; background:#E1F5FE; border-color:var(--p); width: 100%;">
-          <p class="ihl" style="color:var(--pd); text-align:left;">Cara Main:</p>
-          <div class="bento-grid" style="grid-template-columns: repeat(3, 1fr);">
-            <div class="info-card" style="background: #fff;">
-              <div class="info-icon">📸</div>
-              <div class="info-desc">Nyalakan kamera dan dengarkan instruksi Guru</div>
-            </div>
-            <div class="info-card" style="background: #E8F5E9; border-color: #4CAF50;">
-              <div class="info-icon">✅</div>
-              <div class="info-desc">Ikuti gerakan jika ada kata <strong>"Simon Berkata"</strong></div>
-            </div>
-            <div class="info-card" style="background: #FFEBEE; border-color: #F44336;">
-              <div class="info-icon">❌</div>
-              <div class="info-desc">Tetap diam jika <strong>TIDAK ADA</strong> kata Simon</div>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:1.2rem; justify-content:center;">
-          <div class="tag-card tc-green" style="flex-direction:column; align-items:flex-start; gap:0.5rem; padding: 1.2rem;">
-            <p style="font-size:1.1rem; color:#2E7D32; font-weight:800; margin-bottom:0;">Contoh Benar ✅</p>
-            <p style="font-size:1.1rem; font-weight:600; color:#333; line-height:1.4;">"Simon berkata: Pegang hidung!" <br>👉 Kalian memegang hidung.</p>
-          </div>
-          <div class="tag-card tc-red" style="flex-direction:column; align-items:flex-start; gap:0.5rem; padding: 1.2rem;">
-            <p style="font-size:1.1rem; color:#D32F2F; font-weight:800; margin-bottom:0;">Contoh Jebakan ❌</p>
-            <p style="font-size:1.1rem; font-weight:600; color:#333; line-height:1.4;">"Pegang telinga!" <br>👉 Kalian harus <strong>tetap diam</strong> (karena tidak ada "Simon").</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S2B: SIMON SAYS = KOMPUTER -->
-  <section class="slide" data-slide="2b">
-    <div class="isplit" style="max-width:1000px; margin:auto;">
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9ac6bf60-0a30-49e4-bd19-d34fbbb86aaf.png" alt="Berpikir" style="max-height: 350px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
-      </div>
-      <div class="cz" style="text-align: left;">
-        <h2 class="story-title" style="text-align: left; font-size:2.5rem; line-height: 1.3;">Apa Hubungannya dengan Komputer? 💻</h2>
-        <div class="box rpg" style="margin-top:2rem; text-align:center; background:#fff; border-color:var(--g);">
-          <p style="font-size:1.3rem; margin-bottom:1.5rem; color: #444; font-weight:700;">Bermain Simon Berkata itu sama seperti memberikan perintah ke komputer!</p>
-          <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr);">
-            <div class="info-card" style="background:#FFF8E1; border-color:var(--g);">
-              <div class="info-icon">🤖</div>
-              <div class="info-desc">Komputer hanya bergerak kalau <strong>syaratnya terpenuhi</strong> (Instruksi tepat)</div>
-            </div>
-            <div class="info-card" style="background:#FFEBEE; border-color:#F44336;">
-              <div class="info-icon">❓</div>
-              <div class="info-desc">Kalau instruksinya <strong>salah</strong>, komputer diam saja</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- S2E: GAME TEBAK LOGO -->
-  <section class="slide" data-slide="2e">
-    <div class="cz" style="text-align: center;">
-      <h2 class="story-title" style="margin-bottom: 2rem;">Game: Tebak Logo! 🕵️‍♂️</h2>
-      <div class="isplit" style="max-width:1000px; margin:auto; background:#fff; border: 4px solid var(--p); border-radius:30px; padding:3rem; box-shadow:0 15px 30px rgba(0,0,0,0.1);">
-        <!-- Kiri: Logo -->
-        <div style="display:flex; justify-content:center; align-items:center; background:#f1f5f9; border-radius:24px; padding:3rem; height: 300px; position:relative;">
-          <img id="guessLogoImg" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="max-height:180px; max-width:180px; filter: blur(6px) grayscale(50%) brightness(0.8); transition: all 0.5s;" alt="Logo Rahasia">
-          <div id="guessLogoOverlay" style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center; font-size:4rem; color:rgba(0,0,0,0.1);">❓</div>
-        </div>
-        <!-- Kanan: Kontrol -->
-        <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap: 1.5rem;">
-          <h3 id="guessLogoQuestion" style="font-size:2.2rem; color:var(--pd); margin-bottom:1rem;">Logo aplikasi apa ini?</h3>
-          <h2 id="guessLogoAnswer" style="font-size:3rem; color:var(--g); display:none; margin-bottom:1rem;">WhatsApp</h2>
-          <button id="btnRevealLogo" class="pulse-btn" style="font-size:1.4rem; padding: 1rem 2.5rem; border:none; cursor:pointer;">Buka Logo! 👁️</button>
-          <button id="btnNextLogo" class="btn btn-n" style="font-size:1.2rem; padding: 0.8rem 2rem; display:none; background:var(--p); box-shadow: 0 6px 0 #0077B6;">Logo Selanjutnya ➔</button>
-        </div>
-      </div>
-      <p style="margin-top: 1.5rem; color:#666; font-size:1.2rem; font-weight:700;"><span id="guessLogoCounter">1</span> / 6 Logo</p>
-    </div>
-  </section>
-
-  <!-- S2F: BRIDGING TO PROBLEM & SOLUTION -->
-  <section class="slide" data-slide="2f">
-    <div class="isplit" style="max-width:1050px; margin:auto; align-items: center;">
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:#E1F5FE; border-radius:30px; padding:3rem; border:4px solid var(--p);">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSvZxedWxYBQ8Hme4IKXPAuOzK6lu4xSJ8Q&s" alt="Duolingo" style="max-width: 200px; border-radius: 40px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15)); margin-bottom: 2rem;">
-        <h2 style="font-size:2.5rem; color:var(--pd);">Duolingo</h2>
-      </div>
-      <div>
-        <span class="ihl grad-text">Kenapa Aplikasi Dibuat? 🤔</span>
-        <p class="itext" style="margin-bottom:1.5rem;">Mari kita pikirkan tentang aplikasi <strong>Duolingo</strong> (atau aplikasi belajar lainnya).</p>
-        <div class="glow-box" style="border: 3px solid var(--o); text-align:left; background:#fff7ed; padding: 2rem;">
-          <ul style="font-size:1.2rem; color:#444; line-height:1.8; font-weight:700; margin-left: 1.5rem;">
-            <li><span style="color:var(--pd);">Kenapa aplikasi ini dibuat?</span> (Masalah apa yang dialami orang?)</li>
-            <li><span style="color:var(--pd);">Apa fungsi utamanya?</span> (Bagaimana aplikasi ini membantu?)</li>
-            <li><span style="color:var(--pd);">Kenapa kita butuh ini?</span></li>
-          </ul>
-        </div>
-        <p style="margin-top:1.5rem; font-size:1.15rem; color:#D32F2F; font-weight:800;">Setiap aplikasi dibuat untuk menyelesaikan sebuah MASALAH! 💡</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- S3: PRE-TEST INTRO & LINK -->
-  <section class="slide" data-slide="3">
-    <div class="isplit" style="max-width:1100px; margin:auto; grid-template-columns: 0.8fr 1.5fr; gap: 3rem;">
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2256195a-2f18-4e3f-abbd-5db8c82acea4.png" alt="Pre Test" style="max-height: 260px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
-      </div>
-      <div class="cz" style="text-align: left; display: flex; flex-direction: column; gap: 1.5rem;">
-        <h2 class="story-title" style="text-align: left; font-size: 2.8rem;">Cek Pengetahuan Awal</h2>
-        <div class="box rpg" style="text-align:left; background:#fff; border-color:var(--p); padding: 1.5rem 2rem;">
-          <p style="font-size:1.25rem; margin-bottom:0.5rem; color: #444; font-weight:700;">Sebelum mulai, mari kita isi beberapa pertanyaan singkat terlebih dahulu.</p>
-          <p style="color:#666; font-size: 1.1rem; font-weight:600; line-height: 1.5;">Tujuannya hanya untuk melihat pemahaman awal kita. Jangan khawatir, tidak ada jawaban yang salah.</p>
-        </div>
-        <div class="rpg" style="padding:2.5rem; background:#FFF8E1; border-color:var(--o); text-align:center;">
-          <p style="color:var(--pd); margin-bottom:1rem; font-size: 1.3rem; font-weight: 700;">Waktu: <strong style="color:var(--o); font-size: 1.6rem;">10 menit</strong></p>
-          <p style="color:#555; font-size:1.2rem; margin-bottom:1.5rem; font-weight:700;">Ketik link ini di browser:</p>
-          <a href="#" class="pulse-btn" style="margin: 1rem 0; padding: 1.2rem 3rem; font-size: 2.2rem; display: inline-block;">bit.ly/pre-scratch-cp</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S5: APA ITU CODEPRENEUR? -->
-  <section class="slide" data-slide="5">
-    <div class="cz">
-      <h2 class="story-title">Apa itu Codepreneur?</h2>
-      <div class="twocol" style="max-width:960px; margin:1rem auto;">
-        <div class="tag-card tc-blue" style="flex-direction:column; text-align:center; padding:2rem;">
-          <div style="font-size:4rem; margin-bottom:1rem;">👨‍💻</div>
-          <h3 style="color:var(--p); margin-bottom:1rem; font-size:2rem;">Coder</h3>
-          <p style="font-size:1.15rem; color:#555;">Membuat sesuatu yang bermanfaat menggunakan kode program.</p>
-        </div>
-        <div class="tag-card tc-orange" style="flex-direction:column; text-align:center; padding:2rem;">
-          <div style="font-size:4rem; margin-bottom:1rem;">💼</div>
-          <h3 style="color:var(--o); margin-bottom:1rem; font-size:2rem;">Entrepreneur</h3>
-          <p style="font-size:1.15rem; color:#555;">Melihat masalah dan mencari solusi untuk membantu orang lain.</p>
-        </div>
-      </div>
-      <div class="box" style="margin:2rem auto; max-width:850px;">
-        Jadi, <strong style="color:var(--o); font-size: 1.5rem;">Codepreneur</strong> adalah seseorang yang membuat aplikasi untuk menyelesaikan masalah, dan mampu mengenalkan aplikasi tersebut dengan baik.
-      </div>
-    </div>
-  </section>
-
-  <!-- S6: APP SEHARI-HARI -->
-  <section class="slide" data-slide="6">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1rem;">App yang Sering Kita Pakai</h2>
-      <div class="num-grid" style="max-width:1050px; margin:0 auto 1rem auto; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
-        <div class="num-card" style="padding: 1.5rem;"><div class="num-lbl" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU3PVRE_vleIyipQnw-7O8KiVVHHFbNTdCQA&s" style="max-height:100%; max-width:100%; object-fit:contain;" alt="Roblox"></div><div class="num-title" style="font-size: 1.2rem;">Bermain</div><div class="num-desc" style="font-size: 0.95rem;">Roblox, Minecraft</div></div>
-        <div class="num-card" style="padding: 1.5rem;"><div class="num-lbl" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1280px-YouTube_full-color_icon_%282017%29.svg.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="YouTube"></div><div class="num-title" style="font-size: 1.2rem;">Hiburan</div><div class="num-desc" style="font-size: 0.95rem;">YouTube, TikTok</div></div>
-        <div class="num-card" style="padding: 1.5rem;"><div class="num-lbl" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/hs/1%20Homepage%20RG/logo%20ruangguru.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="Ruangguru"></div><div class="num-title" style="font-size: 1.2rem;">Belajar</div><div class="num-desc" style="font-size: 0.95rem;">Ruangguru, Duolingo</div></div>
-        <div class="num-card" style="padding: 1.5rem;"><div class="num-lbl" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img src="https://download.logo.wine/logo/WhatsApp/WhatsApp-Logo.wine.png" style="max-height:100%; max-width:100%; object-fit:contain;" alt="WhatsApp"></div><div class="num-title" style="font-size: 1.2rem;">Komunikasi</div><div class="num-desc" style="font-size: 0.95rem;">WhatsApp, Line</div></div>
-      </div>
-      <div class="box" style="margin: 0.5rem auto 0 auto; max-width:850px; padding: 1.2rem 2rem;">
-        Semua aplikasi ini dibuat untuk membantu aktivitas penggunanya. Hari ini kita akan belajar langkah awal membuat aplikasi kita sendiri.
-      </div>
-    </div>
-  </section>
-
-  <!-- S7: MASALAH → APP -->
-  <section class="slide" data-slide="7">
-    <div class="cz">
-      <h2 class="story-title">Dari Masalah Menjadi App</h2>
-      <div style="max-width:1050px; margin:auto;">
-        <div class="process-row">
-          <div class="process-step">
-            <div class="info-icon">😕</div>
-            <div class="info-title">1. Masalah</div>
-            <div class="info-desc">Sering lupa minum air putih.</div>
-          </div>
-          <div class="process-arrow">➔</div>
-          <div class="process-step">
-            <div class="info-icon">💡</div>
-            <div class="info-title">2. Solusi</div>
-            <div class="info-desc">Membuat pengingat jadwal minum.</div>
-          </div>
-          <div class="process-arrow">➔</div>
-          <div class="process-step">
-            <div class="info-icon">📱</div>
-            <div class="info-title">3. Aplikasi</div>
-            <div class="info-desc">Catat waktu selesai minum di app.</div>
-          </div>
-          <div class="process-arrow">➔</div>
-          <div class="process-step">
-            <div class="info-icon">🌟</div>
-            <div class="info-title">4. Aksi</div>
-            <div class="info-desc">Pakai app agar tidak lupa!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S7.5: ENTREPRENEUR -->
-  <section class="slide" data-slide="7.5">
-    <div class="cz" style="max-width:900px; margin:auto; text-align:center;">
-      <h2 class="story-title" style="margin-bottom:2rem;">Jadi, Entrepreneur Itu Ngapain?</h2>
-      <div class="glow-box" style="background:#FFF3E0; border:4px dashed var(--o); border-radius:30px; padding:3rem;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/06e51629-dc9a-4d81-9bb8-442eb2d04ae2.png" style="width:150px; margin-bottom:1.5rem;" alt="Idea">
-        <p style="font-size:1.5rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">Entrepreneur itu seperti detektif penolong!</p>
-        <p style="font-size:1.2rem; color:#555; line-height:1.6; margin-bottom:1.5rem;">
-          Kita keliling mencari masalah orang lain, kumpulkan ide keren, lalu bikin solusinya.<br>Aplikasi kita harus <strong>membantu</strong> dan <strong>bermanfaat</strong> buat teman-teman!
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- S8: KEGIATAN HARI INI -->
-  <section class="slide" data-slide="8">
-    <div class="cz">
-      <h2 class="story-title">Kegiatan Kita Hari Ini</h2>
-      <div class="num-grid" style="max-width:1000px; margin:1rem auto;">
-        <div class="num-card" style="border-top:5px solid var(--p)"><div class="num-lbl"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9631553e-ff8e-41f1-86c9-72a45ce2057d.png" style="width:55px;" alt="Icon"></div><div class="num-title">Persona Card</div><div class="num-desc">Mendapatkan tema project-mu.</div></div>
-        <div class="num-card" style="border-top:5px solid var(--g)"><div class="num-lbl"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9ac6bf60-0a30-49e4-bd19-d34fbbb86aaf.png" style="width:55px;" alt="Icon"></div><div class="num-title">Brainstorm</div><div class="num-desc">Menentukan pengguna dan masalah.</div></div>
-        <div class="num-card" style="border-top:5px solid var(--o)"><div class="num-lbl"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/fcaf0b42-f901-42b6-8125-1b5feff9e985.png" style="width:55px;" alt="Icon"></div><div class="num-title">Wireframe</div><div class="num-desc">Merancang tampilan layar app.</div></div>
-        <div class="num-card" style="border-top:5px solid var(--grn)"><div class="num-lbl"><img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ac328d9d-db77-4a37-9238-2f4c3a683e3f.png" style="width:55px;" alt="Icon"></div><div class="num-title">Nama & Logo</div><div class="num-desc">Menentukan identitas visual app.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S9: PERSONA CARD APA ITU? -->
-  <section class="slide" data-slide="9">
-    <div class="isplit" style="max-width:1050px; margin:auto;">
-      <div>
-        <span class="ihl">Mengenal Persona Card</span>
-        <p class="itext" style="margin-bottom:1.5rem;">Persona Card memberikan informasi tentang pengguna aplikasi yang akan kita rancang.</p>
-        <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr);">
-          <div class="info-card"><div class="info-icon">👤</div><div class="info-desc">Informasi mengenai <strong>karakter pengguna</strong>.</div></div>
-          <div class="info-card"><div class="info-icon">❗</div><div class="info-desc">Detail mengenai <strong>masalah</strong> yang dihadapi.</div></div>
-          <div class="info-card" style="grid-column: span 2;"><div class="info-icon">💬</div><div class="info-desc">Solusi dan <strong>kebutuhan</strong> pengguna.</div></div>
-        </div>
-      </div>
-      <div style="background:#E1F5FE; border-radius:24px; padding:2.5rem; border:3px solid var(--p); position:relative;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2aa26094-08cf-429c-ba80-78fb40454eb1.png" alt="Persona" style="position:absolute; top:-50px; right:-30px; width:150px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); transform: rotate(5deg);">
-        <p style="font-size:1.2rem; color:var(--pd); font-weight:700; margin-bottom:1.5rem;">Contoh Persona Card:</p>
-        <div style="display:flex; flex-direction:column; gap:1rem;">
-          <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
-            <p style="font-size:1rem; color:#888; font-weight:700;">Karakter Pengguna</p>
-            <p style="font-weight:800; font-size:1.2rem; color:var(--pd);">Rika, Siswa SD</p>
-          </div>
-          <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
-            <p style="font-size:1rem; color:#888; font-weight:700;">Masalah Utama</p>
-            <p style="font-weight:600; font-size:1.1rem; color:#333;">Sering lupa mengecek barang bawaan sebelum berangkat sekolah.</p>
-          </div>
-          <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
-            <p style="font-size:1rem; color:#888; font-weight:700;">Kebutuhan</p>
-            <p style="font-weight:600; font-size:1.1rem; color:#333;">Pengingat sederhana untuk mengecek barangnya satu per satu.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S10: AMBIL PERSONA CARD -->
-  <section class="slide" data-slide="10">
-    <div class="cz" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; gap:2rem;">
-      <h2 class="story-title">Dapatkan Persona Card-mu!</h2>
-      <div class="box glow-box" style="max-width:700px; font-size:1.3rem; text-align:center; border-color:var(--p);">
-        <p style="margin-bottom:1.5rem;">Buka link di bawah ini untuk mendapatkan misi dalam bentuk komik bergambar!</p>
-        <a href="#" class="pulse-btn" id="personaLink" style="font-size: 2rem; display: inline-block; padding: 1.2rem 3rem;">bit.ly/gacha-persona</a>
-      </div>
-      <div style="background:#FFF3E0; border:3px solid var(--o); border-radius:20px; padding:1.5rem 2rem; max-width:600px;">
-        <p style="color:var(--pd); font-size:1.2rem; font-weight:700;">Baca dan pahami cerita di komik tersebut, karena kita akan merancang aplikasi khusus untuk membantu karakter itu.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- S12: Brainstorm: User &amp; Problem -->
-  <section class="slide" data-slide="12">
-    <div class="cz" style="max-width:950px; margin:auto;">
-      <h2 class="story-title">Brainstorm: User & Problem</h2>
-      <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
-        <div style="font-size:4rem; margin-bottom:1rem;">🧠</div>
-        <div style="text-align:left; max-width:800px; margin:auto;"><p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">Tulis idemu:</p><div class="workbook-field"><p style="font-weight:800; color:#444;">App-ku membantu...</p><div class="wb-line"></div><p style="font-weight:800; color:#444; margin-top:1rem;">Masalah yang ingin dibantu...</p><div class="wb-line"></div><div class="wb-line"></div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S13: Brainstorm: Solusi App -->
-  <section class="slide" data-slide="13">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1.5rem;">Brainstorm: Solusi App</h2>
-      <p class="itext" style="max-width:820px; margin:0 auto 2rem auto;">Karena user butuh bantuan memahami pilihan, kali ini kita akan membuat Guide App.</p>
-      <div class="process-row" style="max-width:1050px; margin:auto; flex-wrap:wrap;">
-        <div class="process-step">
-          <div class="info-icon">😕</div>
-          <div class="info-title">Problem</div>
-          <div class="info-desc">User bingung memilih atau memahami sesuatu.</div>
-        </div>
-        <div class="process-arrow">➔</div>
-        <div class="process-step">
-          <div class="info-icon">🧭</div>
-          <div class="info-title">Guide</div>
-          <div class="info-desc">App memberi panduan singkat.</div>
-        </div>
-        <div class="process-arrow">➔</div>
-        <div class="process-step">
-          <div class="info-icon">📱</div>
-          <div class="info-title">Guide App</div>
-          <div class="info-desc">User klik objek lalu membaca info.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S14: Apa itu Guide App? -->
-  <section class="slide" data-slide="14">
-    <div class="isplit" style="max-width:1050px; margin:auto;">
-      <div style="text-align: left; display: flex; flex-direction: column; gap: 1rem;">
-        <h2 class="story-title" style="text-align: left;">Apa itu Guide App?</h2>
-        <p class="itext">Guide App adalah aplikasi sederhana yang membantu user memahami suatu topik. Saat user menekan sebuah item, aplikasi akan menampilkan informasi tentang item tersebut.</p>
-        <div class="box" style="background:#fff7ed; border-color:var(--o); padding:1.5rem; text-align:left;">
-          <p style="color:var(--o); font-weight:800; font-size:1.2rem; margin-bottom:0.5rem;">💡 Cara kerjanya:</p>
-          <ul style="margin-left: 1.5rem; font-size:1.15rem; color:#444;">
-            <li>User melihat berbagai pilihan (misal: jenis sampah).</li>
-            <li>User <strong>mengklik</strong> salah satu item.</li>
-            <li>Aplikasi menampilkan <strong>Information Box</strong> untuk menjelaskan item itu.</li>
-          </ul>
-        </div>
-      </div>
-      <div style="background:#fff; border-radius:24px; padding:1.5rem; border:4px solid var(--p); box-shadow:0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size:1.2rem; color:var(--pd); font-weight:800; margin-bottom:1rem; text-align:center;">Contoh Guide App</p>
-        <div style="width:100%; aspect-ratio:4/3; background:#e2e8f0; border-radius:16px; overflow:hidden;">
-          <iframe src="https://scratch.mit.edu/projects/1330301992/embed" allowtransparency="true" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S15: Contoh Guide App dari Persona -->
-  <section class="slide" data-slide="15">
-    <div class="cz">
-      <h2 class="story-title">Contoh Guide App dari Persona</h2>
-      <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Kalau kartumu tentang bekal, app bisa menjelaskan makanan sehat. Kalau tentang sampah, app bisa menjelaskan organik dan non-organik.</p>
-      <div class="bento-grid" style="max-width:1050px; margin:auto;">
-        <div class="info-card">
-          <div class="info-icon">🥗</div>
-          <div class="info-title">School Lunch</div>
-          <div class="info-desc">App menjelaskan makanan yang lebih sehat.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">♻️</div>
-          <div class="info-title">Trash Guide</div>
-          <div class="info-desc">App menjelaskan organic dan non-organic trash.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">💸</div>
-          <div class="info-title">Needs vs Wants</div>
-          <div class="info-desc">App menjelaskan barang kebutuhan dan keinginan.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S16: Pilih Isi Guide App -->
-  <section class="slide" data-slide="16">
-    <div class="cz" style="max-width:950px; margin:auto;">
-      <h2 class="story-title">Pilih Isi Guide App</h2>
-      <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
-        <div style="font-size:4rem; margin-bottom:1rem;">🧭</div>
-        <p style="font-size:1.25rem; color:#555; margin-bottom:1.5rem;">Pilih item yang akan muncul di app kamu. Minimal 2 item, idealnya 3 item.</p><div class="bento-grid" style="grid-template-columns:repeat(3,1fr);"><div class="info-card"><div class="info-icon">1️⃣</div><div class="info-title">Item 1</div></div><div class="info-card"><div class="info-icon">2️⃣</div><div class="info-title">Item 2</div></div><div class="info-card"><div class="info-icon">3️⃣</div><div class="info-title">Item 3</div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S17: Tulis Information Text -->
-  <section class="slide" data-slide="17">
-    <div class="cz" style="max-width:950px; margin:auto;">
-      <h2 class="story-title">Tulis Information Text</h2>
-      <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
-        <div style="font-size:4rem; margin-bottom:1rem;">💬</div>
-        <p style="font-size:1.25rem; color:#555; margin-bottom:1.5rem;">Setiap item harus punya informasi. Kalimatnya pendek, jelas, dan sesuai masalah user.</p><div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; text-align:left;"><div class="tag-card tc-green"><div style="font-size:2rem;">✅</div><div><strong>Need:</strong><br>Water is a need. Our body needs water every day.</div></div><div class="tag-card tc-orange"><div style="font-size:2rem;">⭐</div><div><strong>Want:</strong><br>A toy is a want. It is fun, but not a must-have.</div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S18: Kita Akan Membuat App Ini di Scratch -->
-  <section class="slide" data-slide="18">
-    <div class="cz" style="max-width:950px; margin:auto;">
-      <h2 class="story-title">Kita Akan Membuat App Ini di Scratch</h2>
-      <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
-        <div style="font-size:4rem; margin-bottom:1rem;">🐱</div>
-        <p style="font-size:1.45rem; line-height:1.7; color:#444;">Setelah punya ide, kita akan membuat app-nya di <strong style="color:var(--o);">Scratch</strong>.<br><br>Jadi sekarang kita perlu tahu Scratch itu apa dan bagaimana tampilannya.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- S19: Apa itu Scratch? -->
-  <section class="slide" data-slide="19">
-    <div class="cz" style="max-width:950px; margin:auto;">
-      <h2 class="story-title">Apa itu Scratch?</h2>
-      <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
-        
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Scratchlogo.svg/960px-Scratchlogo.svg.png?_=20210622065930" alt="Scratch Logo" style="height:100px; object-fit:contain; margin-bottom:1rem;"><p style="font-size:1.35rem; line-height:1.7; color:#444;">Scratch adalah platform untuk membuat app, animasi, dan game dengan menyusun blok kode seperti puzzle.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- S20: Masuk ke Scratch -->
-  <section class="slide" data-slide="20">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1.5rem;">Masuk ke Scratch</h2>
-      <p class="itext" style="max-width:820px; margin:0 auto 2rem auto;">Sekarang kita masuk ke Scratch bersama-sama. Ikuti guru dulu dan jangan klik terlalu jauh.</p>
-      <div class="process-row" style="max-width:1050px; margin:auto; flex-wrap:wrap;">
-        <div class="process-step">
-          <div class="info-icon">🌐</div>
-          <div class="info-title">Buka Browser</div>
-          <div class="info-desc">Ketik <strong>scratch.mit.edu</strong>.</div>
-        </div>
-        <div class="process-arrow">➔</div>
-        <div class="process-step">
-          <div class="info-icon">🔑</div>
-          <div class="info-title">Sign In</div>
-          <div class="info-desc">Masuk dengan akun Scratch.</div>
-        </div>
-        <div class="process-arrow">➔</div>
-        <div class="process-step">
-          <div class="info-icon">👀</div>
-          <div class="info-title">Ikuti Guru</div>
-          <div class="info-desc">Jangan klik terlalu jauh dulu.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S21: Create New Project -->
-  <section class="slide" data-slide="21">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1.5rem;">Create New Project</h2>
-      <p class="itext" style="max-width:820px; margin:0 auto 2rem auto;">Setelah login, klik Create untuk membuka halaman kerja Scratch.</p>
-      <div class="process-row" style="max-width:1050px; margin:auto; flex-wrap:wrap;">
-        <div class="process-step">
-          <div class="info-icon">➕</div>
-          <div class="info-title">Klik Create</div>
-          <div class="info-desc">Buka halaman kerja Scratch.</div>
-        </div>
-        <div class="process-arrow">➔</div>
-        <div class="process-step">
-          <div class="info-icon">🏷️</div>
-          <div class="info-title">Rename Project</div>
-          <div class="info-desc">Ganti nama project sesuai app.</div>
-        </div>
-        <div class="process-arrow">➔</div>
-        <div class="process-step">
-          <div class="info-icon">💾</div>
-          <div class="info-title">Cek Tersimpan</div>
-          <div class="info-desc">Pastikan judul project sudah berubah.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S22: Tampilan Scratch -->
-  <section class="slide" data-slide="22">
-    <div class="cz" style="max-width:1100px; margin:auto;">
-      <h2 class="story-title">Tampilan Scratch</h2>
-      <div style="background:#fff; border-radius:16px; padding:1.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.1); border:3px solid var(--p); max-width: 950px; margin: 1rem auto 0 auto;">
-        <img src="https://www.digitaltravellers.org/wp-content/uploads/2020/05/Screenshot-2020-07-23-at-11.31.48-1024x833.png" alt="Scratch Workspace" style="width:100%; height:auto; border-radius:8px;">
-      </div>
-    </div>
-  </section>
-
-  <!-- S23: Apa itu Sprite? -->
-  <section class="slide" data-slide="23">
-    <div class="cz">
-      <h2 class="story-title">Apa itu Sprite?</h2>
-      <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Sprite adalah objek di app. Sprite bisa berupa tombol, gambar makanan, gambar sampah, ikon, atau information box.</p>
-      <div class="bento-grid" style="max-width:1050px; margin:auto;">
-        <div class="info-card">
-          <div class="info-icon">🔘</div>
-          <div class="info-title">Button</div>
-          <div class="info-desc">Start, Back, Try Again.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🍎</div>
-          <div class="info-title">Item</div>
-          <div class="info-desc">Makanan, sampah, barang, ikon.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">💬</div>
-          <div class="info-title">Information Box</div>
-          <div class="info-desc">Kotak info juga bisa dibuat sebagai tampilan sprite.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">👾</div>
-          <div class="info-title">Karakter</div>
-          <div class="info-desc">Sprite juga bisa berupa karakter.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S24: Apa itu Backdrop? -->
-  <section class="slide" data-slide="24">
-    <div class="cz">
-      <h2 class="story-title">Apa itu Backdrop?</h2>
-      <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Backdrop adalah latar atau layar app. Misalnya layar pembuka, layar utama, atau background guide.</p>
-      <div class="bento-grid" style="max-width:1050px; margin:auto;">
-        <div class="info-card">
-          <div class="info-icon">🏠</div>
-          <div class="info-title">Home Screen</div>
-          <div class="info-desc">Layar pembuka app.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🧭</div>
-          <div class="info-title">Guide Screen</div>
-          <div class="info-desc">Layar utama tempat user memilih item.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🎨</div>
-          <div class="info-title">Background</div>
-          <div class="info-desc">Warna atau gambar latar app.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide" data-slide="15">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 2rem;">Plan - Kebutuhan Aset 🎨</h2>
-      <div style="display:flex; flex-direction:column; gap: 2rem; max-width: 800px; margin: auto; text-align: left;">
-        
-        <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2rem; display:flex; align-items:center; gap:2rem;">
-          <div style="font-size:5rem; filter:drop-shadow(0 10px 10px rgba(0,0,0,0.1));">👾</div>
-          <div style="flex:1;">
-            <p style="font-size:1.4rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">1. Ada berapa <strong style="color:var(--o);">Sprite</strong> yang kamu gunakan?</p>
-            <div class="workbook-field"><div class="wb-line"></div></div>
-          </div>
-        </div>
-
-        <div class="box rpg glow-box" style="background:#fff; border-color:var(--g); padding:2rem; display:flex; align-items:center; gap:2rem;">
-          <div style="font-size:5rem; filter:drop-shadow(0 10px 10px rgba(0,0,0,0.1));">🖼️</div>
-          <div style="flex:1;">
-            <p style="font-size:1.4rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">2. Ada berapa <strong style="color:var(--o);">Background</strong> yang kamu gunakan?</p>
-            <div class="workbook-field"><div class="wb-line"></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S16: APERSEPSI WIREFRAME -->
-  <section class="slide" data-slide="16">
-    <div class="cz" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 2rem;">
-      <h2 class="story-title" style="font-size: 3.5rem;">Sebelum Membangun Rumah... 🏠</h2>
-      <div style="display:flex; gap: 3rem; align-items:center; justify-content:center; max-width: 950px; margin-top: 1rem;">
-        <div style="flex:1; background:#FFF3E0; border:4px dashed var(--o); border-radius:30px; padding:3rem; text-align: left;">
-          <p style="font-size:1.4rem; color:#444; line-height:1.6; font-weight:700; margin-bottom: 1.5rem;">
-            Pernahkah kamu melihat tukang bangunan membuat rumah? Mereka tidak langsung menumpuk batu bata, kan?
-          </p>
-          <p style="font-size:1.4rem; color:#444; line-height:1.6; font-weight:700; margin-bottom: 1.5rem;">
-            Mereka pasti menggambar <strong style="color:var(--o); font-size:1.8rem;">Denah</strong> atau sketsa terlebih dahulu di atas kertas!
-          </p>
-          <p style="font-size:1.4rem; color:var(--pd); line-height:1.6; font-weight:800;">
-            Sama seperti rumah, sebelum membuat aplikasi di komputer, kita juga butuh "denah". Kira-kira apa ya namanya? 🤔
-          </p>
-        </div>
-        <div style="font-size: 8rem; filter: drop-shadow(0 15px 20px rgba(0,0,0,0.1));">🏗️</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S17: WIREFRAME APA ITU? -->
-  <section class="slide" data-slide="17">
-    <div class="isplit" style="max-width:1050px; margin:auto; align-items: center;">
-      <div>
-        <span class="ihl" style="font-size: 2.2rem; color: var(--pd);">Jawabannya: Wireframe! 📐</span>
-        <p class="itext" style="margin-bottom:1.5rem; font-size: 1.3rem;">Wireframe itu sketsa atau denah kasar aplikasimu, sebelum dibuat betulan di komputer.</p>
-        <p style="color:var(--pd); font-size:1.3rem; font-weight:800; margin-bottom:1rem;">Panduan Menggambar:</p>
-        <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr);">
-          <div class="info-card"><div class="info-icon">📱</div><div class="info-desc"><strong>Layar HP</strong><br>(Kotak Besar)</div></div>
-          <div class="info-card"><div class="info-icon">🔲</div><div class="info-desc"><strong>Tombol</strong><br>(Kotak Kecil)</div></div>
-          <div class="info-card"><div class="info-icon">➖</div><div class="info-desc"><strong>Tulisan / Teks</strong><br>(Garis Lurus)</div></div>
-          <div class="info-card"><div class="info-icon">✖️</div><div class="info-desc"><strong>Tempat Gambar</strong><br>(Kotak Silang X)</div></div>
-        </div>
-      </div>
-      
-      <!-- Visual Wireframe Example (Kids Friendly) -->
-      <div style="display:flex; flex-direction:column; align-items:center; background:#E1F5FE; border-radius:30px; padding:2rem; border:4px solid var(--p); box-shadow: 0 10px 30px rgba(0,180,216,0.15);">
-        <p style="color:var(--pd); font-family:'Fredoka',sans-serif; font-size:1.4rem; font-weight:800; margin-bottom:1.5rem;">Contoh Sketsa (Wireframe):</p>
-        
-        <div style="width: 250px; height: 450px; background: #fff; border: 8px solid #cbd5e1; border-radius: 36px; padding: 2rem 1.5rem 1.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 25px 50px rgba(0,180,216,0.15), inset 0 0 0 4px #f8fafc; position: relative; overflow: hidden;">
-          
-          <!-- Notch -->
-          <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 24px; background: #cbd5e1; border-radius: 0 0 16px 16px;"></div>
-          
-          <!-- Teks Judul -->
-          <div style="width: 80%; height: 20px; background: linear-gradient(90deg, #E2E8F0, #F1F5F9); border-radius: 10px; margin-top: 15px;"></div>
-          
-          <!-- Gambar (Silang) -->
-          <div style="width: 100%; height: 150px; background: #F8FAFC; border: 3px dashed #94A3B8; border-radius: 20px; display: flex; align-items: center; justify-content: center; position:relative; margin-top:0.5rem; transition: transform 0.3s;">
-            <span style="font-size: 4rem; color: #E2E8F0; position:absolute;">✖</span>
-            <span style="font-size: 0.9rem; font-weight:800; color:#64748B; z-index:2; background:#F8FAFC; padding: 2px 8px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">Gambar</span>
-          </div>
-          
-          <!-- Teks Deskripsi -->
-          <div style="width: 100%; display:flex; flex-direction:column; gap:10px; margin-top:0.5rem;">
-             <div style="width: 100%; height: 12px; background: #E2E8F0; border-radius: 6px;"></div>
-             <div style="width: 85%; height: 12px; background: #E2E8F0; border-radius: 6px;"></div>
-             <div style="width: 60%; height: 12px; background: #E2E8F0; border-radius: 6px;"></div>
-          </div>
-          
-          <!-- Tombol -->
-          <div style="width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--p), var(--pd)); border-radius: 16px; margin-top: auto; display:flex; justify-content:center; align-items:center; color: #fff; font-weight: 800; box-shadow: 0 8px 16px rgba(0,180,216,0.3); font-size: 1.1rem; letter-spacing: 1px;">
-            TOMBOL
-          </div>
-          
-        </div>
-      </div>
-      
-    </div>
-  </section>
-
-  <!-- S18: WORKSHOP WIREFRAME -->
-  <section class="slide" data-slide="18">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1rem;">Plan - Wireframe (Sketsa Kasar) ✍️</h2>
-      <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; max-width: 1050px; margin: auto; align-items: stretch;">
-        
-        <div class="box rpg" style="background:#fff; border-color:var(--p); text-align:left; padding:2rem;">
-          <p style="font-size:1.25rem; color:#444; line-height:1.6; font-weight:700; margin-bottom:1.5rem;">
-            Bagaimana gambaran Aplikasi kamu nanti? Gambarlah dengan tangan atau gunakan <em>shapes</em> dan gambar!
-          </p>
-          <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 1.5rem;">
-            <div class="info-card" style="padding: 1.2rem;">
-              <div class="info-icon" style="font-size:2.5rem;">📋</div><div class="info-desc">1. Siapkan tempat membuat wireframe.</div>
-            </div>
-            <div class="info-card" style="padding: 1.2rem;">
-              <div class="info-icon" style="font-size:2.5rem;">📱</div><div class="info-desc">2. Gambar kotak besar untuk layarnya.</div>
-            </div>
-            <div class="info-card" style="padding: 1.2rem;">
-              <div class="info-icon" style="font-size:2.5rem;">🔲</div><div class="info-desc">3. Masukkan kotak tombol, teks, gambar.</div>
-            </div>
-            <div class="info-card" style="padding: 1.2rem;">
-              <div class="info-icon" style="font-size:2.5rem;">✌️</div><div class="info-desc">4. Bikin minimal <strong>2 desain layar</strong>.</div>
-            </div>
-          </div>
-        </div>
-        
-        <div style="background:#F8FAFC; border-radius:24px; border:4px dashed #CBD5E1; padding: 1.5rem; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-          <p style="font-size:1.2rem; color:var(--pd); font-weight:800; margin-bottom:1rem;">Contoh Hasil Akhir:</p>
-          <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f1f8e99c-87f5-451d-9409-66f9d7451893.png" alt="Contoh Wireframe" style="width:100%; height:auto; border-radius:12px; object-fit:contain; max-height: 280px; box-shadow:0 8px 20px rgba(0,0,0,0.1);">
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- S16: DESAIN LOGO -->
-  <section class="slide" data-slide="16">
-    <div class="isplit" style="max-width:1050px; margin:auto;">
-      <div>
-        <span class="ihl">Mendesain Logo App</span>
-        <p class="itext" style="margin-bottom:1.5rem;">Bikin logo yang simpel supaya aplikasimu gampang dikenali!</p>
-        <div class="bento-grid" style="grid-template-columns: repeat(3, 1fr);">
-          <div class="info-card"><div class="info-icon">🔵</div><div class="info-desc">Pakai bentuk yang simpel.</div></div>
-          <div class="info-card"><div class="info-icon">🌈</div><div class="info-desc">Pilih 1–2 warna saja.</div></div>
-          <div class="info-card"><div class="info-icon">🖼️</div><div class="info-desc">Pilih simbol yang nyambung.</div></div>
-        </div>
-      </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
-        <div style="background:linear-gradient(135deg,#00B4D8,#48CAE4); border-radius:24px; padding:2rem; text-align:center; box-shadow:0 8px 20px rgba(0,180,216,0.3);">
-          <p style="font-size:3.5rem">🎒</p><p style="font-size:1.2rem; font-weight:800; color:#fff; margin-top:.5rem;">Bag Check</p>
-        </div>
-        <div style="background:linear-gradient(135deg,#52B788,#74C69D); border-radius:24px; padding:2rem; text-align:center; box-shadow:0 8px 20px rgba(82,183,136,0.3);">
-          <p style="font-size:3.5rem">🧹</p><p style="font-size:1.2rem; font-weight:800; color:#fff; margin-top:.5rem;">Kelas Rapi</p>
-        </div>
-        <div style="background:linear-gradient(135deg,#F77F00,#FCBF49); border-radius:24px; padding:2rem; text-align:center; box-shadow:0 8px 20px rgba(247,127,0,0.3);">
-          <p style="font-size:3.5rem">💰</p><p style="font-size:1.2rem; font-weight:800; color:#fff; margin-top:.5rem;">Jajan Pintar</p>
-        </div>
-        <div style="background:linear-gradient(135deg,#9D4EDD,#C77DFF); border-radius:24px; padding:2rem; text-align:center; box-shadow:0 8px 20px rgba(157,78,221,0.3);">
-          <p style="font-size:3.5rem">🎧</p><p style="font-size:1.2rem; font-weight:800; color:#fff; margin-top:.5rem;">TabunganKu</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S17: PRESENTASI IDE -->
-  <section class="slide" data-slide="17">
-    <div class="cz">
-      <h2 class="story-title">Presentasi Ide</h2>
-      <div class="box" style="max-width:800px; margin:2rem auto; font-size:1.3rem;">
-        <p style="margin-bottom:1.5rem; font-weight:800; color:var(--pd);">Ada yang mau mencoba? <strong style="color:var(--o); font-size:1.6rem;">1–2 menit</strong> untuk mengenalkan idenya di depan kelas.</p>
-        <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 1.5rem;">
-          <div class="info-card"><div class="info-icon">📛</div><div class="info-desc">Nama aplikasi dan fungsi utamanya.</div></div>
-          <div class="info-card"><div class="info-icon">👤</div><div class="info-desc">Siapa target penggunanya.</div></div>
-          <div class="info-card"><div class="info-icon">🔧</div><div class="info-desc">Masalah apa yang diselesaikan.</div></div>
-          <div class="info-card"><div class="info-icon">⚡</div><div class="info-desc">Fitur utama di wireframe.</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-
-  <!-- S31: Exit Check ✅ -->
-  <section class="slide" data-slide="31">
-    <div class="cz">
-      <h2 class="story-title">Exit Check ✅</h2>
-      <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Sebelum selesai, pastikan kamu sudah punya persona, ide app, sudah masuk Scratch, dan punya wireframe.</p>
-      <div class="bento-grid" style="max-width:1050px; margin:auto;">
-        <div class="info-card">
-          <div class="info-icon">🃏</div>
-          <div class="info-title">Persona</div>
-          <div class="info-desc">Sudah dapat dan paham Persona Card.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">💡</div>
-          <div class="info-title">Ide App</div>
-          <div class="info-desc">Sudah tahu user, problem, dan solusi.</div>
-        </div>
-        
-        <div class="info-card">
-          <div class="info-icon">🐱</div>
-          <div class="info-title">Scratch</div>
-          <div class="info-desc">Sudah berhasl masuk Scratch.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">✏️</div>
-          <div class="info-title">Wireframe</div>
-          <div class="info-desc">Punya rancangan layar app.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  </main>
-  
-  <footer class="controls">
-    <button class="btn btn-p" id="prevBtn">← Kembali</button>
-    <div class="pag" id="pagination"></div>
-    <button class="btn btn-n" id="nextBtn">Lanjut →</button>
-  </footer>
-</div>
-
-<script>
-(function(){
-  const slides = Array.from(document.querySelectorAll(".slide"));
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
-  const startBtn = document.getElementById("startBtn");
-  const pagination = document.getElementById("pagination");
-  let cur = 0;
-  
-  function createPag(){
-    slides.forEach((_,i) => {
-      const d = document.createElement("button");
-      d.className = "dot"; d.title = `Slide ${i+1}`;
-      d.addEventListener("click", () => goTo(i));
-      pagination.appendChild(d);
-    });
-  }
-  
-  function updatePag(){
-    pagination.querySelectorAll(".dot").forEach((d,i) => d.classList.toggle("active", i === cur));
-  }
-  
-  function goTo(i){
-    if(i < 0) i = 0; 
-    if(i >= slides.length) i = slides.length - 1;
-    slides.forEach(s => {
-      s.classList.remove("active");
-      s.style.transform = "translateY(50px) scale(.95)";
-    });
-    cur = i;
-    setTimeout(() => {
-      slides[cur].classList.add("active");
-      slides[cur].style.transform = "translateY(0) scale(1)";
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 50);
-    updatePag();
-  }
-  
-  createPag(); 
-  updatePag();
-  
-  prevBtn.addEventListener("click", () => goTo(cur - 1));
-  nextBtn.addEventListener("click", () => goTo(cur + 1));
-  if(startBtn) startBtn.addEventListener("click", () => goTo(1));
-  
-  window.addEventListener("keydown", e => {
-    if(e.key === "ArrowRight") goTo(cur + 1);
-    if(e.key === "ArrowLeft") goTo(cur - 1);
-  });
-
-  // Parallax Effect for Background Layers
-  const parallaxLayers = document.querySelectorAll('.parallax');
-  let mouseX = 0;
-  let mouseY = 0;
-  let targetX = 0;
-  let targetY = 0;
-  
-  function animate() {
-      mouseX += (targetX - mouseX) * 0.1;
-      mouseY += (targetY - mouseY) * 0.1;
-      
-      parallaxLayers.forEach(layer => {
-          const depth = parseFloat(layer.getAttribute('data-depth'));
-          const moveX = mouseX * depth * -100;
-          const moveY = mouseY * depth * -100;
-          layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
-      });
-      requestAnimationFrame(animate);
-  }
-  
-  if (window.matchMedia("(min-width: 640px)").matches) {
-      animate();
-      window.addEventListener('mousemove', (e) => {
-          targetX = (e.clientX / window.innerWidth) * 2 - 1;
-          targetY = (e.clientY / window.innerHeight) * 2 - 1;
-      });
-      window.addEventListener('mouseleave', () => {
-          targetX = 0;
-          targetY = 0;
-      });
-  }
-
-  // Game Tebak Logo Logic
-  const logos = [
-    { src: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg', name: 'WhatsApp' },
-    { src: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg', name: 'YouTube' },
-    { src: 'https://lelogama.go-jek.com/cms_editor/2021/05/28/info-gojek-2.png', name: 'Gojek' },
-    { src: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', name: 'TikTok' },
-    { src: 'https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg', name: 'Roblox' },
-    { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSvZxedWxYBQ8Hme4IKXPAuOzK6lu4xSJ8Q&s', name: 'Duolingo' }
-  ];
-  let curLogo = 0;
-  const imgLogo = document.getElementById("guessLogoImg");
-  const overlayLogo = document.getElementById("guessLogoOverlay");
-  const qText = document.getElementById("guessLogoQuestion");
-  const aText = document.getElementById("guessLogoAnswer");
-  const btnReveal = document.getElementById("btnRevealLogo");
-  const btnNextLogo = document.getElementById("btnNextLogo");
-  const logoCounter = document.getElementById("guessLogoCounter");
-
-  if (btnReveal) {
-    function loadLogo() {
-      imgLogo.src = logos[curLogo].src;
-      imgLogo.style.filter = "blur(6px) grayscale(50%) brightness(0.8)";
-      overlayLogo.style.display = "flex";
-      qText.style.display = "block";
-      aText.style.display = "none";
-      aText.innerText = logos[curLogo].name;
-      btnReveal.style.display = "inline-block";
-      btnNextLogo.style.display = "none";
-      logoCounter.innerText = curLogo + 1;
+  <meta charset="UTF-8">
+  <title>Scratch Codepreneur - Day 1 Online</title>
+  <link rel="icon" type="image/png"
+    href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --p: #00B4D8;
+      --pd: #0284c7;
+      --g: #FFB703;
+      --o: #FB8500;
+      --grn: #10b981;
+      --card: rgba(255, 255, 255, 0.65);
+      --txt: #1e293b;
+      --muted: #64748b;
+      --r: 32px;
+      --sh: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
     }
 
-    btnReveal.addEventListener("click", () => {
-      imgLogo.style.filter = "blur(0px) contrast(1) brightness(1)";
-      overlayLogo.style.display = "none";
-      qText.style.display = "none";
-      aText.style.display = "block";
-      btnReveal.style.display = "none";
-      if (curLogo < logos.length - 1) {
-        btnNextLogo.style.display = "inline-block";
-      }
-    });
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    btnNextLogo.addEventListener("click", () => {
-      if (curLogo < logos.length - 1) {
-        curLogo++;
+    body {
+      font-family: "Nunito", sans-serif;
+      background-color: #79d0fd;
+      background-attachment: fixed;
+      color: var(--txt);
+      min-height: 100vh;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    .cov-h,
+    .story-title,
+    .slide-title {
+      font-family: "Fredoka", sans-serif;
+      letter-spacing: .02em;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      width: 100%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .lfix {
+      position: fixed;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .lfix.l {
+      top: 30px;
+      left: 30px;
+    }
+
+    .lfix.r {
+      top: 30px;
+      right: 30px;
+    }
+
+    /* ══════════════════════════════════════
+   STAGE — Full-screen scene container
+══════════════════════════════════════ */
+    .stage {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1000px;
+      z-index: 0;
+    }
+
+    .layer-container {
+      position: absolute;
+      inset: -60px;
+      /* Oversized to prevent edges showing during parallax */
+      pointer-events: none;
+      will-change: transform;
+      transform-style: preserve-3d;
+    }
+
+    .pos-abs {
+      position: absolute;
+    }
+
+    /* ── Layers ──────────── */
+    .layer-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .layer-clouds {
+      top: -5%;
+      left: -5%;
+      right: -5%;
+      height: 65%;
+      animation: driftClouds 60s linear infinite;
+    }
+
+    .layer-clouds img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
+      opacity: 0.85;
+      mix-blend-mode: overlay;
+    }
+
+    @keyframes driftClouds {
+      0% {
+        transform: translateX(0) scale(1.1);
+      }
+
+      50% {
+        transform: translateX(2%) scale(1.1);
+      }
+
+      100% {
+        transform: translateX(0) scale(1.1);
+      }
+    }
+
+    .layer-skyline {
+      bottom: 10%;
+      left: -2%;
+      right: -2%;
+      width: 104%;
+    }
+
+    .layer-skyline img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.9;
+    }
+
+    .layer-bldg-left {
+      bottom: 8%;
+      left: -2%;
+      width: clamp(150px, 20vw, 300px);
+      animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      transform-origin: bottom left;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    .layer-bldg-right {
+      bottom: 8%;
+      right: -2%;
+      width: clamp(150px, 20vw, 300px);
+      animation: slideInRight 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.1s;
+      transform-origin: bottom right;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    .layer-ground {
+      bottom: -40px;
+      left: -40px;
+      right: -40px;
+      width: calc(100% + 80px);
+    }
+
+    .layer-ground img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 -10px 20px rgba(0, 0, 0, 0.1));
+    }
+
+    .layer-bush-left {
+      bottom: 6%;
+      left: 1%;
+      width: clamp(100px, 15vw, 180px);
+      animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.2s;
+      transform-origin: bottom center;
+    }
+
+    .layer-bush-right {
+      bottom: 6%;
+      right: 1%;
+      width: clamp(100px, 15vw, 180px);
+      animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.3s;
+      transform-origin: bottom center;
+      transform: scaleX(-1);
+    }
+
+    @keyframes popInBush {
+      from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.5);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .deco-code-left {
+      left: 8%;
+      top: 22%;
+      width: clamp(70px, 9vw, 120px);
+      filter: drop-shadow(0 20px 30px rgba(34, 169, 121, 0.3));
+      animation: floatDeco 6s ease-in-out infinite;
+    }
+
+    .deco-binary-right {
+      right: 8%;
+      top: 15%;
+      width: clamp(70px, 9vw, 120px);
+      filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3));
+      animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate;
+    }
+
+    .deco-code-right {
+      right: 6%;
+      bottom: 28%;
+      width: clamp(60px, 7vw, 100px);
+      filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3));
+      animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse;
+    }
+
+    @keyframes floatDeco {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-3deg);
+      }
+
+      50% {
+        transform: translateY(-25px) rotate(3deg);
+      }
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      margin-top: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .topbar:hover {
+      transform: translateY(-2px);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .t-main {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--pd);
+      font-family: "Fredoka", sans-serif;
+      line-height: 1.2;
+    }
+
+    .t-sub {
+      font-size: .95rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .kbd {
+      background: var(--p);
+      color: #fff;
+      padding: .2rem .6rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 0 #0284c7;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .frame {
+      position: relative;
+      flex: 1;
+      min-height: 750px;
+      display: block;
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 750px;
+      background: var(--card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: var(--r);
+      padding: 3.5rem;
+      box-shadow: var(--sh);
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(60px) scale(.92);
+      transition: all .6s cubic-bezier(.34, 1.56, .64, 1);
+      border: 2px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .slide.active {
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+      z-index: 5;
+    }
+
+    /* Custom Scrollbar for Slides */
+    .slide::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .slide::-webkit-scrollbar-track {
+      background: transparent;
+      margin: 1rem;
+    }
+
+    .slide::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+    }
+
+    .slide::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .slide-cover {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .cov-inner {
+      width: 100%;
+      height: 100%;
+      padding: 2rem;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .cov-h {
+      font-size: 4.5rem;
+      color: var(--pd);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .cov-h span {
+      background: linear-gradient(135deg, var(--o), #FF3366);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      display: inline-block;
+      text-shadow: none;
+      filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.1));
+    }
+
+    .slide-title {
+      font-size: 2.8rem;
+      color: var(--pd);
+      margin-bottom: .5rem;
+    }
+
+    .isplit {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      width: 100%;
+    }
+
+    .twocol {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      width: 100%;
+    }
+
+    .cz {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+    }
+
+    .story-title {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      color: var(--pd);
+      font-weight: 800;
+      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+    }
+
+    .box {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2rem 2.5rem;
+      border-radius: 24px;
+      border: 2px solid var(--p);
+      box-shadow: 0 12px 24px rgba(0, 180, 216, 0.1);
+      color: var(--txt);
+      font-weight: 700;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(0, 180, 216, 0.15);
+    }
+
+    .rpg {
+      background: linear-gradient(145deg, #ffffff, #f1f5f9);
+      border: 2px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+    }
+
+    .ihl {
+      color: var(--o);
+      font-weight: 800;
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+      font-family: "Fredoka", sans-serif;
+    }
+
+    .itext {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.2rem 1.8rem;
+      border-radius: 24px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1.2rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .03);
+    }
+
+    .pill:hover {
+      transform: translateX(12px) scale(1.02);
+      border-color: var(--p);
+      background: #f0f9ff;
+      box-shadow: 0 8px 20px rgba(0, 180, 216, .1);
+    }
+
+    .pill-idx {
+      min-width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--p), var(--pd));
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0, 119, 182, 0.3);
+    }
+
+    /* New Layout CSS */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .info-card {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+      border: 2px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.5rem;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 180, 216, 0.12);
+      border-color: var(--p);
+    }
+
+    .info-icon {
+      font-size: 3.5rem;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.1));
+      transition: transform 0.3s ease;
+    }
+
+    .info-card:hover .info-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .info-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--pd);
+      font-family: "Fredoka", sans-serif;
+      line-height: 1.2;
+    }
+
+    .info-desc {
+      font-size: 1.05rem;
+      color: #64748b;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .process-row {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .process-step {
+      background: #fff;
+      border: 3px solid #e2e8f0;
+      padding: 1.5rem 1rem;
+      border-radius: 24px;
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .process-step:hover {
+      border-color: var(--p);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 180, 216, 0.15);
+    }
+
+    .process-arrow {
+      font-size: 2.5rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      animation: pulseArrow 2s infinite;
+    }
+
+    @keyframes pulseArrow {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(5px);
+        color: var(--o);
+      }
+    }
+
+    .num-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+
+    .num-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+      transition: .4s cubic-bezier(.175, .885, .32, 1.275);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .num-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--p), var(--grn));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .num-card:hover::before {
+      opacity: 1;
+    }
+
+    .num-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 40px rgba(0, 0, 0, .08);
+      border-color: transparent;
+    }
+
+    .num-lbl {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .num-card:hover .num-lbl {
+      transform: scale(1.1);
+    }
+
+    .num-title {
+      font-weight: 800;
+      color: var(--pd);
+      font-size: 1.4rem;
+      margin-bottom: .6rem;
+      font-family: "Fredoka", sans-serif;
+    }
+
+    .num-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .tag-l {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 24px;
+      padding: 2rem;
+      border-left: 6px solid var(--pd);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .tag-o {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border-radius: 24px;
+      padding: 2rem;
+      border-left: 6px solid var(--o);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .tag-g {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border-radius: 24px;
+      padding: 2rem;
+      border-left: 6px solid var(--grn);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .ph-box {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+      border: 2px dashed #94a3b8;
+      border-radius: 32px;
+      padding: 4rem;
+      text-align: center;
+      color: #475569;
+      transition: all 0.3s ease;
+    }
+
+    .ph-box:hover {
+      border-color: var(--p);
+      background: rgba(255, 255, 255, 0.8);
+      transform: scale(1.02);
+    }
+
+    .link-box {
+      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      border: 3px solid var(--g);
+      border-radius: 24px;
+      padding: 1.5rem 3rem;
+      display: inline-block;
+      font-size: 2.4rem;
+      font-family: "Fredoka", sans-serif;
+      color: var(--pd);
+      letter-spacing: 2px;
+      margin: 2rem 0;
+      box-shadow: 0 10px 0 var(--g), 0 20px 30px rgba(0, 0, 0, 0.1);
+      font-weight: 800;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .link-box:hover {
+      transform: translateY(4px);
+      box-shadow: 0 6px 0 var(--g), 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .link-box:active {
+      transform: translateY(10px);
+      box-shadow: 0 0 0 var(--g), 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .react-e {
+      font-size: 5rem;
+      cursor: pointer;
+      transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-block;
+    }
+
+    .react-e:hover {
+      transform: scale(1.3) rotate(15deg);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      margin-top: 1.5rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+
+    /* New Utilities for Overhaul */
+    .grad-text {
+      background: linear-gradient(135deg, var(--p), var(--pd));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .grad-text-o {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .workbook-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .wb-line {
+      border-bottom: 3px dashed #cbd5e1;
+      height: 35px;
+      width: 100%;
+      transition: border-color 0.3s;
+    }
+
+    .wb-line:hover {
+      border-color: var(--p);
+    }
+
+    .glow-box {
+      background: #fff;
+      border: 2px solid transparent;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .glow-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 180, 216, 0.15);
+      border-color: var(--p);
+    }
+
+    .pulse-btn {
+      display: inline-block;
+      padding: 1.2rem 3rem;
+      font-size: 2.2rem;
+      font-family: "Fredoka", sans-serif;
+      color: #fff;
+      background: linear-gradient(135deg, var(--o), #ea580c);
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
+      animation: pulseBtn 2s infinite;
+      border: 4px solid rgba(255, 255, 255, 0.5);
+      letter-spacing: 2px;
+      transition: transform 0.3s;
+    }
+
+    .pulse-btn:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes pulseBtn {
+      0% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 20px rgba(245, 158, 11, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+      }
+    }
+
+    .tag-card {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.5rem;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tag-card:hover {
+      transform: translateY(-5px) translateX(5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .tag-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      border-radius: 8px 0 0 8px;
+    }
+
+    .tc-blue::before {
+      background: var(--p);
+    }
+
+    .tc-blue {
+      background: #f0f9ff;
+    }
+
+    .tc-orange::before {
+      background: var(--o);
+    }
+
+    .tc-orange {
+      background: #fffbeb;
+    }
+
+    .tc-red::before {
+      background: #ef4444;
+    }
+
+    .tc-red {
+      background: #fef2f2;
+    }
+
+    .tc-green::before {
+      background: #22c55e;
+    }
+
+    .tc-green {
+      background: #f0fdf4;
+    }
+
+    .btn {
+      cursor: pointer;
+      padding: .6rem 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .btn-p {
+      background: #f1f5f9;
+      color: #475569;
+      box-shadow: 0 4px 0 #cbd5e1;
+    }
+
+    .btn-p:hover {
+      background: #e2e8f0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #94a3b8;
+    }
+
+    .btn-p:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #cbd5e1;
+    }
+
+    .btn-n {
+      background: linear-gradient(135deg, var(--g), #f59e0b);
+      color: #fff;
+      box-shadow: 0 6px 0 #b45309;
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-n:hover {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #9a3412;
+    }
+
+    .btn-n:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #b45309;
+    }
+
+    .pag {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 0.6rem 1.2rem;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 30px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: none;
+    }
+
+    .dot:hover {
+      background: rgba(0, 0, 0, 0.3);
+      transform: scale(1.1);
+    }
+
+    .dot.active {
+      width: 36px;
+      background: linear-gradient(135deg, var(--p), var(--pd));
+      box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4);
+      transform: scale(1.1);
+    }
+
+    .desc {
+      font-size: 1.3rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    @media(max-width:900px) {
+
+      .sc,
+      .cov-inner,
+      .isplit,
+      .twocol {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+        gap: 2rem;
+      }
+
+      .cov-h {
+        font-size: 3.2rem;
+      }
+
+      .hero-img {
+        height: auto !important;
+        margin-top: 2rem !important;
+      }
+
+      .hero-img img {
+        width: 80%;
+        margin: auto;
+        display: block;
+        position: static !important;
+      }
+
+      .lfix {
+        display: none;
+      }
+
+      /* Hide fixed logos on small screens */
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- High-Resolution Top Logos -->
+  <div class="lfix"
+    style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
+    <!-- Kiri: Kalananti -->
+    <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png"
+      style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;"
+      alt="Kalananti Logo">
+
+    <!-- Kanan: RGC Logo -->
+    <img
+      src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/94907efd-30d9-49af-8e62-aa4aee51ad33.png"
+      style="height: 60px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;"
+      alt="RGC Logo">
+  </div>
+
+  <!-- ── 3D Scene Background ─────────── -->
+  <div class="stage" aria-hidden="true">
+    <div class="layer-container parallax" data-depth="0.0">
+      <div class="layer-bg pos-abs" style="inset:0;">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png" alt="">
+      </div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.02">
+      <div class="layer-clouds pos-abs">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png" alt="">
+      </div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.05">
+      <div class="layer-skyline pos-abs">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png" alt="">
+      </div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.08">
+      <img class="layer-bldg-left pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png" alt="">
+      <img class="layer-bldg-right pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png" alt="">
+    </div>
+    <div class="layer-container parallax" data-depth="0.12">
+      <div class="layer-ground pos-abs">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png" alt="">
+      </div>
+    </div>
+    <div class="layer-container parallax" data-depth="0.18">
+      <img class="layer-bush-left pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
+      <img class="layer-bush-right pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
+    </div>
+    <div class="layer-container parallax" data-depth="0.25">
+      <img class="deco-code-left pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png" alt="">
+      <img class="deco-binary-right pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png" alt="">
+      <img class="deco-code-right pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png" alt="">
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <div class="logo-row">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png"
+          style="height: 90px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); margin-right: 15px;"
+          alt="Scratch Logo">
+        <div style="display:flex; flex-direction:column; justify-content:center;">
+          <div class="t-main" style="font-size:1.8rem;">🚀 Scratch Codepreneur</div>
+          <div class="t-sub" style="font-size:1.1rem;">Hari ke-1: Codepreneur & Wireframe Online</div>
+        </div>
+      </div>
+      <div><span class="t-sub" style="color: #888;">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
+    </header>
+
+    <main class="frame">
+
+      <!-- S0: COVER -->
+      <section class="slide slide-cover active" data-slide="0" style="padding-top: 1rem;">
+        <div class="cov-inner" style="display:flex; flex-direction:column; justify-content:center; text-align:center;">
+          <div style="margin-bottom: 0.5rem; z-index: 5;">
+            <h1 class="cov-h"
+              style="font-size: 4.5rem; text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom: 1rem;">
+              Scratch <span>Codepreneur</span></h1>
+            <p class="desc" style="font-size: 1.4rem; color: #555; max-width: 820px; margin: 0 auto 1.5rem auto;">Selama
+              5 hari ini, kita akan belajar membuat app di Scratch. App kita akan membantu masalah user dari Persona
+              Card.</p>
+            <button class="btn btn-n" id="startBtn" style="font-size: 1.5rem; padding: 1rem 3rem;">Mulai
+              Belajar!</button>
+          </div>
+
+          <div class="hero-img"
+            style="position:relative; display:flex; justify-content:center; align-items:flex-end; gap: 1rem; height: 320px; width:100%; margin-top: -20px;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/eb42c311-4643-4da2-b19b-b8c4d6345a08.png"
+              style="position:absolute; bottom: -60px; left:-5%; width:110%; height:150%; z-index:0; opacity:0.8; object-fit: cover;"
+              alt="Wave Background">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/94219915-9f28-4712-a6dc-44a26382e77d.png"
+              alt="Anak 1" style="height: 85%; z-index: 1; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2256195a-2f18-4e3f-abbd-5db8c82acea4.png"
+              alt="Anak 2"
+              style="height: 100%; z-index: 2; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.3)); margin-bottom: 10px;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2aa26094-08cf-429c-ba80-78fb40454eb1.png"
+              alt="Anak 3"
+              style="height: 90%; z-index: 1; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); transform: scaleX(-1);">
+          </div>
+        </div>
+      </section>
+
+      <!-- S1: Agenda Hari Ini 📅 -->
+      <section class="slide" data-slide="1">
+        <div class="cz">
+          <h2 class="story-title">Agenda Hari Ini 📅</h2>
+          <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Hari ini kita belum coding penuh, tapi kita
+            akan mulai dari ide, kenalan Scratch, dan membuat rancangan app.</p>
+          <div class="bento-grid" style="max-width:1050px; margin:auto;">
+            <div class="info-card">
+              <div class="info-icon">💼</div>
+              <div class="info-title">Codepreneur</div>
+              <div class="info-desc">Mengenal cara berpikir entrepreneur dan coder.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🃏</div>
+              <div class="info-title">Persona Card</div>
+              <div class="info-desc">Mendapatkan karakter, masalah, dan kebutuhan user.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🧠</div>
+              <div class="info-title">Brainstorm</div>
+              <div class="info-desc">Menentukan ide solusi dan isi Guide App.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🐱</div>
+              <div class="info-title">Scratch</div>
+              <div class="info-desc">Masuk Scratch dan mengenal workspace.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">✏️</div>
+              <div class="info-title">Wireframe</div>
+              <div class="info-desc">Membuat rancangan layar app.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="2">
+        <div class="isplit" style="max-width:1000px; margin:auto;">
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/94219915-9f28-4712-a6dc-44a26382e77d.png"
+              alt="Ice Breaker" style="max-height: 450px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
+          </div>
+          <div class="cz"
+            style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; gap:1.5rem;">
+            <div class="glow-box"
+              style="width:100%; min-height:350px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; border-color: var(--o); background: #FFF3E0;">
+              <div style="font-size:4rem">🎯</div>
+              <h2 style="color:var(--pd); font-size:2.2rem;">Ice Breaker</h2>
+              <p style="font-size:1.15rem; color:#555; max-width:400px; line-height:1.6; font-weight:600;">Sebelum masuk
+                ke materi, mari kita lakukan aktivitas singkat bersama-sama.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S2A: SIMON SAYS -->
+      <section class="slide" data-slide="2a">
+        <div class="cz">
+          <h2 class="story-title">Ice Breaking: Simon Berkata 🗣️</h2>
+          <div class="twocol" style="max-width:1050px; margin:auto;">
+            <div class="rpg" style="text-align:center; background:#E1F5FE; border-color:var(--p); width: 100%;">
+              <p class="ihl" style="color:var(--pd); text-align:left;">Cara Main:</p>
+              <div class="bento-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="info-card" style="background: #fff;">
+                  <div class="info-icon">📸</div>
+                  <div class="info-desc">Nyalakan kamera dan dengarkan instruksi Guru</div>
+                </div>
+                <div class="info-card" style="background: #E8F5E9; border-color: #4CAF50;">
+                  <div class="info-icon">✅</div>
+                  <div class="info-desc">Ikuti gerakan jika ada kata <strong>"Simon Berkata"</strong></div>
+                </div>
+                <div class="info-card" style="background: #FFEBEE; border-color: #F44336;">
+                  <div class="info-icon">❌</div>
+                  <div class="info-desc">Tetap diam jika <strong>TIDAK ADA</strong> kata Simon</div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:1.2rem; justify-content:center;">
+              <div class="tag-card tc-green"
+                style="flex-direction:column; align-items:flex-start; gap:0.5rem; padding: 1.2rem;">
+                <p style="font-size:1.1rem; color:#2E7D32; font-weight:800; margin-bottom:0;">Contoh Benar ✅</p>
+                <p style="font-size:1.1rem; font-weight:600; color:#333; line-height:1.4;">"Simon berkata: Pegang
+                  hidung!" <br>👉 Kalian memegang hidung.</p>
+              </div>
+              <div class="tag-card tc-red"
+                style="flex-direction:column; align-items:flex-start; gap:0.5rem; padding: 1.2rem;">
+                <p style="font-size:1.1rem; color:#D32F2F; font-weight:800; margin-bottom:0;">Contoh Jebakan ❌</p>
+                <p style="font-size:1.1rem; font-weight:600; color:#333; line-height:1.4;">"Pegang telinga!" <br>👉
+                  Kalian harus <strong>tetap diam</strong> (karena tidak ada "Simon").</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S2B: SIMON SAYS = KOMPUTER -->
+      <section class="slide" data-slide="2b">
+        <div class="isplit" style="max-width:1000px; margin:auto;">
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9ac6bf60-0a30-49e4-bd19-d34fbbb86aaf.png"
+              alt="Berpikir" style="max-height: 350px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
+          </div>
+          <div class="cz" style="text-align: left;">
+            <h2 class="story-title" style="text-align: left; font-size:2.5rem; line-height: 1.3;">Apa Hubungannya dengan
+              Komputer? 💻</h2>
+            <div class="box rpg" style="margin-top:2rem; text-align:center; background:#fff; border-color:var(--g);">
+              <p style="font-size:1.3rem; margin-bottom:1.5rem; color: #444; font-weight:700;">Bermain Simon Berkata itu
+                sama seperti memberikan perintah ke komputer!</p>
+              <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="info-card" style="background:#FFF8E1; border-color:var(--g);">
+                  <div class="info-icon">🤖</div>
+                  <div class="info-desc">Komputer hanya bergerak kalau <strong>syaratnya terpenuhi</strong> (Instruksi
+                    tepat)</div>
+                </div>
+                <div class="info-card" style="background:#FFEBEE; border-color:#F44336;">
+                  <div class="info-icon">❓</div>
+                  <div class="info-desc">Kalau instruksinya <strong>salah</strong>, komputer diam saja</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- S2E: GAME TEBAK LOGO -->
+      <section class="slide" data-slide="2e">
+        <div class="cz" style="text-align: center;">
+          <h2 class="story-title" style="margin-bottom: 2rem;">Game: Tebak Logo! 🕵️‍♂️</h2>
+          <div class="isplit"
+            style="max-width:1000px; margin:auto; background:#fff; border: 4px solid var(--p); border-radius:30px; padding:3rem; box-shadow:0 15px 30px rgba(0,0,0,0.1);">
+            <!-- Kiri: Logo -->
+            <div
+              style="display:flex; justify-content:center; align-items:center; background:#f1f5f9; border-radius:24px; padding:3rem; height: 300px; position:relative;">
+              <img id="guessLogoImg" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                style="max-height:180px; max-width:180px; filter: blur(6px) grayscale(50%) brightness(0.8); transition: all 0.5s;"
+                alt="Logo Rahasia">
+              <div id="guessLogoOverlay"
+                style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center; font-size:4rem; color:rgba(0,0,0,0.1);">
+                ❓</div>
+            </div>
+            <!-- Kanan: Kontrol -->
+            <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap: 1.5rem;">
+              <h3 id="guessLogoQuestion" style="font-size:2.2rem; color:var(--pd); margin-bottom:1rem;">Logo aplikasi
+                apa ini?</h3>
+              <h2 id="guessLogoAnswer" style="font-size:3rem; color:var(--g); display:none; margin-bottom:1rem;">
+                WhatsApp</h2>
+              <button id="btnRevealLogo" class="pulse-btn"
+                style="font-size:1.4rem; padding: 1rem 2.5rem; border:none; cursor:pointer;">Buka Logo! 👁️</button>
+              <button id="btnNextLogo" class="btn btn-n"
+                style="font-size:1.2rem; padding: 0.8rem 2rem; display:none; background:var(--p); box-shadow: 0 6px 0 #0077B6;">Logo
+                Selanjutnya ➔</button>
+            </div>
+          </div>
+          <p style="margin-top: 1.5rem; color:#666; font-size:1.2rem; font-weight:700;"><span
+              id="guessLogoCounter">1</span> / 6 Logo</p>
+        </div>
+      </section>
+
+      <!-- S2F: BRIDGING TO PROBLEM & SOLUTION -->
+      <section class="slide" data-slide="2f">
+        <div class="isplit" style="max-width:1050px; margin:auto; align-items: center;">
+          <div
+            style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:#E1F5FE; border-radius:30px; padding:3rem; border:4px solid var(--p);">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSvZxedWxYBQ8Hme4IKXPAuOzK6lu4xSJ8Q&s"
+              alt="Duolingo"
+              style="max-width: 200px; border-radius: 40px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15)); margin-bottom: 2rem;">
+            <h2 style="font-size:2.5rem; color:var(--pd);">Duolingo</h2>
+          </div>
+          <div>
+            <span class="ihl grad-text">Kenapa Aplikasi Dibuat? 🤔</span>
+            <p class="itext" style="margin-bottom:1.5rem;">Mari kita pikirkan tentang aplikasi <strong>Duolingo</strong>
+              (atau aplikasi belajar lainnya).</p>
+            <div class="glow-box"
+              style="border: 3px solid var(--o); text-align:left; background:#fff7ed; padding: 2rem;">
+              <ul style="font-size:1.2rem; color:#444; line-height:1.8; font-weight:700; margin-left: 1.5rem;">
+                <li><span style="color:var(--pd);">Kenapa aplikasi ini dibuat?</span> (Masalah apa yang dialami orang?)
+                </li>
+                <li><span style="color:var(--pd);">Apa fungsi utamanya?</span> (Bagaimana aplikasi ini membantu?)</li>
+                <li><span style="color:var(--pd);">Kenapa kita butuh ini?</span></li>
+              </ul>
+            </div>
+            <p style="margin-top:1.5rem; font-size:1.15rem; color:#D32F2F; font-weight:800;">Setiap aplikasi dibuat
+              untuk menyelesaikan sebuah MASALAH! 💡</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- S3: PRE-TEST INTRO & LINK -->
+      <section class="slide" data-slide="3">
+        <div class="isplit" style="max-width:1100px; margin:auto; grid-template-columns: 0.8fr 1.5fr; gap: 3rem;">
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2256195a-2f18-4e3f-abbd-5db8c82acea4.png"
+              alt="Pre Test" style="max-height: 260px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.2));">
+          </div>
+          <div class="cz" style="text-align: left; display: flex; flex-direction: column; gap: 1.5rem;">
+            <h2 class="story-title" style="text-align: left; font-size: 2.8rem;">Cek Pengetahuan Awal</h2>
+            <div class="box rpg" style="text-align:left; background:#fff; border-color:var(--p); padding: 1.5rem 2rem;">
+              <p style="font-size:1.25rem; margin-bottom:0.5rem; color: #444; font-weight:700;">Sebelum mulai, mari kita
+                isi beberapa pertanyaan singkat terlebih dahulu.</p>
+              <p style="color:#666; font-size: 1.1rem; font-weight:600; line-height: 1.5;">Tujuannya hanya untuk melihat
+                pemahaman awal kita. Jangan khawatir, tidak ada jawaban yang salah.</p>
+            </div>
+            <div class="rpg" style="padding:2.5rem; background:#FFF8E1; border-color:var(--o); text-align:center;">
+              <p style="color:var(--pd); margin-bottom:1rem; font-size: 1.3rem; font-weight: 700;">Waktu: <strong
+                  style="color:var(--o); font-size: 1.6rem;">10 menit</strong></p>
+              <p style="color:#555; font-size:1.2rem; margin-bottom:1.5rem; font-weight:700;">Ketik link ini di browser:
+              </p>
+              <a href="#" class="pulse-btn"
+                style="margin: 1rem 0; padding: 1.2rem 3rem; font-size: 2.2rem; display: inline-block;">bit.ly/pre-sc-hp</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S5: APA ITU CODEPRENEUR? -->
+      <section class="slide" data-slide="5">
+        <div class="cz">
+          <h2 class="story-title">Apa itu Codepreneur?</h2>
+          <div class="twocol" style="max-width:960px; margin:1rem auto;">
+            <div class="tag-card tc-blue" style="flex-direction:column; text-align:center; padding:2rem;">
+              <div style="font-size:4rem; margin-bottom:1rem;">👨‍💻</div>
+              <h3 style="color:var(--p); margin-bottom:1rem; font-size:2rem;">Coder</h3>
+              <p style="font-size:1.15rem; color:#555;">Membuat sesuatu yang bermanfaat menggunakan kode program.</p>
+            </div>
+            <div class="tag-card tc-orange" style="flex-direction:column; text-align:center; padding:2rem;">
+              <div style="font-size:4rem; margin-bottom:1rem;">💼</div>
+              <h3 style="color:var(--o); margin-bottom:1rem; font-size:2rem;">Entrepreneur</h3>
+              <p style="font-size:1.15rem; color:#555;">Melihat masalah dan mencari solusi untuk membantu orang lain.
+              </p>
+            </div>
+          </div>
+          <div class="box" style="margin:2rem auto; max-width:850px;">
+            Jadi, <strong style="color:var(--o); font-size: 1.5rem;">Codepreneur</strong> adalah seseorang yang membuat
+            aplikasi untuk menyelesaikan masalah, dan mampu mengenalkan aplikasi tersebut dengan baik.
+          </div>
+        </div>
+      </section>
+
+      <!-- S6: APP SEHARI-HARI -->
+      <section class="slide" data-slide="6">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1rem;">App yang Sering Kita Pakai</h2>
+          <div class="num-grid"
+            style="max-width:1050px; margin:0 auto 1rem auto; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+            <div class="num-card" style="padding: 1.5rem;">
+              <div class="num-lbl"
+                style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU3PVRE_vleIyipQnw-7O8KiVVHHFbNTdCQA&s"
+                  style="max-height:100%; max-width:100%; object-fit:contain;" alt="Roblox"></div>
+              <div class="num-title" style="font-size: 1.2rem;">Bermain</div>
+              <div class="num-desc" style="font-size: 0.95rem;">Roblox, Minecraft</div>
+            </div>
+            <div class="num-card" style="padding: 1.5rem;">
+              <div class="num-lbl"
+                style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1280px-YouTube_full-color_icon_%282017%29.svg.png"
+                  style="max-height:100%; max-width:100%; object-fit:contain;" alt="YouTube"></div>
+              <div class="num-title" style="font-size: 1.2rem;">Hiburan</div>
+              <div class="num-desc" style="font-size: 0.95rem;">YouTube, TikTok</div>
+            </div>
+            <div class="num-card" style="padding: 1.5rem;">
+              <div class="num-lbl"
+                style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img
+                  src="https://cdn-web-2.ruangguru.com/landing-pages/assets/hs/1%20Homepage%20RG/logo%20ruangguru.png"
+                  style="max-height:100%; max-width:100%; object-fit:contain;" alt="Ruangguru"></div>
+              <div class="num-title" style="font-size: 1.2rem;">Belajar</div>
+              <div class="num-desc" style="font-size: 0.95rem;">Ruangguru, Duolingo</div>
+            </div>
+            <div class="num-card" style="padding: 1.5rem;">
+              <div class="num-lbl"
+                style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><img
+                  src="https://download.logo.wine/logo/WhatsApp/WhatsApp-Logo.wine.png"
+                  style="max-height:100%; max-width:100%; object-fit:contain;" alt="WhatsApp"></div>
+              <div class="num-title" style="font-size: 1.2rem;">Komunikasi</div>
+              <div class="num-desc" style="font-size: 0.95rem;">WhatsApp, Line</div>
+            </div>
+          </div>
+          <div class="box" style="margin: 0.5rem auto 0 auto; max-width:850px; padding: 1.2rem 2rem;">
+            Semua aplikasi ini dibuat untuk membantu aktivitas penggunanya. Hari ini kita akan belajar langkah awal
+            membuat aplikasi kita sendiri.
+          </div>
+        </div>
+      </section>
+
+      <!-- S7: MASALAH → APP -->
+      <section class="slide" data-slide="7">
+        <div class="cz">
+          <h2 class="story-title">Dari Masalah Menjadi App</h2>
+          <div style="max-width:1050px; margin:auto;">
+            <div class="process-row">
+              <div class="process-step">
+                <div class="info-icon">😕</div>
+                <div class="info-title">1. Masalah</div>
+                <div class="info-desc">Sering lupa minum air putih.</div>
+              </div>
+              <div class="process-arrow">➔</div>
+              <div class="process-step">
+                <div class="info-icon">💡</div>
+                <div class="info-title">2. Solusi</div>
+                <div class="info-desc">Membuat pengingat jadwal minum.</div>
+              </div>
+              <div class="process-arrow">➔</div>
+              <div class="process-step">
+                <div class="info-icon">📱</div>
+                <div class="info-title">3. Aplikasi</div>
+                <div class="info-desc">Catat waktu selesai minum di app.</div>
+              </div>
+              <div class="process-arrow">➔</div>
+              <div class="process-step">
+                <div class="info-icon">🌟</div>
+                <div class="info-title">4. Aksi</div>
+                <div class="info-desc">Pakai app agar tidak lupa!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S7.5: ENTREPRENEUR -->
+      <section class="slide" data-slide="7.5">
+        <div class="cz" style="max-width:900px; margin:auto; text-align:center;">
+          <h2 class="story-title" style="margin-bottom:2rem;">Jadi, Entrepreneur Itu Ngapain?</h2>
+          <div class="glow-box"
+            style="background:#FFF3E0; border:4px dashed var(--o); border-radius:30px; padding:3rem;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/06e51629-dc9a-4d81-9bb8-442eb2d04ae2.png"
+              style="width:150px; margin-bottom:1.5rem;" alt="Idea">
+            <p style="font-size:1.5rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">Entrepreneur itu seperti
+              detektif penolong!</p>
+            <p style="font-size:1.2rem; color:#555; line-height:1.6; margin-bottom:1.5rem;">
+              Kita keliling mencari masalah orang lain, kumpulkan ide keren, lalu bikin solusinya.<br>Aplikasi kita
+              harus <strong>membantu</strong> dan <strong>bermanfaat</strong> buat teman-teman!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- S8: KEGIATAN HARI INI -->
+      <section class="slide" data-slide="8">
+        <div class="cz">
+          <h2 class="story-title">Kegiatan Kita Hari Ini</h2>
+          <div class="num-grid" style="max-width:1000px; margin:1rem auto;">
+            <div class="num-card" style="border-top:5px solid var(--p)">
+              <div class="num-lbl"><img
+                  src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9631553e-ff8e-41f1-86c9-72a45ce2057d.png"
+                  style="width:55px;" alt="Icon"></div>
+              <div class="num-title">Persona Card</div>
+              <div class="num-desc">Mendapatkan tema project-mu.</div>
+            </div>
+            <div class="num-card" style="border-top:5px solid var(--g)">
+              <div class="num-lbl"><img
+                  src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9ac6bf60-0a30-49e4-bd19-d34fbbb86aaf.png"
+                  style="width:55px;" alt="Icon"></div>
+              <div class="num-title">Brainstorm</div>
+              <div class="num-desc">Menentukan pengguna dan masalah.</div>
+            </div>
+            <div class="num-card" style="border-top:5px solid var(--o)">
+              <div class="num-lbl"><img
+                  src="https://cdn-web-2.ruangguru.com/landing-pages/assets/fcaf0b42-f901-42b6-8125-1b5feff9e985.png"
+                  style="width:55px;" alt="Icon"></div>
+              <div class="num-title">Wireframe</div>
+              <div class="num-desc">Merancang tampilan layar app.</div>
+            </div>
+            <div class="num-card" style="border-top:5px solid var(--grn)">
+              <div class="num-lbl"><img
+                  src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ac328d9d-db77-4a37-9238-2f4c3a683e3f.png"
+                  style="width:55px;" alt="Icon"></div>
+              <div class="num-title">Nama & Logo</div>
+              <div class="num-desc">Menentukan identitas visual app.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S9: PERSONA CARD APA ITU? -->
+      <section class="slide" data-slide="9">
+        <div class="isplit" style="max-width:1050px; margin:auto;">
+          <div>
+            <span class="ihl">Mengenal Persona Card</span>
+            <p class="itext" style="margin-bottom:1.5rem;">Persona Card memberikan informasi tentang pengguna aplikasi
+              yang akan kita rancang.</p>
+            <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr);">
+              <div class="info-card">
+                <div class="info-icon">👤</div>
+                <div class="info-desc">Informasi mengenai <strong>karakter pengguna</strong>.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">❗</div>
+                <div class="info-desc">Detail mengenai <strong>masalah</strong> yang dihadapi.</div>
+              </div>
+              <div class="info-card" style="grid-column: span 2;">
+                <div class="info-icon">💬</div>
+                <div class="info-desc">Solusi dan <strong>kebutuhan</strong> pengguna.</div>
+              </div>
+            </div>
+          </div>
+          <div
+            style="background:#E1F5FE; border-radius:24px; padding:2.5rem; border:3px solid var(--p); position:relative;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2aa26094-08cf-429c-ba80-78fb40454eb1.png"
+              alt="Persona"
+              style="position:absolute; top:-50px; right:-30px; width:150px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); transform: rotate(5deg);">
+            <p style="font-size:1.2rem; color:var(--pd); font-weight:700; margin-bottom:1.5rem;">Contoh Persona Card:
+            </p>
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+              <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
+                <p style="font-size:1rem; color:#888; font-weight:700;">Karakter Pengguna</p>
+                <p style="font-weight:800; font-size:1.2rem; color:var(--pd);">Rika, Siswa SD</p>
+              </div>
+              <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
+                <p style="font-size:1rem; color:#888; font-weight:700;">Masalah Utama</p>
+                <p style="font-weight:600; font-size:1.1rem; color:#333;">Sering lupa mengecek barang bawaan sebelum
+                  berangkat sekolah.</p>
+              </div>
+              <div style="background:#fff; padding:1.2rem; border-radius:16px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
+                <p style="font-size:1rem; color:#888; font-weight:700;">Kebutuhan</p>
+                <p style="font-weight:600; font-size:1.1rem; color:#333;">Pengingat sederhana untuk mengecek barangnya
+                  satu per satu.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S10: AMBIL PERSONA CARD -->
+      <section class="slide" data-slide="10">
+        <div class="cz"
+          style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; gap:2rem;">
+          <h2 class="story-title">Dapatkan Persona Card-mu!</h2>
+          <div class="box glow-box"
+            style="max-width:700px; font-size:1.3rem; text-align:center; border-color:var(--p);">
+            <p style="margin-bottom:1.5rem;">Buka link di bawah ini untuk mendapatkan misi dalam bentuk komik bergambar!
+            </p>
+            <a href="#" class="pulse-btn" id="personaLink"
+              style="font-size: 2rem; display: inline-block; padding: 1.2rem 3rem;">bit.ly/gacha-persona</a>
+          </div>
+          <div
+            style="background:#FFF3E0; border:3px solid var(--o); border-radius:20px; padding:1.5rem 2rem; max-width:600px;">
+            <p style="color:var(--pd); font-size:1.2rem; font-weight:700;">Baca dan pahami cerita di komik tersebut,
+              karena kita akan merancang aplikasi khusus untuk membantu karakter itu.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- S12: Brainstorm: User &amp; Problem -->
+      <section class="slide" data-slide="12">
+        <div class="cz" style="max-width:950px; margin:auto;">
+          <h2 class="story-title">Brainstorm: User & Problem</h2>
+          <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
+            <div style="font-size:4rem; margin-bottom:1rem;">🧠</div>
+            <div style="text-align:left; max-width:800px; margin:auto;">
+              <p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">Tulis idemu:</p>
+              <div class="workbook-field">
+                <p style="font-weight:800; color:#444;">App-ku membantu...</p>
+                <div class="wb-line"></div>
+                <p style="font-weight:800; color:#444; margin-top:1rem;">Masalah yang ingin dibantu...</p>
+                <div class="wb-line"></div>
+                <div class="wb-line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S13: Brainstorm: Solusi App -->
+      <section class="slide" data-slide="13">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1.5rem;">Brainstorm: Solusi App</h2>
+          <p class="itext" style="max-width:820px; margin:0 auto 2rem auto;">Karena user butuh bantuan memahami pilihan,
+            kali ini kita akan membuat Guide App.</p>
+          <div class="process-row" style="max-width:1050px; margin:auto; flex-wrap:wrap;">
+            <div class="process-step">
+              <div class="info-icon">😕</div>
+              <div class="info-title">Problem</div>
+              <div class="info-desc">User bingung memilih atau memahami sesuatu.</div>
+            </div>
+            <div class="process-arrow">➔</div>
+            <div class="process-step">
+              <div class="info-icon">🧭</div>
+              <div class="info-title">Guide</div>
+              <div class="info-desc">App memberi panduan singkat.</div>
+            </div>
+            <div class="process-arrow">➔</div>
+            <div class="process-step">
+              <div class="info-icon">📱</div>
+              <div class="info-title">Guide App</div>
+              <div class="info-desc">User klik objek lalu membaca info.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S14: Apa itu Guide App? -->
+      <section class="slide" data-slide="14">
+        <div class="isplit" style="max-width:1050px; margin:auto;">
+          <div style="text-align: left; display: flex; flex-direction: column; gap: 1rem;">
+            <h2 class="story-title" style="text-align: left;">Apa itu Guide App?</h2>
+            <p class="itext">Guide App adalah aplikasi sederhana yang membantu user memahami suatu topik. Saat user
+              menekan sebuah item, aplikasi akan menampilkan informasi tentang item tersebut.</p>
+            <div class="box" style="background:#fff7ed; border-color:var(--o); padding:1.5rem; text-align:left;">
+              <p style="color:var(--o); font-weight:800; font-size:1.2rem; margin-bottom:0.5rem;">💡 Cara kerjanya:</p>
+              <ul style="margin-left: 1.5rem; font-size:1.15rem; color:#444;">
+                <li>User melihat berbagai pilihan (misal: jenis sampah).</li>
+                <li>User <strong>mengklik</strong> salah satu item.</li>
+                <li>Aplikasi menampilkan <strong>Information Box</strong> untuk menjelaskan item itu.</li>
+              </ul>
+            </div>
+          </div>
+          <div
+            style="background:#fff; border-radius:24px; padding:1.5rem; border:4px solid var(--p); box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+            <p style="font-size:1.2rem; color:var(--pd); font-weight:800; margin-bottom:1rem; text-align:center;">Contoh
+              Guide App</p>
+            <div style="width:100%; aspect-ratio:4/3; background:#e2e8f0; border-radius:16px; overflow:hidden;">
+              <iframe src="https://scratch.mit.edu/projects/1330301992/embed" allowtransparency="true" width="100%"
+                height="100%" frameborder="0" scrolling="no" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S15: Contoh Guide App dari Persona -->
+      <section class="slide" data-slide="15">
+        <div class="cz">
+          <h2 class="story-title">Contoh Guide App dari Persona</h2>
+          <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Kalau kartumu tentang bekal, app bisa
+            menjelaskan makanan sehat. Kalau tentang sampah, app bisa menjelaskan organik dan non-organik.</p>
+          <div class="bento-grid" style="max-width:1050px; margin:auto;">
+            <div class="info-card">
+              <div class="info-icon">🥗</div>
+              <div class="info-title">School Lunch</div>
+              <div class="info-desc">App menjelaskan makanan yang lebih sehat.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">♻️</div>
+              <div class="info-title">Trash Guide</div>
+              <div class="info-desc">App menjelaskan organic dan non-organic trash.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">💸</div>
+              <div class="info-title">Needs vs Wants</div>
+              <div class="info-desc">App menjelaskan barang kebutuhan dan keinginan.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S16: Pilih Isi Guide App -->
+      <section class="slide" data-slide="16">
+        <div class="cz" style="max-width:950px; margin:auto;">
+          <h2 class="story-title">Pilih Isi Guide App</h2>
+          <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
+            <div style="font-size:4rem; margin-bottom:1rem;">🧭</div>
+            <p style="font-size:1.25rem; color:#555; margin-bottom:1.5rem;">Pilih item yang akan muncul di app kamu.
+              Minimal 2 item, idealnya 3 item.</p>
+            <div class="bento-grid" style="grid-template-columns:repeat(3,1fr);">
+              <div class="info-card">
+                <div class="info-icon">1️⃣</div>
+                <div class="info-title">Item 1</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">2️⃣</div>
+                <div class="info-title">Item 2</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">3️⃣</div>
+                <div class="info-title">Item 3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S17: Tulis Information Text -->
+      <section class="slide" data-slide="17">
+        <div class="cz" style="max-width:950px; margin:auto;">
+          <h2 class="story-title">Tulis Information Text</h2>
+          <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
+            <div style="font-size:4rem; margin-bottom:1rem;">💬</div>
+            <p style="font-size:1.25rem; color:#555; margin-bottom:1.5rem;">Setiap item harus punya informasi.
+              Kalimatnya pendek, jelas, dan sesuai masalah user.</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; text-align:left;">
+              <div class="tag-card tc-green">
+                <div style="font-size:2rem;">✅</div>
+                <div><strong>Need:</strong><br>Water is a need. Our body needs water every day.</div>
+              </div>
+              <div class="tag-card tc-orange">
+                <div style="font-size:2rem;">⭐</div>
+                <div><strong>Want:</strong><br>A toy is a want. It is fun, but not a must-have.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S18: Kita Akan Membuat App Ini di Scratch -->
+      <section class="slide" data-slide="18">
+        <div class="cz" style="max-width:950px; margin:auto;">
+          <h2 class="story-title">Kita Akan Membuat App Ini di Scratch</h2>
+          <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
+            <div style="font-size:4rem; margin-bottom:1rem;">🐱</div>
+            <p style="font-size:1.45rem; line-height:1.7; color:#444;">Setelah punya ide, kita akan membuat app-nya di
+              <strong style="color:var(--o);">Scratch</strong>.<br><br>Jadi sekarang kita perlu tahu Scratch itu apa dan
+              bagaimana tampilannya.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- S19: Apa itu Scratch? -->
+      <section class="slide" data-slide="19">
+        <div class="cz" style="max-width:950px; margin:auto;">
+          <h2 class="story-title">Apa itu Scratch?</h2>
+          <div class="box rpg glow-box" style="background:#fff; border-color:var(--p); padding:2.5rem;">
+
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Scratchlogo.svg/960px-Scratchlogo.svg.png?_=20210622065930"
+              alt="Scratch Logo" style="height:100px; object-fit:contain; margin-bottom:1rem;">
+            <p style="font-size:1.35rem; line-height:1.7; color:#444;">Scratch adalah platform untuk membuat app,
+              animasi, dan game dengan menyusun blok kode seperti puzzle.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- S20: Masuk ke Scratch -->
+      <section class="slide" data-slide="20">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1.5rem;">Masuk ke Scratch</h2>
+          <p class="itext" style="max-width:820px; margin:0 auto 2rem auto;">Sekarang kita masuk ke Scratch
+            bersama-sama. Ikuti guru dulu dan jangan klik terlalu jauh.</p>
+          <div class="process-row" style="max-width:1050px; margin:auto; flex-wrap:wrap;">
+            <div class="process-step">
+              <div class="info-icon">🌐</div>
+              <div class="info-title">Buka Browser</div>
+              <div class="info-desc">Ketik <strong>scratch.mit.edu</strong>.</div>
+            </div>
+            <div class="process-arrow">➔</div>
+            <div class="process-step">
+              <div class="info-icon">🔑</div>
+              <div class="info-title">Sign In</div>
+              <div class="info-desc">Masuk dengan akun Scratch.</div>
+            </div>
+            <div class="process-arrow">➔</div>
+            <div class="process-step">
+              <div class="info-icon">👀</div>
+              <div class="info-title">Ikuti Guru</div>
+              <div class="info-desc">Jangan klik terlalu jauh dulu.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S21: Create New Project -->
+      <section class="slide" data-slide="21">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1.5rem;">Create New Project</h2>
+          <p class="itext" style="max-width:820px; margin:0 auto 2rem auto;">Setelah login, klik Create untuk membuka
+            halaman kerja Scratch.</p>
+          <div class="process-row" style="max-width:1050px; margin:auto; flex-wrap:wrap;">
+            <div class="process-step">
+              <div class="info-icon">➕</div>
+              <div class="info-title">Klik Create</div>
+              <div class="info-desc">Buka halaman kerja Scratch.</div>
+            </div>
+            <div class="process-arrow">➔</div>
+            <div class="process-step">
+              <div class="info-icon">🏷️</div>
+              <div class="info-title">Rename Project</div>
+              <div class="info-desc">Ganti nama project sesuai app.</div>
+            </div>
+            <div class="process-arrow">➔</div>
+            <div class="process-step">
+              <div class="info-icon">💾</div>
+              <div class="info-title">Cek Tersimpan</div>
+              <div class="info-desc">Pastikan judul project sudah berubah.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S22: Tampilan Scratch -->
+      <section class="slide" data-slide="22">
+        <div class="cz" style="max-width:1100px; margin:auto;">
+          <h2 class="story-title">Tampilan Scratch</h2>
+          <div
+            style="background:#fff; border-radius:16px; padding:1.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.1); border:3px solid var(--p); max-width: 950px; margin: 1rem auto 0 auto;">
+            <img
+              src="https://www.digitaltravellers.org/wp-content/uploads/2020/05/Screenshot-2020-07-23-at-11.31.48-1024x833.png"
+              alt="Scratch Workspace" style="width:100%; height:auto; border-radius:8px;">
+          </div>
+        </div>
+      </section>
+
+      <!-- S23: Apa itu Sprite? -->
+      <section class="slide" data-slide="23">
+        <div class="cz">
+          <h2 class="story-title">Apa itu Sprite?</h2>
+          <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Sprite adalah objek di app. Sprite bisa
+            berupa tombol, gambar makanan, gambar sampah, ikon, atau information box.</p>
+          <div class="bento-grid" style="max-width:1050px; margin:auto;">
+            <div class="info-card">
+              <div class="info-icon">🔘</div>
+              <div class="info-title">Button</div>
+              <div class="info-desc">Start, Back, Try Again.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🍎</div>
+              <div class="info-title">Item</div>
+              <div class="info-desc">Makanan, sampah, barang, ikon.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">💬</div>
+              <div class="info-title">Information Box</div>
+              <div class="info-desc">Kotak info juga bisa dibuat sebagai tampilan sprite.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">👾</div>
+              <div class="info-title">Karakter</div>
+              <div class="info-desc">Sprite juga bisa berupa karakter.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S24: Apa itu Backdrop? -->
+      <section class="slide" data-slide="24">
+        <div class="cz">
+          <h2 class="story-title">Apa itu Backdrop?</h2>
+          <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Backdrop adalah latar atau layar app.
+            Misalnya layar pembuka, layar utama, atau background guide.</p>
+          <div class="bento-grid" style="max-width:1050px; margin:auto;">
+            <div class="info-card">
+              <div class="info-icon">🏠</div>
+              <div class="info-title">Home Screen</div>
+              <div class="info-desc">Layar pembuka app.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🧭</div>
+              <div class="info-title">Guide Screen</div>
+              <div class="info-desc">Layar utama tempat user memilih item.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🎨</div>
+              <div class="info-title">Background</div>
+              <div class="info-desc">Warna atau gambar latar app.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="15">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 2rem;">Plan - Kebutuhan Aset 🎨</h2>
+          <div
+            style="display:flex; flex-direction:column; gap: 2rem; max-width: 800px; margin: auto; text-align: left;">
+
+            <div class="box rpg glow-box"
+              style="background:#fff; border-color:var(--p); padding:2rem; display:flex; align-items:center; gap:2rem;">
+              <div style="font-size:5rem; filter:drop-shadow(0 10px 10px rgba(0,0,0,0.1));">👾</div>
+              <div style="flex:1;">
+                <p style="font-size:1.4rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">1. Ada berapa <strong
+                    style="color:var(--o);">Sprite</strong> yang kamu gunakan?</p>
+                <div class="workbook-field">
+                  <div class="wb-line"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="box rpg glow-box"
+              style="background:#fff; border-color:var(--g); padding:2rem; display:flex; align-items:center; gap:2rem;">
+              <div style="font-size:5rem; filter:drop-shadow(0 10px 10px rgba(0,0,0,0.1));">🖼️</div>
+              <div style="flex:1;">
+                <p style="font-size:1.4rem; font-weight:800; color:var(--pd); margin-bottom:1rem;">2. Ada berapa <strong
+                    style="color:var(--o);">Background</strong> yang kamu gunakan?</p>
+                <div class="workbook-field">
+                  <div class="wb-line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S16: APERSEPSI WIREFRAME -->
+      <section class="slide" data-slide="16">
+        <div class="cz"
+          style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 2rem;">
+          <h2 class="story-title" style="font-size: 3.5rem;">Sebelum Membangun Rumah... 🏠</h2>
+          <div
+            style="display:flex; gap: 3rem; align-items:center; justify-content:center; max-width: 950px; margin-top: 1rem;">
+            <div
+              style="flex:1; background:#FFF3E0; border:4px dashed var(--o); border-radius:30px; padding:3rem; text-align: left;">
+              <p style="font-size:1.4rem; color:#444; line-height:1.6; font-weight:700; margin-bottom: 1.5rem;">
+                Pernahkah kamu melihat tukang bangunan membuat rumah? Mereka tidak langsung menumpuk batu bata, kan?
+              </p>
+              <p style="font-size:1.4rem; color:#444; line-height:1.6; font-weight:700; margin-bottom: 1.5rem;">
+                Mereka pasti menggambar <strong style="color:var(--o); font-size:1.8rem;">Denah</strong> atau sketsa
+                terlebih dahulu di atas kertas!
+              </p>
+              <p style="font-size:1.4rem; color:var(--pd); line-height:1.6; font-weight:800;">
+                Sama seperti rumah, sebelum membuat aplikasi di komputer, kita juga butuh "denah". Kira-kira apa ya
+                namanya? 🤔
+              </p>
+            </div>
+            <div style="font-size: 8rem; filter: drop-shadow(0 15px 20px rgba(0,0,0,0.1));">🏗️</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S17: WIREFRAME APA ITU? -->
+      <section class="slide" data-slide="17">
+        <div class="isplit" style="max-width:1050px; margin:auto; align-items: center;">
+          <div>
+            <span class="ihl" style="font-size: 2.2rem; color: var(--pd);">Jawabannya: Wireframe! 📐</span>
+            <p class="itext" style="margin-bottom:1.5rem; font-size: 1.3rem;">Wireframe itu sketsa atau denah kasar
+              aplikasimu, sebelum dibuat betulan di komputer.</p>
+            <p style="color:var(--pd); font-size:1.3rem; font-weight:800; margin-bottom:1rem;">Panduan Menggambar:</p>
+            <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr);">
+              <div class="info-card">
+                <div class="info-icon">📱</div>
+                <div class="info-desc"><strong>Layar HP</strong><br>(Kotak Besar)</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">🔲</div>
+                <div class="info-desc"><strong>Tombol</strong><br>(Kotak Kecil)</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">➖</div>
+                <div class="info-desc"><strong>Tulisan / Teks</strong><br>(Garis Lurus)</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">✖️</div>
+                <div class="info-desc"><strong>Tempat Gambar</strong><br>(Kotak Silang X)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Wireframe Example (Kids Friendly) -->
+          <div
+            style="display:flex; flex-direction:column; align-items:center; background:#E1F5FE; border-radius:30px; padding:2rem; border:4px solid var(--p); box-shadow: 0 10px 30px rgba(0,180,216,0.15);">
+            <p
+              style="color:var(--pd); font-family:'Fredoka',sans-serif; font-size:1.4rem; font-weight:800; margin-bottom:1.5rem;">
+              Contoh Sketsa (Wireframe):</p>
+
+            <div
+              style="width: 250px; height: 450px; background: #fff; border: 8px solid #cbd5e1; border-radius: 36px; padding: 2rem 1.5rem 1.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 25px 50px rgba(0,180,216,0.15), inset 0 0 0 4px #f8fafc; position: relative; overflow: hidden;">
+
+              <!-- Notch -->
+              <div
+                style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 24px; background: #cbd5e1; border-radius: 0 0 16px 16px;">
+              </div>
+
+              <!-- Teks Judul -->
+              <div
+                style="width: 80%; height: 20px; background: linear-gradient(90deg, #E2E8F0, #F1F5F9); border-radius: 10px; margin-top: 15px;">
+              </div>
+
+              <!-- Gambar (Silang) -->
+              <div
+                style="width: 100%; height: 150px; background: #F8FAFC; border: 3px dashed #94A3B8; border-radius: 20px; display: flex; align-items: center; justify-content: center; position:relative; margin-top:0.5rem; transition: transform 0.3s;">
+                <span style="font-size: 4rem; color: #E2E8F0; position:absolute;">✖</span>
+                <span
+                  style="font-size: 0.9rem; font-weight:800; color:#64748B; z-index:2; background:#F8FAFC; padding: 2px 8px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">Gambar</span>
+              </div>
+
+              <!-- Teks Deskripsi -->
+              <div style="width: 100%; display:flex; flex-direction:column; gap:10px; margin-top:0.5rem;">
+                <div style="width: 100%; height: 12px; background: #E2E8F0; border-radius: 6px;"></div>
+                <div style="width: 85%; height: 12px; background: #E2E8F0; border-radius: 6px;"></div>
+                <div style="width: 60%; height: 12px; background: #E2E8F0; border-radius: 6px;"></div>
+              </div>
+
+              <!-- Tombol -->
+              <div
+                style="width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--p), var(--pd)); border-radius: 16px; margin-top: auto; display:flex; justify-content:center; align-items:center; color: #fff; font-weight: 800; box-shadow: 0 8px 16px rgba(0,180,216,0.3); font-size: 1.1rem; letter-spacing: 1px;">
+                TOMBOL
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- S18: WORKSHOP WIREFRAME -->
+      <section class="slide" data-slide="18">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1rem;">Plan - Wireframe (Sketsa Kasar) ✍️</h2>
+          <div
+            style="display:grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; max-width: 1050px; margin: auto; align-items: stretch;">
+
+            <div class="box rpg" style="background:#fff; border-color:var(--p); text-align:left; padding:2rem;">
+              <p style="font-size:1.25rem; color:#444; line-height:1.6; font-weight:700; margin-bottom:1.5rem;">
+                Bagaimana gambaran Aplikasi kamu nanti? Gambarlah dengan tangan atau gunakan <em>shapes</em> dan gambar!
+              </p>
+              <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 1.5rem;">
+                <div class="info-card" style="padding: 1.2rem;">
+                  <div class="info-icon" style="font-size:2.5rem;">📋</div>
+                  <div class="info-desc">1. Siapkan tempat membuat wireframe.</div>
+                </div>
+                <div class="info-card" style="padding: 1.2rem;">
+                  <div class="info-icon" style="font-size:2.5rem;">📱</div>
+                  <div class="info-desc">2. Gambar kotak besar untuk layarnya.</div>
+                </div>
+                <div class="info-card" style="padding: 1.2rem;">
+                  <div class="info-icon" style="font-size:2.5rem;">🔲</div>
+                  <div class="info-desc">3. Masukkan kotak tombol, teks, gambar.</div>
+                </div>
+                <div class="info-card" style="padding: 1.2rem;">
+                  <div class="info-icon" style="font-size:2.5rem;">✌️</div>
+                  <div class="info-desc">4. Bikin minimal <strong>2 desain layar</strong>.</div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="background:#F8FAFC; border-radius:24px; border:4px dashed #CBD5E1; padding: 1.5rem; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+              <p style="font-size:1.2rem; color:var(--pd); font-weight:800; margin-bottom:1rem;">Contoh Hasil Akhir:</p>
+              <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f1f8e99c-87f5-451d-9409-66f9d7451893.png"
+                alt="Contoh Wireframe"
+                style="width:100%; height:auto; border-radius:12px; object-fit:contain; max-height: 280px; box-shadow:0 8px 20px rgba(0,0,0,0.1);">
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- S16: DESAIN LOGO -->
+      <section class="slide" data-slide="16">
+        <div class="isplit" style="max-width:1050px; margin:auto;">
+          <div>
+            <span class="ihl">Mendesain Logo App</span>
+            <p class="itext" style="margin-bottom:1.5rem;">Bikin logo yang simpel supaya aplikasimu gampang dikenali!
+            </p>
+            <div class="bento-grid" style="grid-template-columns: repeat(3, 1fr);">
+              <div class="info-card">
+                <div class="info-icon">🔵</div>
+                <div class="info-desc">Pakai bentuk yang simpel.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">🌈</div>
+                <div class="info-desc">Pilih 1–2 warna saja.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">🖼️</div>
+                <div class="info-desc">Pilih simbol yang nyambung.</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+            <div
+              style="background:linear-gradient(135deg,#00B4D8,#48CAE4); border-radius:24px; padding:2rem; text-align:center; box-shadow:0 8px 20px rgba(0,180,216,0.3);">
+              <p style="font-size:3.5rem">🎒</p>
+              <p style="font-size:1.2rem; font-weight:800; color:#fff; margin-top:.5rem;">Bag Check</p>
+            </div>
+            <div
+              style="background:linear-gradient(135deg,#52B788,#74C69D); border-radius:24px; padding:2rem; text-align:center; box-shadow:0 8px 20px rgba(82,183,136,0.3);">
+              <p style="font-size:3.5rem">🧹</p>
+              <p style="font-size:1.2rem; font-weight:800; color:#fff; margin-top:.5rem;">Kelas Rapi</p>
+            </div>
+            <div
+              style="background:linear-gradient(135deg,#F77F00,#FCBF49); border-radius:24px; padding:2rem; text-align:center; box-shadow:0 8px 20px rgba(247,127,0,0.3);">
+              <p style="font-size:3.5rem">💰</p>
+              <p style="font-size:1.2rem; font-weight:800; color:#fff; margin-top:.5rem;">Jajan Pintar</p>
+            </div>
+            <div
+              style="background:linear-gradient(135deg,#9D4EDD,#C77DFF); border-radius:24px; padding:2rem; text-align:center; box-shadow:0 8px 20px rgba(157,78,221,0.3);">
+              <p style="font-size:3.5rem">🎧</p>
+              <p style="font-size:1.2rem; font-weight:800; color:#fff; margin-top:.5rem;">TabunganKu</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S17: PRESENTASI IDE -->
+      <section class="slide" data-slide="17">
+        <div class="cz">
+          <h2 class="story-title">Presentasi Ide</h2>
+          <div class="box" style="max-width:800px; margin:2rem auto; font-size:1.3rem;">
+            <p style="margin-bottom:1.5rem; font-weight:800; color:var(--pd);">Ada yang mau mencoba? <strong
+                style="color:var(--o); font-size:1.6rem;">1–2 menit</strong> untuk mengenalkan idenya di depan kelas.
+            </p>
+            <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 1.5rem;">
+              <div class="info-card">
+                <div class="info-icon">📛</div>
+                <div class="info-desc">Nama aplikasi dan fungsi utamanya.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">👤</div>
+                <div class="info-desc">Siapa target penggunanya.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">🔧</div>
+                <div class="info-desc">Masalah apa yang diselesaikan.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-icon">⚡</div>
+                <div class="info-desc">Fitur utama di wireframe.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- S31: Exit Check ✅ -->
+      <section class="slide" data-slide="31">
+        <div class="cz">
+          <h2 class="story-title">Exit Check ✅</h2>
+          <p class="itext" style="max-width:850px; margin:0 auto 1rem auto;">Sebelum selesai, pastikan kamu sudah punya
+            persona, ide app, sudah masuk Scratch, dan punya wireframe.</p>
+          <div class="bento-grid" style="max-width:1050px; margin:auto;">
+            <div class="info-card">
+              <div class="info-icon">🃏</div>
+              <div class="info-title">Persona</div>
+              <div class="info-desc">Sudah dapat dan paham Persona Card.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">💡</div>
+              <div class="info-title">Ide App</div>
+              <div class="info-desc">Sudah tahu user, problem, dan solusi.</div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">🐱</div>
+              <div class="info-title">Scratch</div>
+              <div class="info-desc">Sudah berhasl masuk Scratch.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">✏️</div>
+              <div class="info-title">Wireframe</div>
+              <div class="info-desc">Punya rancangan layar app.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="controls">
+      <button class="btn btn-p" id="prevBtn">← Kembali</button>
+      <div class="pag" id="pagination"></div>
+      <button class="btn btn-n" id="nextBtn">Lanjut →</button>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const startBtn = document.getElementById("startBtn");
+      const pagination = document.getElementById("pagination");
+      let cur = 0;
+
+      function createPag() {
+        slides.forEach((_, i) => {
+          const d = document.createElement("button");
+          d.className = "dot"; d.title = `Slide ${i + 1}`;
+          d.addEventListener("click", () => goTo(i));
+          pagination.appendChild(d);
+        });
+      }
+
+      function updatePag() {
+        pagination.querySelectorAll(".dot").forEach((d, i) => d.classList.toggle("active", i === cur));
+      }
+
+      function goTo(i) {
+        if (i < 0) i = 0;
+        if (i >= slides.length) i = slides.length - 1;
+        slides.forEach(s => {
+          s.classList.remove("active");
+          s.style.transform = "translateY(50px) scale(.95)";
+        });
+        cur = i;
+        setTimeout(() => {
+          slides[cur].classList.add("active");
+          slides[cur].style.transform = "translateY(0) scale(1)";
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 50);
+        updatePag();
+      }
+
+      createPag();
+      updatePag();
+
+      prevBtn.addEventListener("click", () => goTo(cur - 1));
+      nextBtn.addEventListener("click", () => goTo(cur + 1));
+      if (startBtn) startBtn.addEventListener("click", () => goTo(1));
+
+      window.addEventListener("keydown", e => {
+        if (e.key === "ArrowRight") goTo(cur + 1);
+        if (e.key === "ArrowLeft") goTo(cur - 1);
+      });
+
+      // Game Tebak Logo Logic
+      const logos = [
+        { src: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg', name: 'WhatsApp' },
+        { src: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg', name: 'YouTube' },
+        { src: 'https://lelogama.go-jek.com/cms_editor/2021/05/28/info-gojek-2.png', name: 'Gojek' },
+        { src: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', name: 'TikTok' },
+        { src: 'https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg', name: 'Roblox' },
+        { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwSvZxedWxYBQ8Hme4IKXPAuOzK6lu4xSJ8Q&s', name: 'Duolingo' }
+      ];
+      let curLogo = 0;
+      const imgLogo = document.getElementById("guessLogoImg");
+      const overlayLogo = document.getElementById("guessLogoOverlay");
+      const qText = document.getElementById("guessLogoQuestion");
+      const aText = document.getElementById("guessLogoAnswer");
+      const btnReveal = document.getElementById("btnRevealLogo");
+      const btnNextLogo = document.getElementById("btnNextLogo");
+      const logoCounter = document.getElementById("guessLogoCounter");
+
+      if (btnReveal) {
+        function loadLogo() {
+          imgLogo.src = logos[curLogo].src;
+          imgLogo.style.filter = "blur(6px) grayscale(50%) brightness(0.8)";
+          overlayLogo.style.display = "flex";
+          qText.style.display = "block";
+          aText.style.display = "none";
+          aText.innerText = logos[curLogo].name;
+          btnReveal.style.display = "inline-block";
+          btnNextLogo.style.display = "none";
+          logoCounter.innerText = curLogo + 1;
+        }
+
+        btnReveal.addEventListener("click", () => {
+          imgLogo.style.filter = "blur(0px) contrast(1) brightness(1)";
+          overlayLogo.style.display = "none";
+          qText.style.display = "none";
+          aText.style.display = "block";
+          btnReveal.style.display = "none";
+          if (curLogo < logos.length - 1) {
+            btnNextLogo.style.display = "inline-block";
+          }
+        });
+
+        btnNextLogo.addEventListener("click", () => {
+          if (curLogo < logos.length - 1) {
+            curLogo++;
+            loadLogo();
+          }
+        });
+
         loadLogo();
       }
-    });
-    
-    loadLogo();
-  }
 
-})();
-</script>
+    })();
+  </script>
 </body>
+
 </html>

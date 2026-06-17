@@ -1,707 +1,1579 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Scratch Codepreneur - Day 4 Online</title>
-<link rel="icon" type="image/png" href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  --p: #00B4D8; --pd: #0284c7; --g: #FFB703; --o: #FB8500; --grn: #10b981;
-  --card: rgba(255, 255, 255, 0.65); --txt: #1e293b; --muted: #64748b;
-  --r: 32px; --sh: 0 25px 50px -12px rgba(0,0,0,0.15);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-  font-family: "Nunito", sans-serif; 
-  background-color: #79d0fd;
-  background-attachment: fixed;
-  color: var(--txt); 
-  min-height: 100vh; 
-  display: flex; 
-  align-items: stretch; 
-  justify-content: center; 
-  padding: 1.5rem; 
-  overflow-x: hidden;
-}
-h1, h2, h3, .cov-h, .story-title, .slide-title { font-family: "Fredoka", sans-serif; letter-spacing: .02em; }
-.wrap { max-width: 1200px; width: 100%; margin: auto; display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 10; }
-.lfix { position: fixed; z-index: 20; pointer-events: none; }
-.lfix.l { top: 30px; left: 30px; }
-.lfix.r { top: 30px; right: 30px; }
 
-/* ══════════════════════════════════════
+<head>
+  <meta charset="UTF-8">
+  <title>Scratch Codepreneur - Day 4 Online</title>
+  <link rel="icon" type="image/png"
+    href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --p: #00B4D8;
+      --pd: #0284c7;
+      --g: #FFB703;
+      --o: #FB8500;
+      --grn: #10b981;
+      --card: rgba(255, 255, 255, 0.65);
+      --txt: #1e293b;
+      --muted: #64748b;
+      --r: 32px;
+      --sh: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Nunito", sans-serif;
+      background-color: #79d0fd;
+      background-attachment: fixed;
+      color: var(--txt);
+      min-height: 100vh;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    .cov-h,
+    .story-title,
+    .slide-title {
+      font-family: "Fredoka", sans-serif;
+      letter-spacing: .02em;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      width: 100%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .lfix {
+      position: fixed;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .lfix.l {
+      top: 30px;
+      left: 30px;
+    }
+
+    .lfix.r {
+      top: 30px;
+      right: 30px;
+    }
+
+    /* ══════════════════════════════════════
    STAGE — Full-screen scene container
 ══════════════════════════════════════ */
-.stage {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 1000px;
-    z-index: 0;
-}
-.layer-container {
-    position: absolute;
-    inset: -60px;
-    pointer-events: none;
-    will-change: transform;
-    transform-style: preserve-3d;
-}
-.pos-abs { position: absolute; }
+    .stage {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1000px;
+      z-index: 0;
+    }
 
-/* ── Layers ──────────── */
-.layer-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.layer-clouds { top: -5%; left: -5%; right: -5%; height: 65%; animation: driftClouds 60s linear infinite; }
-.layer-clouds img { width: 100%; height: 100%; object-fit: contain; object-position: top center; opacity: 0.85; mix-blend-mode: overlay; }
-@keyframes driftClouds { 0% { transform: translateX(0) scale(1.1); } 50% { transform: translateX(2%) scale(1.1); } 100% { transform: translateX(0) scale(1.1); } }
-.layer-skyline { bottom: 10%; left: -2%; right: -2%; width: 104%; }
-.layer-skyline img { width: 100%; height: auto; display: block; opacity: 0.9; }
-.layer-bldg-left { bottom: 8%; left: -2%; width: clamp(150px, 20vw, 300px); animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: bottom left; }
-@keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
-.layer-bldg-right { bottom: 8%; right: -2%; width: clamp(150px, 20vw, 300px); animation: slideInRight 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.1s; transform-origin: bottom right; }
-@keyframes slideInRight { from { opacity: 0; transform: translateX(100px) scale(0.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
-.layer-ground { bottom: -40px; left: -40px; right: -40px; width: calc(100% + 80px); }
-.layer-ground img { width: 100%; height: auto; display: block; filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.1)); }
-.layer-bush-left { bottom: 6%; left: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.2s; transform-origin: bottom center; }
-.layer-bush-right { bottom: 6%; right: 1%; width: clamp(100px, 15vw, 180px); animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.3s; transform-origin: bottom center; transform: scaleX(-1); }
-@keyframes popInBush { from { opacity: 0; transform: translateY(50px) scale(0.5); } to { opacity: 1; transform: translateY(0) scale(1); } }
-.deco-code-left { left: 8%; top: 22%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(34, 169, 121, 0.3)); animation: floatDeco 6s ease-in-out infinite; }
-.deco-binary-right { right: 8%; top: 15%; width: clamp(70px, 9vw, 120px); filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3)); animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate; }
-.deco-code-right { right: 6%; bottom: 28%; width: clamp(60px, 7vw, 100px); filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3)); animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse; }
-@keyframes floatDeco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-25px) rotate(3deg); } }
+    .layer-container {
+      position: absolute;
+      inset: -60px;
+      pointer-events: none;
+      will-change: transform;
+      transform-style: preserve-3d;
+    }
 
-.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid rgba(255, 255, 255, 0.8); margin-top: 1.5rem; transition: transform 0.3s ease; }
-.topbar:hover { transform: translateY(-2px); }
-.logo-row { display: flex; align-items: center; gap: 16px; }
-.t-main { font-size: 1.4rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
-.t-sub { font-size: .95rem; color: var(--muted); font-weight: 700; }
-.kbd { background: var(--p); color: #fff; padding: .2rem .6rem; border-radius: 8px; box-shadow: 0 4px 0 #0284c7; font-size: 0.85rem; letter-spacing: 1px; }
-.frame { position: relative; flex: 1; height: 700px; min-height: 700px; display: block; margin-top: 1rem; width: 100%; }
-.slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: var(--r); padding: 3.5rem; box-shadow: var(--sh); display: flex; flex-direction: column; gap: 2rem; opacity: 0; pointer-events: none; transform: translateY(60px) scale(.92); transition: all .6s cubic-bezier(.34, 1.56, .64, 1); border: 2px solid rgba(255, 255, 255, 0.9); overflow-y: auto; }
-.slide.active { position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 100%; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); z-index: 5; }
+    .pos-abs {
+      position: absolute;
+    }
 
-/* Custom Scrollbar */
-.slide::-webkit-scrollbar { width: 8px; }
-.slide::-webkit-scrollbar-track { background: transparent; margin: 1rem; }
-.slide::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
-.slide::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.3); }
+    /* ── Layers ──────────── */
+    .layer-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
 
-.slide-cover { background: rgba(255,255,255,0.85); }
-.cov-inner { width: 100%; height: 100%; padding: 2rem; align-items: center; gap: 2rem; }
-.cov-h { font-size: 4.5rem; color: var(--pd); line-height: 1.1; margin-bottom: 1.5rem; }
-.cov-h span { background: linear-gradient(135deg, var(--o), #FF3366); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; text-shadow: none; filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0,0,0,0.1)); }
-.slide-title { font-size: 2.8rem; color: var(--pd); margin-bottom: .5rem; }
-.isplit { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: center; position: relative; z-index: 2; flex: 1; width: 100%; height: 100%; }
-.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; z-index: 2; flex: 1; width: 100%; height: 100%; }
-.cz { position: relative; z-index: 2; width: 100%; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; }
-.story-title { font-size: 3.4rem; margin-bottom: 1.5rem; line-height: 1.2; color: var(--pd); text-shadow: 2px 2px 0px rgba(255,255,255,0.3); }
+    .layer-clouds {
+      top: -5%;
+      left: -5%;
+      right: -5%;
+      height: 65%;
+      animation: driftClouds 60s linear infinite;
+    }
 
-.box { font-size: 1.3rem; line-height: 1.6; background: rgba(255,255,255,0.9); padding: 2rem 2.5rem; border-radius: 24px; border: 2px solid var(--p); box-shadow: 0 12px 24px rgba(0,180,216,0.1); color: var(--txt); font-weight: 700; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.box:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,180,216,0.15); }
-.rpg { background: linear-gradient(145deg, #ffffff, #f1f5f9); border: 2px solid #e2e8f0; border-radius: 24px; padding: 2.5rem; text-align: center; max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,.05); }
-.ihl { color: var(--o); font-weight: 800; font-size: 2rem; display: block; margin-bottom: 1rem; font-family: "Fredoka", sans-serif; }
-.itext { font-size: 1.3rem; line-height: 1.6; font-weight: 600; color: var(--muted); }
+    .layer-clouds img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
+      opacity: 0.85;
+      mix-blend-mode: overlay;
+    }
 
-.pill-list { display: flex; flex-direction: column; gap: 1.2rem; }
-.pill { display: flex; align-items: center; gap: 1.5rem; padding: 1.2rem 1.8rem; border-radius: 24px; background: #ffffff; border: 1px solid #e2e8f0; transition: all .3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 1.2rem; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,.03); }
-.pill:hover { transform: translateX(12px) scale(1.02); border-color: var(--p); background: #f0f9ff; box-shadow: 0 8px 20px rgba(0,180,216,.1); }
+    @keyframes driftClouds {
+      0% {
+        transform: translateX(0) scale(1.1);
+      }
 
-.bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-top: 1rem; width: 100%; }
-.info-card { background: #ffffff; padding: 1.5rem; border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); border: 2px solid #e2e8f0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
-.info-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,180,216,0.12); border-color: var(--p); }
-.info-icon { font-size: 3.5rem; margin-bottom: 0.5rem; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
-.info-card:hover .info-icon { transform: scale(1.1) rotate(5deg); }
-.info-title { font-size: 1.3rem; font-weight: 800; color: var(--pd); font-family: "Fredoka", sans-serif; line-height: 1.2; }
-.info-desc { font-size: 1.05rem; color: #64748b; font-weight: 600; line-height: 1.5; }
+      50% {
+        transform: translateX(2%) scale(1.1);
+      }
 
-.process-row { display: flex; align-items: stretch; justify-content: space-between; gap: 1rem; width: 100%; margin-top: 1rem; flex-wrap: wrap; }
-.process-step { background: #fff; border: 3px solid #e2e8f0; padding: 1.5rem 1rem; border-radius: 24px; flex: 1; min-width: 150px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; gap: 0.8rem; position: relative; transition: all 0.3s ease; }
-.process-step:hover { border-color: var(--p); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,180,216,0.15); }
-.process-arrow { font-size: 2.5rem; color: #cbd5e1; display: flex; align-items: center; justify-content: center; font-weight: 900; animation: pulseArrow 2s infinite; }
-@keyframes pulseArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); color: var(--o); } }
+      100% {
+        transform: translateX(0) scale(1.1);
+      }
+    }
 
-.tag-l { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--pd); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
-.tag-o { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--o); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
-.tag-g { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 24px; padding: 2rem; border-left: 6px solid var(--grn); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
+    .layer-skyline {
+      bottom: 10%;
+      left: -2%;
+      right: -2%;
+      width: 104%;
+    }
 
-.react-e { font-size: 5rem; cursor: pointer; transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; }
-.react-e:hover { transform: scale(1.3) rotate(15deg); }
-.controls { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 1rem 2rem; border-radius: 999px; margin-top: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,.08); border: 1px solid rgba(255,255,255,0.9); }
-.btn { cursor: pointer; padding: .6rem 1.2rem; font-weight: 700; border: none; border-radius: 12px; font-size: 1.1rem; transition: all .2s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: .8rem; }
-.btn-p { background: #f1f5f9; color: #475569; box-shadow: 0 4px 0 #cbd5e1; }
-.btn-p:hover { background: #e2e8f0; transform: translateY(-2px); box-shadow: 0 6px 0 #94a3b8; }
-.btn-p:active { transform: translateY(4px); box-shadow: 0 0 0 #cbd5e1; }
-.btn-n { background: linear-gradient(135deg, var(--g), #f59e0b); color: #fff; box-shadow: 0 6px 0 #b45309; text-shadow: 1px 1px 0 rgba(0,0,0,0.2); }
-.btn-n:hover { background: linear-gradient(135deg, #f59e0b, #ea580c); transform: translateY(-2px); box-shadow: 0 8px 0 #9a3412; }
-.btn-n:active { transform: translateY(4px); box-shadow: 0 0 0 #b45309; }
+    .layer-skyline img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.9;
+    }
 
-.pag { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0.6rem 1.2rem; background: rgba(0,0,0,0.03); border-radius: 30px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
-.dot { width: 12px; height: 12px; background: rgba(0,0,0,0.15); border-radius: 10px; cursor: pointer; transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1); border: none; }
-.dot:hover { background: rgba(0,0,0,0.3); transform: scale(1.1); }
-.dot.active { width: 36px; background: linear-gradient(135deg, var(--p), var(--pd)); box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4); transform: scale(1.1); }
+    .layer-bldg-left {
+      bottom: 8%;
+      left: -2%;
+      width: clamp(150px, 20vw, 300px);
+      animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      transform-origin: bottom left;
+    }
 
-.grad-text-o { background: linear-gradient(135deg, #f59e0b, #ea580c); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
-.grad-text { color: var(--pd); }
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100px) scale(0.9);
+      }
 
-.glow-box { background: #fff; border: 2px solid transparent; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
-.glow-box:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,180,216,0.15); border-color: var(--p); }
-.pulse-btn { display: inline-block; padding: 1.2rem 3rem; font-size: 2.2rem; font-family: "Fredoka", sans-serif; color: #fff; background: linear-gradient(135deg, var(--o), #ea580c); border-radius: 999px; text-decoration: none; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); animation: pulseBtn 2s infinite; border: 4px solid rgba(255,255,255,0.5); letter-spacing: 2px; transition: transform 0.3s; }
-.pulse-btn:hover { transform: scale(1.05); }
-@keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
 
-.tag-card { display: flex; gap: 1.5rem; align-items: center; padding: 1.5rem; background: #fff; border-radius: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; }
-.tag-card:hover { transform: translateY(-5px) translateX(5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
-.tag-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; border-radius: 8px 0 0 8px; }
-.tc-blue::before { background: var(--p); } .tc-blue { background: #f0f9ff; }
-.tc-orange::before { background: var(--o); } .tc-orange { background: #fffbeb; }
+    .layer-bldg-right {
+      bottom: 8%;
+      right: -2%;
+      width: clamp(150px, 20vw, 300px);
+      animation: slideInRight 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.1s;
+      transform-origin: bottom right;
+    }
 
-@media(max-width:900px){
-  .sc,.cov-inner,.isplit,.twocol { grid-template-columns: 1fr; padding: 1.5rem; gap: 2rem; }
-  .cov-h { font-size: 3.2rem; }
-  .hero-img { height: auto !important; margin-top: 2rem !important; }
-  .hero-img img { width: 80%; margin: auto; display: block; position: static !important; }
-  .lfix { display: none; }
-}
-</style>
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    .layer-ground {
+      bottom: -40px;
+      left: -40px;
+      right: -40px;
+      width: calc(100% + 80px);
+    }
+
+    .layer-ground img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 -10px 20px rgba(0, 0, 0, 0.1));
+    }
+
+    .layer-bush-left {
+      bottom: 6%;
+      left: 1%;
+      width: clamp(100px, 15vw, 180px);
+      animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.2s;
+      transform-origin: bottom center;
+    }
+
+    .layer-bush-right {
+      bottom: 6%;
+      right: 1%;
+      width: clamp(100px, 15vw, 180px);
+      animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.3s;
+      transform-origin: bottom center;
+      transform: scaleX(-1);
+    }
+
+    @keyframes popInBush {
+      from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.5);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .deco-code-left {
+      left: 8%;
+      top: 22%;
+      width: clamp(70px, 9vw, 120px);
+      filter: drop-shadow(0 20px 30px rgba(34, 169, 121, 0.3));
+      animation: floatDeco 6s ease-in-out infinite;
+    }
+
+    .deco-binary-right {
+      right: 8%;
+      top: 15%;
+      width: clamp(70px, 9vw, 120px);
+      filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3));
+      animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate;
+    }
+
+    .deco-code-right {
+      right: 6%;
+      bottom: 28%;
+      width: clamp(60px, 7vw, 100px);
+      filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3));
+      animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse;
+    }
+
+    @keyframes floatDeco {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-3deg);
+      }
+
+      50% {
+        transform: translateY(-25px) rotate(3deg);
+      }
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      margin-top: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .topbar:hover {
+      transform: translateY(-2px);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .t-main {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--pd);
+      font-family: "Fredoka", sans-serif;
+      line-height: 1.2;
+    }
+
+    .t-sub {
+      font-size: .95rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .kbd {
+      background: var(--p);
+      color: #fff;
+      padding: .2rem .6rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 0 #0284c7;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .frame {
+      position: relative;
+      flex: 1;
+      height: 700px;
+      min-height: 700px;
+      display: block;
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: var(--r);
+      padding: 3.5rem;
+      box-shadow: var(--sh);
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(60px) scale(.92);
+      transition: all .6s cubic-bezier(.34, 1.56, .64, 1);
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+      z-index: 5;
+    }
+
+    /* Custom Scrollbar */
+    .slide::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .slide::-webkit-scrollbar-track {
+      background: transparent;
+      margin: 1rem;
+    }
+
+    .slide::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+    }
+
+    .slide::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .slide-cover {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .cov-inner {
+      width: 100%;
+      height: 100%;
+      padding: 2rem;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .cov-h {
+      font-size: 4.5rem;
+      color: var(--pd);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .cov-h span {
+      background: linear-gradient(135deg, var(--o), #FF3366);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      display: inline-block;
+      text-shadow: none;
+      filter: drop-shadow(2px 2px 0px #fff) drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.1));
+    }
+
+    .slide-title {
+      font-size: 2.8rem;
+      color: var(--pd);
+      margin-bottom: .5rem;
+    }
+
+    .isplit {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .twocol {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .cz {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+
+    .story-title {
+      font-size: 3.4rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      color: var(--pd);
+      text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+    }
+
+    .box {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2rem 2.5rem;
+      border-radius: 24px;
+      border: 2px solid var(--p);
+      box-shadow: 0 12px 24px rgba(0, 180, 216, 0.1);
+      color: var(--txt);
+      font-weight: 700;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(0, 180, 216, 0.15);
+    }
+
+    .rpg {
+      background: linear-gradient(145deg, #ffffff, #f1f5f9);
+      border: 2px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+    }
+
+    .ihl {
+      color: var(--o);
+      font-weight: 800;
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+      font-family: "Fredoka", sans-serif;
+    }
+
+    .itext {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.2rem 1.8rem;
+      border-radius: 24px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1.2rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .03);
+    }
+
+    .pill:hover {
+      transform: translateX(12px) scale(1.02);
+      border-color: var(--p);
+      background: #f0f9ff;
+      box-shadow: 0 8px 20px rgba(0, 180, 216, .1);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .info-card {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+      border: 2px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.5rem;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 180, 216, 0.12);
+      border-color: var(--p);
+    }
+
+    .info-icon {
+      font-size: 3.5rem;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.1));
+      transition: transform 0.3s ease;
+    }
+
+    .info-card:hover .info-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .info-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--pd);
+      font-family: "Fredoka", sans-serif;
+      line-height: 1.2;
+    }
+
+    .info-desc {
+      font-size: 1.05rem;
+      color: #64748b;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .process-row {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .process-step {
+      background: #fff;
+      border: 3px solid #e2e8f0;
+      padding: 1.5rem 1rem;
+      border-radius: 24px;
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .process-step:hover {
+      border-color: var(--p);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 180, 216, 0.15);
+    }
+
+    .process-arrow {
+      font-size: 2.5rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      animation: pulseArrow 2s infinite;
+    }
+
+    @keyframes pulseArrow {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(5px);
+        color: var(--o);
+      }
+    }
+
+    .tag-l {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 24px;
+      padding: 2rem;
+      border-left: 6px solid var(--pd);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .tag-o {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border-radius: 24px;
+      padding: 2rem;
+      border-left: 6px solid var(--o);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .tag-g {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border-radius: 24px;
+      padding: 2rem;
+      border-left: 6px solid var(--grn);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .react-e {
+      font-size: 5rem;
+      cursor: pointer;
+      transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-block;
+    }
+
+    .react-e:hover {
+      transform: scale(1.3) rotate(15deg);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      margin-top: 1.5rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .btn {
+      cursor: pointer;
+      padding: .6rem 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .btn-p {
+      background: #f1f5f9;
+      color: #475569;
+      box-shadow: 0 4px 0 #cbd5e1;
+    }
+
+    .btn-p:hover {
+      background: #e2e8f0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #94a3b8;
+    }
+
+    .btn-p:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #cbd5e1;
+    }
+
+    .btn-n {
+      background: linear-gradient(135deg, var(--g), #f59e0b);
+      color: #fff;
+      box-shadow: 0 6px 0 #b45309;
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-n:hover {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #9a3412;
+    }
+
+    .btn-n:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #b45309;
+    }
+
+    .pag {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 0.6rem 1.2rem;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 30px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: none;
+    }
+
+    .dot:hover {
+      background: rgba(0, 0, 0, 0.3);
+      transform: scale(1.1);
+    }
+
+    .dot.active {
+      width: 36px;
+      background: linear-gradient(135deg, var(--p), var(--pd));
+      box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4);
+      transform: scale(1.1);
+    }
+
+    .grad-text-o {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .grad-text {
+      color: var(--pd);
+    }
+
+    .glow-box {
+      background: #fff;
+      border: 2px solid transparent;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .glow-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 180, 216, 0.15);
+      border-color: var(--p);
+    }
+
+    .pulse-btn {
+      display: inline-block;
+      padding: 1.2rem 3rem;
+      font-size: 2.2rem;
+      font-family: "Fredoka", sans-serif;
+      color: #fff;
+      background: linear-gradient(135deg, var(--o), #ea580c);
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
+      animation: pulseBtn 2s infinite;
+      border: 4px solid rgba(255, 255, 255, 0.5);
+      letter-spacing: 2px;
+      transition: transform 0.3s;
+    }
+
+    .pulse-btn:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes pulseBtn {
+      0% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 20px rgba(245, 158, 11, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+      }
+    }
+
+    .tag-card {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.5rem;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tag-card:hover {
+      transform: translateY(-5px) translateX(5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .tag-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      border-radius: 8px 0 0 8px;
+    }
+
+    .tc-blue::before {
+      background: var(--p);
+    }
+
+    .tc-blue {
+      background: #f0f9ff;
+    }
+
+    .tc-orange::before {
+      background: var(--o);
+    }
+
+    .tc-orange {
+      background: #fffbeb;
+    }
+
+    @media(max-width:900px) {
+
+      .sc,
+      .cov-inner,
+      .isplit,
+      .twocol {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+        gap: 2rem;
+      }
+
+      .cov-h {
+        font-size: 3.2rem;
+      }
+
+      .hero-img {
+        height: auto !important;
+        margin-top: 2rem !important;
+      }
+
+      .hero-img img {
+        width: 80%;
+        margin: auto;
+        display: block;
+        position: static !important;
+      }
+
+      .lfix {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- High-Resolution Top Logos -->
-<div class="lfix" style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
-  <!-- Kiri: Kalananti -->
-  <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png" style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="Kalananti Logo">
-  
-  <!-- Kanan: RGC Logo -->
-  <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/94907efd-30d9-49af-8e62-aa4aee51ad33.png" style="height: 60px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;" alt="RGC Logo">
-</div>
+  <!-- High-Resolution Top Logos -->
+  <div class="lfix"
+    style="position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 50; pointer-events: none;">
+    <!-- Kiri: Kalananti -->
+    <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/545c0426-169c-406f-8775-93afcacef50a.png"
+      style="height: 40px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;"
+      alt="Kalananti Logo">
+
+    <!-- Kanan: RGC Logo -->
+    <img
+      src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/94907efd-30d9-49af-8e62-aa4aee51ad33.png"
+      style="height: 60px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); pointer-events: auto;"
+      alt="RGC Logo">
+  </div>
 
 
-<!-- ── 3D Scene Background ─────────── -->
-<div class="stage" aria-hidden="true">
+  <!-- ── 3D Scene Background ─────────── -->
+  <div class="stage" aria-hidden="true">
     <div class="layer-container parallax" data-depth="0.0">
-        <div class="layer-bg pos-abs" style="inset:0;">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png" alt="">
-        </div>
+      <div class="layer-bg pos-abs" style="inset:0;">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png" alt="">
+      </div>
     </div>
     <div class="layer-container parallax" data-depth="0.02">
-        <div class="layer-clouds pos-abs">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png" alt="">
-        </div>
+      <div class="layer-clouds pos-abs">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png" alt="">
+      </div>
     </div>
     <div class="layer-container parallax" data-depth="0.05">
-        <div class="layer-skyline pos-abs">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png" alt="">
-        </div>
+      <div class="layer-skyline pos-abs">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png" alt="">
+      </div>
     </div>
     <div class="layer-container parallax" data-depth="0.08">
-        <img class="layer-bldg-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png" alt="">
-        <img class="layer-bldg-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png" alt="">
+      <img class="layer-bldg-left pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png" alt="">
+      <img class="layer-bldg-right pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png" alt="">
     </div>
     <div class="layer-container parallax" data-depth="0.12">
-        <div class="layer-ground pos-abs">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png" alt="">
-        </div>
+      <div class="layer-ground pos-abs">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png" alt="">
+      </div>
     </div>
     <div class="layer-container parallax" data-depth="0.18">
-        <img class="layer-bush-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
-        <img class="layer-bush-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
+      <img class="layer-bush-left pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
+      <img class="layer-bush-right pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="">
     </div>
     <div class="layer-container parallax" data-depth="0.25">
-        <img class="deco-code-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png" alt="">
-        <img class="deco-binary-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png" alt="">
-        <img class="deco-code-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png" alt="">
-    </div>
-</div>
-
-
-<div class="wrap">
-  <header class="topbar">
-    <div class="logo-row">
-      <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png" style="height: 90px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); margin-right: 15px;" alt="Scratch Logo">
-      <div style="display:flex; flex-direction:column; justify-content:center;">
-        <div class="t-main" style="font-size:1.8rem;">🚀 Scratch Codepreneur</div>
-        <div class="t-sub" style="font-size:1.1rem;">Hari ke-4: Final Project & Pitch Deck</div>
-      </div>
-    </div>
-    <div><span class="t-sub" style="color: #888;">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
-  </header>
-  
-  
-<main class="frame">
-
-  <!-- S0: COVER -->
-  <section class="slide slide-cover active" data-slide="0" style="padding-top: 1rem; background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(240,249,255,0.95) 100%); border: 4px solid var(--p);">
-    <div class="cov-inner" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
-      <div style="margin-bottom: 0.5rem; z-index: 5;">
-        <h1 class="cov-h" style="font-size:4.4rem; text-shadow:2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom:1rem;">Scratch <span>Codepreneur</span></h1>
-        <p class="desc" style="font-size:1.55rem; color:#444; max-width:880px; margin:0 auto 1.5rem auto; font-weight:800;">
-          Menyelesaikan Guide App, buat pitching deck, lalu latihan elevator pitch.
-        </p>
-        <button class="btn btn-n" id="startBtn" style="font-size:1.5rem; padding:1rem 3rem;">Mulai Day 4</button>
-      </div>
-      <div class="hero-img" style="position:relative; display:flex; justify-content:center; align-items:flex-end; gap:1rem; height:320px; width:100%; margin-top:-20px;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/eb42c311-4643-4da2-b19b-b8c4d6345a08.png" style="position:absolute; bottom:-60px; left:-5%; width:110%; height:150%; z-index:0; opacity:0.8; object-fit:cover; filter:hue-rotate(280deg);" alt="Wave Background">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/94219915-9f28-4712-a6dc-44a26382e77d.png" alt="Student" style="height:85%; z-index:1; filter:drop-shadow(0 10px 20px rgba(0,0,0,0.2));">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2256195a-2f18-4e3f-abbd-5db8c82acea4.png" alt="Student" style="height:100%; z-index:2; filter:drop-shadow(0 15px 30px rgba(0,0,0,0.3)); margin-bottom:10px;">
-        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2aa26094-08cf-429c-ba80-78fb40454eb1.png" alt="Student" style="height:90%; z-index:1; filter:drop-shadow(0 10px 20px rgba(0,0,0,0.2)); transform:scaleX(-1);">
-      </div>
-    </div>
-  </section>
-
-  <!-- S1: PRETEST -->
-  <section class="slide" data-slide="1">
-    <div class="cz" style="gap:2rem;">
-      <h2 class="story-title" style="font-size:3.5rem;">Pre-Test Day 4</h2>
-      <p class="desc" style="font-size:1.55rem; max-width:780px; font-weight:800; color:#444;">Isi pertanyaan singkat sebelum mulai.</p>
-      <a href="#" class="pulse-btn" style="font-size:2.7rem; padding:1.4rem 4rem; letter-spacing:1px;">LINK PRE-TEST</a>
-      <!-- <div class="box" style="max-width:760px; font-size:1.35rem; background:#f0f9ff; border-color:var(--p);">Guru bisa mengganti link ini nanti.</div> -->
-    </div>
-  </section>
-
-  <section class="slide" data-slide="1">
-    <div class="cz">
-      <h2 class="story-title">Agenda Hari Ini 📅</h2>
-      <div class="bento-grid" style="max-width:1050px; margin:auto;">
-        <div class="info-card">
-          <div class="info-icon">🛠️</div>
-          <div class="info-title">Sentuhan Akhir</div>
-          <div class="info-desc">Mengecek bug & merapikan aplikasi.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">📤</div>
-          <div class="info-title">Kumpulkan Karya</div>
-          <div class="info-desc">Submit link Scratch untuk portofolio.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🦈</div>
-          <div class="info-title">Elevator Pitch</div>
-          <div class="info-desc">Belajar cara Pitching ala Shark Tank!</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🎤</div>
-          <div class="info-title">Showtime!</div>
-          <div class="info-desc">Waktunya presentasi di depan kelas.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S2: POLISHING -->
-  <section class="slide" data-slide="2">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1.5rem;">Tahap Akhir: Polishing 🛠️</h2>
-      <div style="display:flex; flex-direction:column; gap: 1.5rem; max-width: 950px; margin: auto; text-align: left;">
-        
-        <div class="tag-card tc-blue">
-          <div style="font-size:4.5rem;">🐛</div>
-          <div style="flex:1;">
-            <p style="font-size:1.5rem; font-weight:800; color:var(--pd); margin-bottom:0.5rem;">Cek Bug & Error</p>
-            <p style="font-size:1.2rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Coba mainkan aplikasimu sendiri. Pastikan tidak ada tombol yang rusak atau teks yang terpotong. Perbaiki sekarang jika ada!</p>
-          </div>
-        </div>
-
-        <div class="tag-card tc-orange">
-          <div style="font-size:4.5rem;">🎶</div>
-          <div style="flex:1;">
-            <p style="font-size:1.5rem; font-weight:800; color:var(--o); margin-bottom:0.5rem;">Tambahkan Sound!</p>
-            <p style="font-size:1.2rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Game dan aplikasi yang bagus terasa 'hidup'. Tambahkan balok <strong>Play Sound</strong> saat tombol diklik, atau ubah kostum agar tombol terlihat bereaksi.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- S4: APA ITU ELEVATOR PITCH -->
-  <section class="slide" data-slide="4">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1.5rem;">Apa itu Elevator Pitch? ⏱️</h2>
-      <p class="itext" style="max-width:800px; margin-bottom: 1rem; font-size: 1.3rem;">
-        Bayangkan kamu naik <strong>lift (elevator)</strong> bareng orang dewasa yang bisa bantu mewujudkan idemu.
-        Kamu cuma punya waktu <strong style="color:var(--o); font-size: 1.5rem;">30–60 detik</strong> sebelum pintu lift terbuka!
-      </p>
-      <div style="background:#fff7ed; border:3px solid var(--o); border-radius:16px; padding:0.8rem 1.5rem; max-width:800px; margin-bottom:1.5rem; text-align:left;">
-        <p style="font-size:1.1rem; font-weight:700; color:#444; margin:0;">💰 <strong style="color:var(--o);">Investor</strong> = orang yang mau <strong>kasih uang atau bantuan</strong> supaya idemu bisa jadi kenyataan. Mereka bukan cuma orang kaya biasa — mereka percaya sama idemu!</p>
-      </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 1000px; width:100%;">
-        <div class="glow-box" style="border: 3px solid #ef4444; background:#fef2f2; text-align:left;">
-          <p style="font-size:1.6rem; font-weight:800; color:#ef4444; margin-bottom:0.8rem;">❌ Jangan begini:</p>
-          <p style="font-size:1.15rem; color:#444; line-height:1.6; font-weight:700;">
-            "Eemm... jadi gini, app saya itu, hmm, ada banyak fiturnya, dan... saya bikinnya pake Scratch, terus ada tombol yang bisa diklik, dan ada juga yang lain..."
-          </p>
-          <p style="font-size:1rem; color:#ef4444; font-weight:800; margin-top:0.8rem;">Terlalu bertele-tele! 😬</p>
-        </div>
-        <div class="glow-box" style="border: 3px solid var(--grn); background:#f0fdf4; text-align:left;">
-          <p style="font-size:1.6rem; font-weight:800; color:var(--grn); margin-bottom:0.8rem;">✅ Harusnya begini:</p>
-          <p style="font-size:1.15rem; color:#444; line-height:1.6; font-weight:700;">
-            "Halo! Saya bikin app pengingat tugas karena teman-teman sering lupa PR. Lihat, tinggal klik tombol ini, muncul alarm! Mau coba?"
-          </p>
-          <p style="font-size:1rem; color:var(--grn); font-weight:800; margin-top:0.8rem;">Singkat, jelas, dan menarik! 🎯</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S5: SEBELUM NONTON - KONTEKS -->
-  <section class="slide" data-slide="5">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1rem;">Siap-Siap Nonton! 🎬</h2>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; max-width:1000px; width:100%; text-align:left; margin-bottom:1.5rem;">
-        <!-- Kiri: Tentang videonya -->
-        <div style="background:#fff; border-radius:24px; padding:1.5rem; border-left:6px solid var(--pd); box-shadow:0 8px 20px rgba(0,0,0,0.05);">
-          <p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:0.8rem;">🦈 Apa itu Shark Tank?</p>
-          <p style="font-size:1.1rem; color:#444; font-weight:600; line-height:1.6;">
-            Shark Tank adalah acara TV di mana anak-anak muda <strong>presentasi produk mereka</strong> di depan orang-orang dewasa yang bisa <strong style="color:var(--o);">kasih uang &amp; bantuan</strong> supaya produknya bisa dipakai banyak orang.
-          </p>
-          <div style="margin-top:0.8rem; background:#f0f9ff; border-radius:12px; padding:0.7rem 1rem; font-size:1rem; font-weight:700; color:var(--pd);">
-            🎥 Kita akan lihat <strong>Tripp</strong>, anak <strong>12 tahun</strong>, yang pitching produknya!
-          </div>
-        </div>
-        <!-- Kanan: Yang penting diperhatiin -->
-        <div style="background:#fff7ed; border-radius:24px; padding:1.5rem; border-left:6px solid var(--o); box-shadow:0 8px 20px rgba(0,0,0,0.05);">
-          <p style="font-size:1.3rem; font-weight:800; color:var(--o); margin-bottom:0.8rem;">👀 Perhatikan ini saat nonton:</p>
-          <ul style="font-size:1.1rem; color:#444; font-weight:700; line-height:2; margin-left:1rem;">
-            <li>Gimana dia <strong>sapa &amp; perkenalkan diri</strong>?</li>
-            <li>Masalah apa yang dia <strong>ceritakan?</strong></li>
-            <li>Gimana dia <strong>demo produknya</strong>?</li>
-            <li>Apa yang dia <strong>minta</strong> di akhir?</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Disclaimer produk fisik vs app -->
-      <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:3px solid var(--grn); border-radius:20px; padding:1.2rem 2rem; max-width:1000px; width:100%; display:flex; align-items:center; gap:1.2rem; text-align:left;">
-        <div style="font-size:3rem; flex-shrink:0;">💡</div>
-        <div>
-          <p style="font-size:1.2rem; font-weight:800; color:#166534; margin-bottom:0.3rem;">Produknya beda, tapi CARA pitchingnya SAMA!</p>
-          <p style="font-size:1.05rem; font-weight:600; color:#444; line-height:1.5;">Tripp jual <strong>lem LEGO</strong> — kita akan jual <strong style="color:var(--pd);">app Scratch</strong>. Fokus pada <em>cara bicara, cara cerita masalah, dan cara demo</em> — bukan produknya!</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- S6: SHARK TANK VIDEO -->
-  <section class="slide" data-slide="6">
-    <div class="cz" style="gap:1rem;">
-      <h2 style="font-size:1.6rem; font-weight:800; color:var(--pd); font-family:'Fredoka',sans-serif; margin-bottom:0.2rem;">Yuk Lihat Contoh Nyatanya! 🦈</h2>
-
-      <p style="font-size:1rem; font-weight:600; color:#666;">Perhatikan sampai menit 1:35. Bagian itu adalah <em>elevator pitch</em>-nya — yang paling penting untuk dipelajari.</p>
-        
-
-      <!-- Video embed -->
-      <div style="width:100%; max-width:900px; border-radius:20px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.2); border:4px solid var(--pd); flex-shrink:0;" id="videoWrap">
-        <div style="position:relative; padding-top:56.25%;">
-          <iframe id="sharkVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/x9I0iWvru6o?start=0&end=95&rel=0&cc_load_policy=1&cc_lang_pref=en" title="Le-Glue Shark Tank Pitch" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      </div>
-
-      <!-- Subtitle tip -->
-      <div style="display:flex; align-items:center; gap:0.8rem; background:#f8fafc; border:2px dashed #94a3b8; border-radius:14px; padding:0.5rem 1.2rem; max-width:900px; width:100%;">
-        <div style="font-size:1.8rem;">💬</div>
-        <p style="font-size:1rem; font-weight:700; color:#475569; margin:0;">
-          <strong>Gaada subtitle?</strong> Tenang! Guru akan bantu terjemahkan bagian pentingnya setelah video selesai. Fokus perhatikan <em>ekspresi &amp; cara bicaranya</em> dulu!
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- S7: DISKUSI POST-VIDEO -->
-  <section class="slide" data-slide="7">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom:0.5rem;">Gimana Menurut Kalian? 🤔</h2>
-      <p class="itext" style="margin-bottom:1.2rem; font-size:1.15rem;">Dalam <strong style="color:var(--o);">kurang dari 2 menit</strong>, Tripp berhasil menjelaskan: punya apa, bisa apa, dan kenapa kita harus mau beli. Itu keren banget! 🤩</p>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; max-width:1000px; width:100%; text-align:left; margin-bottom:1.2rem;">
-        <div style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--pd); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-          <p style="font-size:1.1rem; font-weight:800; color:var(--pd); margin-bottom:0.5rem;">🙋 Tripp bilang apa di awal?</p>
-          <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Dia langsung cerita <strong>masalah</strong> yang pernah dialami — supaya kita langsung nyambung &amp; penasaran.</p>
-        </div>
-        <div style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--o); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-          <p style="font-size:1.1rem; font-weight:800; color:var(--o); margin-bottom:0.5rem;">🎪 Gimana dia demo produknya?</p>
-          <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Dia <strong>langsung peragakan</strong> produknya di depan Sharks — bukan cuma dijelaskan dengan kata-kata.</p>
-        </div>
-        <div style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--grn); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-          <p style="font-size:1.1rem; font-weight:800; color:var(--grn); margin-bottom:0.5rem;">📢 Apa yang dia minta?</p>
-          <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Di akhir dia bilang <strong>jelas</strong> apa yang dia mau dari Sharks — uang berapa dan untuk apa.</p>
-        </div>
-        <div style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid #855cd6; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-          <p style="font-size:1.1rem; font-weight:800; color:#855cd6; margin-bottom:0.5rem;">💡 Gimana kita bisa seperti itu?</p>
-          <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Pakai <strong>rumus yang sama</strong>: cerita masalah → kasih solusi (app-mu!) → demo langsung → ajak audience!</p>
-        </div>
-      </div>
-
-      <div style="background:linear-gradient(135deg,var(--pd),var(--grn)); padding:1rem 2.5rem; border-radius:999px; color:#fff; font-size:1.2rem; font-weight:800; max-width:800px; width:100%;">
-        🚀 Sekarang giliran kalian pitching app yang sudah kalian buat!
-      </div>
-    </div>
-  </section>
-
-  <!-- S8: PRODUK FISIK VS APP -->
-  <section class="slide" data-slide="8">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1.5rem;">Produk Fisik vs. App Kita 🆚</h2>
-      <p class="itext" style="margin-bottom: 1.5rem;">Tripp jual lem, kita jual app. Beda produknya, tapi <strong style="color:var(--pd);">cara pitching-nya SAMA!</strong></p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; max-width:1000px; width:100%;">
-        <div class="glow-box" style="border:3px solid #f59e0b; background:#fffbeb; text-align:left;">
-          <p style="font-size:1.8rem; text-align:center; margin-bottom:0.5rem;">🧱</p>
-          <p style="font-size:1.4rem; font-weight:800; color:#b45309; text-align:center; margin-bottom:1rem;">Le-Glue (Lem Fisik)</p>
-          <div style="display:flex; flex-direction:column; gap:0.6rem;">
-            <div style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">🙋 "Pernah LEGO-mu hancur saat main?"</div>
-            <div style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">💡 Solusi: Lem yang bisa dilepas!</div>
-            <div style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">🎪 Demo: Tempel & lepas LEGO langsung</div>
-          </div>
-        </div>
-        <div class="glow-box" style="border:3px solid var(--p); background:#f0f9ff; text-align:left;">
-          <p style="font-size:1.8rem; text-align:center; margin-bottom:0.5rem;">🎮</p>
-          <p style="font-size:1.4rem; font-weight:800; color:var(--pd); text-align:center; margin-bottom:1rem;">App Scratch Kita</p>
-          <div style="display:flex; flex-direction:column; gap:0.6rem;">
-            <div style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">🙋 "Pernah [masalah yang app kamu selesain]?"</div>
-            <div style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">💡 Solusi: App [nama app]-mu!</div>
-            <div style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">🎪 Demo: Klik tombol di Scratch langsung</div>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:1.5rem; background: linear-gradient(135deg, var(--pd), var(--grn)); padding:1rem 2.5rem; border-radius:999px; color:#fff; font-size:1.3rem; font-weight:800;">
-        🔑 Rumusnya sama: Masalah → Solusi → Demo → Ajak!
-      </div>
-    </div>
-  </section>
-
-  <!-- S9: RUMUS PITCHING -->
-  <section class="slide" data-slide="9">
-    <div class="cz">
-      <h2 class="story-title" style="margin-bottom: 1rem;">Script Pitch-mu! 📝</h2>
-      <p class="itext" style="margin-bottom:1.5rem;">Isi titik-titik ini sesuai app-mu. Kamu bisa catat di buku!</p>
-      <div style="display:flex; flex-direction:column; gap: 1rem; max-width:900px; width:100%; text-align:left;">
-        <div style="background:#fff; border-radius:20px; padding:1rem 1.5rem; border-left:6px solid var(--pd); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; align-items:center; gap:1rem;">
-          <div style="font-size:2.5rem; flex-shrink:0;">👋</div>
-          <div>
-            <p style="font-size:1rem; color:var(--pd); font-weight:800;">HOOK — Tarik Perhatian</p>
-            <p style="font-size:1.2rem; font-weight:700; color:#333;">"Pernah nggak sih kalian <u style='color:#888;'>......................?</u> Saya juga pernah ngerasain itu!"</p>
-          </div>
-        </div>
-        <div style="background:#fff; border-radius:20px; padding:1rem 1.5rem; border-left:6px solid var(--o); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; align-items:center; gap:1rem;">
-          <div style="font-size:2.5rem; flex-shrink:0;">💡</div>
-          <div>
-            <p style="font-size:1rem; color:var(--o); font-weight:800;">SOLUSI — Perkenalkan App</p>
-            <p style="font-size:1.2rem; font-weight:700; color:#333;">"Makanya saya bikin app <u style='color:#888;'>.......</u> pake Scratch. App ini bisa <u style='color:#888;'>......................!</u>"</p>
-          </div>
-        </div>
-        <div style="background:#fff; border-radius:20px; padding:1rem 1.5rem; border-left:6px solid var(--grn); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; align-items:center; gap:1rem;">
-          <div style="font-size:2.5rem; flex-shrink:0;">🖥️</div>
-          <div>
-            <p style="font-size:1rem; color:var(--grn); font-weight:800;">DEMO — Tunjukkan Langsung</p>
-            <p style="font-size:1.2rem; font-weight:700; color:#333;">"Nih, coba lihat... [klik tombol di app Scratch-mu]. Keren kan?"</p>
-          </div>
-        </div>
-        <div style="background:#fff; border-radius:20px; padding:1rem 1.5rem; border-left:6px solid #855cd6; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; align-items:center; gap:1rem;">
-          <div style="font-size:2.5rem; flex-shrink:0;">🚀</div>
-          <div>
-            <p style="font-size:1rem; color:#855cd6; font-weight:800;">PENUTUP — Ajak & Terima Kasih</p>
-            <p style="font-size:1.2rem; font-weight:700; color:#333;">"Jadi, siapa nih yang mau pakai app saya? Makasih, Sharks! 👏"</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide" data-slide="2">
-  <div class="cz">
-    <h2 class="story-title" style="font-size:3.4rem;">Ayo Membuat Pitching Deck!</h2>
-
-    <p class="desc" style="max-width:850px; font-size:1.45rem; color:#444; font-weight:800; margin-bottom:1.5rem;">
-      App-mu sudah hampir selesai. Sekarang waktunya menyiapkan slide untuk menjelaskan idemu.
-    </p>
-
-    <div class="process-row" style="max-width:1000px; margin:auto;">
-      <div class="process-step" style="border-color:var(--p); background:#f0f9ff;">
-        <div class="info-icon">💡</div>
-        <div class="info-title" style="font-size:1.55rem;">Ide App</div>
-        <div class="info-desc" style="font-size:1.15rem;">Apa nama app kamu?</div>
-      </div>
-
-      <div class="process-arrow">➔</div>
-
-      <div class="process-step" style="border-color:var(--o); background:#fff7ed;">
-        <div class="info-icon">❗</div>
-        <div class="info-title" style="font-size:1.55rem;">Masalah</div>
-        <div class="info-desc" style="font-size:1.15rem;">Masalah apa yang ingin dibantu?</div>
-      </div>
-
-      <div class="process-arrow">➔</div>
-
-      <div class="process-step" style="border-color:var(--grn); background:#f0fdf4;">
-        <div class="info-icon">🧭</div>
-        <div class="info-title" style="font-size:1.55rem;">Solusi</div>
-        <div class="info-desc" style="font-size:1.15rem;">Bagaimana app kamu membantu?</div>
-      </div>
-
-      <div class="process-arrow">➔</div>
-
-      <div class="process-step" style="border-color:var(--g); background:#fffbeb;">
-        <div class="info-icon">🖥️</div>
-        <div class="info-title" style="font-size:1.55rem;">Demo</div>
-        <div class="info-desc" style="font-size:1.15rem;">Tunjukkan cara app digunakan.</div>
-      </div>
-    </div>
-
-    <div class="box" style="max-width:900px; margin-top:2rem; font-size:1.45rem; background:#f0f9ff; border-color:var(--p);">
-      Pitching deck membantu orang lain memahami 
-      <strong style="color:var(--o);">masalah</strong>, 
-      <strong style="color:var(--pd);">solusi</strong>, dan 
-      <strong style="color:var(--grn);">cara kerja app</strong> kamu.
+      <img class="deco-code-left pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png" alt="">
+      <img class="deco-binary-right pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png" alt="">
+      <img class="deco-code-right pos-abs"
+        src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png" alt="">
     </div>
   </div>
-</section>
 
-  <!-- S13: DOS -->
-  <section class="slide" data-slide="13">
-    <div class="cz">
-      <h2 class="story-title">Pitching Deck: Do's</h2>
-      <div class="bento-grid" style="max-width:1000px; grid-template-columns:repeat(4,1fr);">
-        <div class="info-card" style="background:#f0fdf4; border-color:var(--grn);"><div class="info-icon">✅</div><div class="info-title">Tulisan Besar</div><div class="info-desc">Mudah dibaca.</div></div>
-        <div class="info-card" style="background:#f0fdf4; border-color:var(--grn);"><div class="info-icon">🖼️</div><div class="info-title">Ada Visual</div><div class="info-desc">Gambar app/ikon.</div></div>
-        <div class="info-card" style="background:#f0fdf4; border-color:var(--grn);"><div class="info-icon">🎯</div><div class="info-title">Satu Ide</div><div class="info-desc">Satu slide satu pesan.</div></div>
-        <div class="info-card" style="background:#f0fdf4; border-color:var(--grn);"><div class="info-icon">🧪</div><div class="info-title">Siap Demo</div><div class="info-desc">Buka app sebelum tampil.</div></div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <div class="logo-row">
+        <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/48ee9925-1c50-4b65-8bde-352c295fa912.png"
+          style="height: 90px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); margin-right: 15px;"
+          alt="Scratch Logo">
+        <div style="display:flex; flex-direction:column; justify-content:center;">
+          <div class="t-main" style="font-size:1.8rem;">🚀 Scratch Codepreneur</div>
+          <div class="t-sub" style="font-size:1.1rem;">Hari ke-4: Final Project & Pitch Deck</div>
+        </div>
       </div>
-    </div>
-    <div class="cz">
-      <h2 class="story-title">Pitching Deck: Don'ts</h2>
-      <div class="bento-grid" style="max-width:1000px; grid-template-columns:repeat(4,1fr);">
-        <div class="info-card" style="background:#fef2f2; border-color:#ef4444;"><div class="info-icon">❌</div><div class="info-title">Teks Penuh</div><div class="info-desc">Sulit dibaca.</div></div>
-        <div class="info-card" style="background:#fef2f2; border-color:#ef4444;"><div class="info-icon">🙈</div><div class="info-title">Gambar Tidak Jelas</div><div class="info-desc">Terlalu kecil/buram.</div></div>
-        <div class="info-card" style="background:#fef2f2; border-color:#ef4444;"><div class="info-icon">🌀</div><div class="info-title">Terlalu Ramai</div><div class="info-desc">Banyak warna dan objek.</div></div>
-        <div class="info-card" style="background:#fef2f2; border-color:#ef4444;"><div class="info-icon">📖</div><div class="info-title">Membaca Semua</div><div class="info-desc">Jangan hanya baca slide.</div></div>
-      </div>
-    </div>
-  </section>
+      <div><span class="t-sub" style="color: #888;">Gunakan <span class="kbd">→</span> untuk lanjut</span></div>
+    </header>
 
-  
 
-  <!-- S23: EXIT CHECK -->
-  <section class="slide" data-slide="23">
-    <div class="cz">
-      <h2 class="story-title">Exit Check Day 4</h2>
-      <div class="bento-grid" style="max-width:1050px; grid-template-columns:repeat(5,1fr);">
-        <div class="info-card"><div class="info-icon">✅</div><div class="info-title">App</div><div class="info-desc">Selesai dan bisa didemo.</div></div>
-        <div class="info-card"><div class="info-icon">📊</div><div class="info-title">Deck</div><div class="info-desc">4 slide utama.</div></div>
-        <div class="info-card"><div class="info-icon">🖼️</div><div class="info-title">Visual</div><div class="info-desc">Screenshot/logo app.</div></div>
-        <div class="info-card"><div class="info-icon">🎙️</div><div class="info-title">Script</div><div class="info-desc">30–60 detik.</div></div>
-        <div class="info-card"><div class="info-icon">🦈</div><div class="info-title">Practice</div><div class="info-desc">Sudah latihan singkat.</div></div>
-      </div>
-    </div>
-  </section>
+    <main class="frame">
 
-  <!-- S24: POSTTEST -->
-  <section class="slide" data-slide="24">
-    <div class="cz" style="gap:2rem;">
-      <h2 class="story-title" style="font-size:3.5rem;">Post-Test Day 4</h2>
-      <p class="desc" style="font-size:1.55rem; max-width:780px; font-weight:800; color:#444;">Isi pertanyaan akhir setelah latihan.</p>
-      <a href="#" class="pulse-btn" style="font-size:2.7rem; padding:1.4rem 4rem; letter-spacing:1px; background:linear-gradient(135deg,var(--grn),#059669);">LINK POST-TEST</a>
-      <!-- <div class="box" style="max-width:760px; font-size:1.35rem; background:#f0fdf4; border-color:var(--grn);">Guru bisa mengganti link ini nanti.</div> -->
-    </div>
-  </section>
+      <!-- S0: COVER -->
+      <section class="slide slide-cover active" data-slide="0"
+        style="padding-top: 1rem; background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(240,249,255,0.95) 100%); border: 4px solid var(--p);">
+        <div class="cov-inner"
+          style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+          <div style="margin-bottom: 0.5rem; z-index: 5;">
+            <h1 class="cov-h"
+              style="font-size:4.4rem; text-shadow:2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1); margin-bottom:1rem;">
+              Scratch <span>Codepreneur</span></h1>
+            <p class="desc"
+              style="font-size:1.55rem; color:#444; max-width:880px; margin:0 auto 1.5rem auto; font-weight:800;">
+              Menyelesaikan Guide App, buat pitching deck, lalu latihan elevator pitch.
+            </p>
+            <button class="btn btn-n" id="startBtn" style="font-size:1.5rem; padding:1rem 3rem;">Mulai Day 4</button>
+          </div>
+          <div class="hero-img"
+            style="position:relative; display:flex; justify-content:center; align-items:flex-end; gap:1rem; height:320px; width:100%; margin-top:-20px;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/eb42c311-4643-4da2-b19b-b8c4d6345a08.png"
+              style="position:absolute; bottom:-60px; left:-5%; width:110%; height:150%; z-index:0; opacity:0.8; object-fit:cover; filter:hue-rotate(280deg);"
+              alt="Wave Background">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/94219915-9f28-4712-a6dc-44a26382e77d.png"
+              alt="Student" style="height:85%; z-index:1; filter:drop-shadow(0 10px 20px rgba(0,0,0,0.2));">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2256195a-2f18-4e3f-abbd-5db8c82acea4.png"
+              alt="Student"
+              style="height:100%; z-index:2; filter:drop-shadow(0 15px 30px rgba(0,0,0,0.3)); margin-bottom:10px;">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2aa26094-08cf-429c-ba80-78fb40454eb1.png"
+              alt="Student"
+              style="height:90%; z-index:1; filter:drop-shadow(0 10px 20px rgba(0,0,0,0.2)); transform:scaleX(-1);">
+          </div>
+        </div>
+      </section>
 
-</main>
 
-  
-  <footer class="controls">
-    <button class="btn btn-p" id="prevBtn">← Kembali</button>
-    <div class="pag" id="pagination"></div>
-    <button class="btn btn-n" id="nextBtn">Lanjut →</button>
-  </footer>
-</div>
+      <section class="slide" data-slide="1">
+        <div class="cz">
+          <h2 class="story-title">Agenda Hari Ini 📅</h2>
+          <div class="bento-grid" style="max-width:1050px; margin:auto;">
+            <div class="info-card">
+              <div class="info-icon">🛠️</div>
+              <div class="info-title">Sentuhan Akhir</div>
+              <div class="info-desc">Mengecek bug & merapikan aplikasi.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">📤</div>
+              <div class="info-title">Kumpulkan Karya</div>
+              <div class="info-desc">Submit link Scratch untuk portofolio.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🦈</div>
+              <div class="info-title">Elevator Pitch</div>
+              <div class="info-desc">Belajar cara Pitching ala Shark Tank!</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🎤</div>
+              <div class="info-title">Showtime!</div>
+              <div class="info-desc">Waktunya presentasi di depan kelas.</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<script>
-(function(){
-  const slides = Array.from(document.querySelectorAll(".slide"));
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
-  const startBtn = document.getElementById("startBtn");
-  const pagination = document.getElementById("pagination");
-  let cur = 0;
-  
-  function createPag(){
-    slides.forEach((_,i) => {
-      const d = document.createElement("button");
-      d.className = "dot"; d.title = `Slide ${i+1}`;
-      d.addEventListener("click", () => goTo(i));
-      pagination.appendChild(d);
-    });
-  }
-  
-  function updatePag(){
-    pagination.querySelectorAll(".dot").forEach((d,i) => d.classList.toggle("active", i === cur));
-  }
-  
-  function goTo(i){
-    if(i < 0) i = 0; 
-    if(i >= slides.length) i = slides.length - 1;
-    slides.forEach(s => {
-      s.classList.remove("active");
-      s.style.transform = "translateY(50px) scale(.95)";
-    });
-    cur = i;
-    setTimeout(() => {
-      slides[cur].classList.add("active");
-      slides[cur].style.transform = "translateY(0) scale(1)";
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 50);
-    updatePag();
-  }
-  
-  createPag(); 
-  updatePag();
-  
-  prevBtn.addEventListener("click", () => goTo(cur - 1));
-  nextBtn.addEventListener("click", () => goTo(cur + 1));
-  if(startBtn) startBtn.addEventListener("click", () => goTo(1));
-  
-  window.addEventListener("keydown", e => {
-    if(e.key === "ArrowRight") goTo(cur + 1);
-    if(e.key === "ArrowLeft") goTo(cur - 1);
-  });
+      <!-- S2: POLISHING -->
+      <section class="slide" data-slide="2">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1.5rem;">Tahap Akhir: Polishing 🛠️</h2>
+          <div
+            style="display:flex; flex-direction:column; gap: 1.5rem; max-width: 950px; margin: auto; text-align: left;">
 
-  // Parallax Effect for Background Layers
-  const parallaxLayers = document.querySelectorAll('.parallax');
-  let mouseX = 0;
-  let mouseY = 0;
-  let targetX = 0;
-  let targetY = 0;
-  
-  function animate() {
-      mouseX += (targetX - mouseX) * 0.1;
-      mouseY += (targetY - mouseY) * 0.1;
-      
-      parallaxLayers.forEach(layer => {
-          const depth = parseFloat(layer.getAttribute('data-depth'));
-          const moveX = mouseX * depth * -100;
-          const moveY = mouseY * depth * -100;
-          layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            <div class="tag-card tc-blue">
+              <div style="font-size:4.5rem;">🐛</div>
+              <div style="flex:1;">
+                <p style="font-size:1.5rem; font-weight:800; color:var(--pd); margin-bottom:0.5rem;">Cek Bug & Error</p>
+                <p style="font-size:1.2rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Coba mainkan aplikasimu
+                  sendiri. Pastikan tidak ada tombol yang rusak atau teks yang terpotong. Perbaiki sekarang jika ada!
+                </p>
+              </div>
+            </div>
+
+            <div class="tag-card tc-orange">
+              <div style="font-size:4.5rem;">🎶</div>
+              <div style="flex:1;">
+                <p style="font-size:1.5rem; font-weight:800; color:var(--o); margin-bottom:0.5rem;">Tambahkan Sound!</p>
+                <p style="font-size:1.2rem; color:#444; font-weight:600; margin-bottom:0.8rem;">Game dan aplikasi yang
+                  bagus terasa 'hidup'. Tambahkan balok <strong>Play Sound</strong> saat tombol diklik, atau ubah kostum
+                  agar tombol terlihat bereaksi.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- S4: APA ITU ELEVATOR PITCH -->
+      <section class="slide" data-slide="4">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1.5rem;">Apa itu Elevator Pitch? ⏱️</h2>
+          <p class="itext" style="max-width:800px; margin-bottom: 1rem; font-size: 1.3rem;">
+            Bayangkan kamu naik <strong>lift (elevator)</strong> bareng orang dewasa yang bisa bantu mewujudkan idemu.
+            Kamu cuma punya waktu <strong style="color:var(--o); font-size: 1.5rem;">30–60 detik</strong> sebelum pintu
+            lift terbuka!
+          </p>
+          <div
+            style="background:#fff7ed; border:3px solid var(--o); border-radius:16px; padding:0.8rem 1.5rem; max-width:800px; margin-bottom:1.5rem; text-align:left;">
+            <p style="font-size:1.1rem; font-weight:700; color:#444; margin:0;">💰 <strong
+                style="color:var(--o);">Investor</strong> = orang yang mau <strong>kasih uang atau bantuan</strong>
+              supaya idemu bisa jadi kenyataan. Mereka bukan cuma orang kaya biasa — mereka percaya sama idemu!</p>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 1000px; width:100%;">
+            <div class="glow-box" style="border: 3px solid #ef4444; background:#fef2f2; text-align:left;">
+              <p style="font-size:1.6rem; font-weight:800; color:#ef4444; margin-bottom:0.8rem;">❌ Jangan begini:</p>
+              <p style="font-size:1.15rem; color:#444; line-height:1.6; font-weight:700;">
+                "Eemm... jadi gini, app saya itu, hmm, ada banyak fiturnya, dan... saya bikinnya pake Scratch, terus ada
+                tombol yang bisa diklik, dan ada juga yang lain..."
+              </p>
+              <p style="font-size:1rem; color:#ef4444; font-weight:800; margin-top:0.8rem;">Terlalu bertele-tele! 😬</p>
+            </div>
+            <div class="glow-box" style="border: 3px solid var(--grn); background:#f0fdf4; text-align:left;">
+              <p style="font-size:1.6rem; font-weight:800; color:var(--grn); margin-bottom:0.8rem;">✅ Harusnya begini:
+              </p>
+              <p style="font-size:1.15rem; color:#444; line-height:1.6; font-weight:700;">
+                "Halo! Saya bikin app pengingat tugas karena teman-teman sering lupa PR. Lihat, tinggal klik tombol ini,
+                muncul alarm! Mau coba?"
+              </p>
+              <p style="font-size:1rem; color:var(--grn); font-weight:800; margin-top:0.8rem;">Singkat, jelas, dan
+                menarik! 🎯</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S5: SEBELUM NONTON - KONTEKS -->
+      <section class="slide" data-slide="5">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1rem;">Siap-Siap Nonton! 🎬</h2>
+
+          <div
+            style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; max-width:1000px; width:100%; text-align:left; margin-bottom:1.5rem;">
+            <!-- Kiri: Tentang videonya -->
+            <div
+              style="background:#fff; border-radius:24px; padding:1.5rem; border-left:6px solid var(--pd); box-shadow:0 8px 20px rgba(0,0,0,0.05);">
+              <p style="font-size:1.3rem; font-weight:800; color:var(--pd); margin-bottom:0.8rem;">🦈 Apa itu Shark
+                Tank?</p>
+              <p style="font-size:1.1rem; color:#444; font-weight:600; line-height:1.6;">
+                Shark Tank adalah acara TV di mana anak-anak muda <strong>presentasi produk mereka</strong> di depan
+                orang-orang dewasa yang bisa <strong style="color:var(--o);">kasih uang &amp; bantuan</strong> supaya
+                produknya bisa dipakai banyak orang.
+              </p>
+              <div
+                style="margin-top:0.8rem; background:#f0f9ff; border-radius:12px; padding:0.7rem 1rem; font-size:1rem; font-weight:700; color:var(--pd);">
+                🎥 Kita akan lihat <strong>Tripp</strong>, anak <strong>12 tahun</strong>, yang pitching produknya!
+              </div>
+            </div>
+            <!-- Kanan: Yang penting diperhatiin -->
+            <div
+              style="background:#fff7ed; border-radius:24px; padding:1.5rem; border-left:6px solid var(--o); box-shadow:0 8px 20px rgba(0,0,0,0.05);">
+              <p style="font-size:1.3rem; font-weight:800; color:var(--o); margin-bottom:0.8rem;">👀 Perhatikan ini saat
+                nonton:</p>
+              <ul style="font-size:1.1rem; color:#444; font-weight:700; line-height:2; margin-left:1rem;">
+                <li>Gimana dia <strong>sapa &amp; perkenalkan diri</strong>?</li>
+                <li>Masalah apa yang dia <strong>ceritakan?</strong></li>
+                <li>Gimana dia <strong>demo produknya</strong>?</li>
+                <li>Apa yang dia <strong>minta</strong> di akhir?</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Disclaimer produk fisik vs app -->
+          <div
+            style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:3px solid var(--grn); border-radius:20px; padding:1.2rem 2rem; max-width:1000px; width:100%; display:flex; align-items:center; gap:1.2rem; text-align:left;">
+            <div style="font-size:3rem; flex-shrink:0;">💡</div>
+            <div>
+              <p style="font-size:1.2rem; font-weight:800; color:#166534; margin-bottom:0.3rem;">Produknya beda, tapi
+                CARA pitchingnya SAMA!</p>
+              <p style="font-size:1.05rem; font-weight:600; color:#444; line-height:1.5;">Tripp jual <strong>lem
+                  LEGO</strong> — kita akan jual <strong style="color:var(--pd);">app Scratch</strong>. Fokus pada
+                <em>cara bicara, cara cerita masalah, dan cara demo</em> — bukan produknya!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S6: SHARK TANK VIDEO -->
+      <section class="slide" data-slide="6">
+        <div class="cz" style="gap:1rem;">
+          <h2
+            style="font-size:1.6rem; font-weight:800; color:var(--pd); font-family:'Fredoka',sans-serif; margin-bottom:0.2rem;">
+            Yuk Lihat Contoh Nyatanya! 🦈</h2>
+
+          <p style="font-size:1rem; font-weight:600; color:#666;">Dimanakah bagian
+            <em>elevator pitch</em>-nya?
+          </p>
+
+
+          <!-- Video embed -->
+          <div
+            style="width:100%; max-width:900px; border-radius:20px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.2); border:4px solid var(--pd); flex-shrink:0;"
+            id="videoWrap">
+            <div style="position:relative; padding-top:56.25%;">
+              <iframe id="sharkVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                src="https://www.youtube.com/embed/x9I0iWvru6o?start=0&end=95&rel=0&cc_load_policy=1&cc_lang_pref=en"
+                title="Le-Glue Shark Tank Pitch" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <!-- Subtitle tip -->
+          <div
+            style="display:flex; align-items:center; gap:0.8rem; background:#f8fafc; border:2px dashed #94a3b8; border-radius:14px; padding:0.5rem 1.2rem; max-width:900px; width:100%;">
+            <div style="font-size:1.8rem;">💬</div>
+            <p style="font-size:1rem; font-weight:700; color:#475569; margin:0;">
+              <strong>Gaada subtitle?</strong> Tenang! Guru akan bantu terjemahkan bagian pentingnya setelah video
+              selesai. Fokus perhatikan <em>ekspresi &amp; cara bicaranya</em> dulu!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- S7: DISKUSI POST-VIDEO -->
+      <section class="slide" data-slide="7">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom:0.5rem;">Gimana Menurut Kalian? 🤔</h2>
+          <p class="itext" style="margin-bottom:1.2rem; font-size:1.15rem;">Dalam <strong style="color:var(--o);">kurang
+              dari 2 menit</strong>, Tripp berhasil menjelaskan: punya apa, bisa apa, dan kenapa kita harus mau beli.
+            🤩</p>
+
+          <div
+            style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; max-width:1000px; width:100%; text-align:left; margin-bottom:1.2rem;">
+            <div
+              style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--pd); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+              <p style="font-size:1.1rem; font-weight:800; color:var(--pd); margin-bottom:0.5rem;">🙋 Tripp bilang apa
+                di awal?</p>
+              <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Dia langsung cerita
+                <strong>masalah</strong> yang pernah dialami — supaya kita langsung nyambung &amp; penasaran.
+              </p>
+            </div>
+            <div
+              style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--o); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+              <p style="font-size:1.1rem; font-weight:800; color:var(--o); margin-bottom:0.5rem;">🎪 Gimana dia demo
+                produknya?</p>
+              <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Dia <strong>langsung
+                  peragakan</strong> produknya di depan Sharks — bukan cuma dijelaskan dengan kata-kata.</p>
+            </div>
+            <div
+              style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid var(--grn); box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+              <p style="font-size:1.1rem; font-weight:800; color:var(--grn); margin-bottom:0.5rem;">📢 Apa yang dia
+                minta?</p>
+              <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Di akhir dia bilang
+                <strong>jelas</strong> apa yang dia mau dari Sharks — uang berapa dan untuk apa.
+              </p>
+            </div>
+            <div
+              style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; border-left:6px solid #855cd6; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+              <p style="font-size:1.1rem; font-weight:800; color:#855cd6; margin-bottom:0.5rem;">💡 Gimana kita bisa
+                seperti itu?</p>
+              <p style="font-size:1rem; font-weight:600; color:#555; line-height:1.5;">Pakai <strong>rumus yang
+                  sama</strong>: cerita masalah → kasih solusi (app-mu!) → demo langsung → ajak audience!</p>
+            </div>
+          </div>
+
+          <div
+            style="background:linear-gradient(135deg,var(--pd),var(--grn)); padding:1rem 2.5rem; border-radius:999px; color:#fff; font-size:1.2rem; font-weight:800; max-width:800px; width:100%;">
+            🚀 Sekarang giliran kalian pitching app yang sudah kalian buat!
+          </div>
+        </div>
+      </section>
+
+      <!-- S8: PRODUK FISIK VS APP -->
+      <section class="slide" data-slide="8">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1.5rem;">Produk Fisik vs. App Kita 🆚</h2>
+          <p class="itext" style="margin-bottom: 1.5rem;">Tripp jual lem, kita jual app. Beda produknya, tapi <strong
+              style="color:var(--pd);">cara pitching-nya SAMA!</strong></p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; max-width:1000px; width:100%;">
+            <div class="glow-box" style="border:3px solid #f59e0b; background:#fffbeb; text-align:left;">
+              <p style="font-size:1.8rem; text-align:center; margin-bottom:0.5rem;">🧱</p>
+              <p style="font-size:1.4rem; font-weight:800; color:#b45309; text-align:center; margin-bottom:1rem;">
+                Le-Glue (Lem Fisik)</p>
+              <div style="display:flex; flex-direction:column; gap:0.6rem;">
+                <div
+                  style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">
+                  🙋 "Pernah LEGO-mu hancur saat main?"</div>
+                <div
+                  style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">
+                  💡 Solusi: Lem yang bisa dilepas!</div>
+                <div
+                  style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">
+                  🎪 Demo: Tempel & lepas LEGO langsung</div>
+              </div>
+            </div>
+            <div class="glow-box" style="border:3px solid var(--p); background:#f0f9ff; text-align:left;">
+              <p style="font-size:1.8rem; text-align:center; margin-bottom:0.5rem;">🎮</p>
+              <p style="font-size:1.4rem; font-weight:800; color:var(--pd); text-align:center; margin-bottom:1rem;">App
+                Scratch Kita</p>
+              <div style="display:flex; flex-direction:column; gap:0.6rem;">
+                <div
+                  style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">
+                  🙋 "Pernah [masalah yang app kamu selesain]?"</div>
+                <div
+                  style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">
+                  💡 Solusi: App [nama app]-mu!</div>
+                <div
+                  style="background:#fff; padding:0.7rem 1rem; border-radius:12px; font-weight:700; color:#444; font-size:1.05rem;">
+                  🎪 Demo: Klik tombol di Scratch langsung</div>
+              </div>
+            </div>
+          </div>
+          <div
+            style="margin-top:1.5rem; background: linear-gradient(135deg, var(--pd), var(--grn)); padding:1rem 2.5rem; border-radius:999px; color:#fff; font-size:1.3rem; font-weight:800;">
+            🔑 Rumusnya sama: Masalah → Solusi → Demo → Ajak!
+          </div>
+        </div>
+      </section>
+
+      <!-- S9: RUMUS PITCHING -->
+      <section class="slide" data-slide="9">
+        <div class="cz">
+          <h2 class="story-title" style="margin-bottom: 1rem;">Script Pitch-mu! 📝</h2>
+          <p class="itext" style="margin-bottom:1.5rem;">Isi titik-titik ini sesuai app-mu. Kamu bisa catat di buku!</p>
+          <div style="display:flex; flex-direction:column; gap: 1rem; max-width:900px; width:100%; text-align:left;">
+            <div
+              style="background:#fff; border-radius:20px; padding:1rem 1.5rem; border-left:6px solid var(--pd); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; align-items:center; gap:1rem;">
+              <div style="font-size:2.5rem; flex-shrink:0;">👋</div>
+              <div>
+                <p style="font-size:1rem; color:var(--pd); font-weight:800;">HOOK — Tarik Perhatian</p>
+                <p style="font-size:1.2rem; font-weight:700; color:#333;">"Pernah nggak sih kalian <u
+                    style='color:#888;'>......................?</u> Saya juga pernah ngerasain itu!"</p>
+              </div>
+            </div>
+            <div
+              style="background:#fff; border-radius:20px; padding:1rem 1.5rem; border-left:6px solid var(--o); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; align-items:center; gap:1rem;">
+              <div style="font-size:2.5rem; flex-shrink:0;">💡</div>
+              <div>
+                <p style="font-size:1rem; color:var(--o); font-weight:800;">SOLUSI — Perkenalkan App</p>
+                <p style="font-size:1.2rem; font-weight:700; color:#333;">"Makanya saya bikin app <u
+                    style='color:#888;'>.......</u> pake Scratch. App ini bisa <u
+                    style='color:#888;'>......................!</u>"</p>
+              </div>
+            </div>
+            <div
+              style="background:#fff; border-radius:20px; padding:1rem 1.5rem; border-left:6px solid var(--grn); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; align-items:center; gap:1rem;">
+              <div style="font-size:2.5rem; flex-shrink:0;">🖥️</div>
+              <div>
+                <p style="font-size:1rem; color:var(--grn); font-weight:800;">DEMO — Tunjukkan Langsung</p>
+                <p style="font-size:1.2rem; font-weight:700; color:#333;">"Nih, coba lihat... [klik tombol di app
+                  Scratch-mu]. Keren kan?"</p>
+              </div>
+            </div>
+            <div
+              style="background:#fff; border-radius:20px; padding:1rem 1.5rem; border-left:6px solid #855cd6; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; align-items:center; gap:1rem;">
+              <div style="font-size:2.5rem; flex-shrink:0;">🚀</div>
+              <div>
+                <p style="font-size:1rem; color:#855cd6; font-weight:800;">PENUTUP — Ajak & Terima Kasih</p>
+                <p style="font-size:1.2rem; font-weight:700; color:#333;">"Jadi, siapa nih yang mau pakai app saya?
+                  Makasih, Sharks! 👏"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="2">
+        <div class="cz">
+          <h2 class="story-title" style="font-size:3.4rem;">Ayo Membuat Pitching Deck!</h2>
+
+          <p class="desc"
+            style="max-width:850px; font-size:1.45rem; color:#444; font-weight:800; margin-bottom:1.5rem;">
+            App-mu sudah hampir selesai. Sekarang waktunya menyiapkan slide untuk menjelaskan idemu.
+          </p>
+
+          <div class="process-row" style="max-width:1000px; margin:auto;">
+            <div class="process-step" style="border-color:var(--p); background:#f0f9ff;">
+              <div class="info-icon">💡</div>
+              <div class="info-title" style="font-size:1.55rem;">Ide App</div>
+              <div class="info-desc" style="font-size:1.15rem;">Apa nama app kamu?</div>
+            </div>
+
+            <div class="process-arrow">➔</div>
+
+            <div class="process-step" style="border-color:var(--o); background:#fff7ed;">
+              <div class="info-icon">❗</div>
+              <div class="info-title" style="font-size:1.55rem;">Masalah</div>
+              <div class="info-desc" style="font-size:1.15rem;">Masalah apa yang ingin dibantu?</div>
+            </div>
+
+            <div class="process-arrow">➔</div>
+
+            <div class="process-step" style="border-color:var(--grn); background:#f0fdf4;">
+              <div class="info-icon">🧭</div>
+              <div class="info-title" style="font-size:1.55rem;">Solusi</div>
+              <div class="info-desc" style="font-size:1.15rem;">Bagaimana app kamu membantu?</div>
+            </div>
+
+            <div class="process-arrow">➔</div>
+
+            <div class="process-step" style="border-color:var(--g); background:#fffbeb;">
+              <div class="info-icon">🖥️</div>
+              <div class="info-title" style="font-size:1.55rem;">Demo</div>
+              <div class="info-desc" style="font-size:1.15rem;">Tunjukkan cara app digunakan.</div>
+            </div>
+          </div>
+
+          <div class="box"
+            style="max-width:900px; margin-top:2rem; font-size:1.45rem; background:#f0f9ff; border-color:var(--p);">
+            Pitching deck membantu orang lain memahami
+            <strong style="color:var(--o);">masalah</strong>,
+            <strong style="color:var(--pd);">solusi</strong>, dan
+            <strong style="color:var(--grn);">cara kerja app</strong> kamu.
+          </div>
+        </div>
+      </section>
+
+      <!-- S13: DOS -->
+      <section class="slide" data-slide="13">
+        <div class="cz">
+          <h2 class="story-title">Pitching Deck: Do's</h2>
+          <div class="bento-grid" style="max-width:1000px; grid-template-columns:repeat(4,1fr);">
+            <div class="info-card" style="background:#f0fdf4; border-color:var(--grn);">
+              <div class="info-icon">✅</div>
+              <div class="info-title">Tulisan Besar</div>
+              <div class="info-desc">Mudah dibaca.</div>
+            </div>
+            <div class="info-card" style="background:#f0fdf4; border-color:var(--grn);">
+              <div class="info-icon">🖼️</div>
+              <div class="info-title">Ada Visual</div>
+              <div class="info-desc">Gambar app/ikon.</div>
+            </div>
+            <div class="info-card" style="background:#f0fdf4; border-color:var(--grn);">
+              <div class="info-icon">🎯</div>
+              <div class="info-title">Satu Ide</div>
+              <div class="info-desc">Satu slide satu pesan.</div>
+            </div>
+            <div class="info-card" style="background:#f0fdf4; border-color:var(--grn);">
+              <div class="info-icon">🧪</div>
+              <div class="info-title">Siap Demo</div>
+              <div class="info-desc">Buka app sebelum tampil.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cz">
+          <h2 class="story-title">Pitching Deck: Don'ts</h2>
+          <div class="bento-grid" style="max-width:1000px; grid-template-columns:repeat(4,1fr);">
+            <div class="info-card" style="background:#fef2f2; border-color:#ef4444;">
+              <div class="info-icon">❌</div>
+              <div class="info-title">Teks Penuh</div>
+              <div class="info-desc">Sulit dibaca.</div>
+            </div>
+            <div class="info-card" style="background:#fef2f2; border-color:#ef4444;">
+              <div class="info-icon">🙈</div>
+              <div class="info-title">Gambar Tidak Jelas</div>
+              <div class="info-desc">Terlalu kecil/buram.</div>
+            </div>
+            <div class="info-card" style="background:#fef2f2; border-color:#ef4444;">
+              <div class="info-icon">🌀</div>
+              <div class="info-title">Terlalu Ramai</div>
+              <div class="info-desc">Banyak warna dan objek.</div>
+            </div>
+            <div class="info-card" style="background:#fef2f2; border-color:#ef4444;">
+              <div class="info-icon">📖</div>
+              <div class="info-title">Membaca Semua</div>
+              <div class="info-desc">Jangan hanya baca slide.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <!-- S23: EXIT CHECK -->
+      <section class="slide" data-slide="23">
+        <div class="cz">
+          <h2 class="story-title">Exit Check Day 4</h2>
+          <div class="bento-grid" style="max-width:1050px; grid-template-columns:repeat(5,1fr);">
+            <div class="info-card">
+              <div class="info-icon">✅</div>
+              <div class="info-title">App</div>
+              <div class="info-desc">Selesai dan bisa didemo.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">📊</div>
+              <div class="info-title">Deck</div>
+              <div class="info-desc">4 slide utama.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🖼️</div>
+              <div class="info-title">Visual</div>
+              <div class="info-desc">Screenshot/logo app.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🎙️</div>
+              <div class="info-title">Script</div>
+              <div class="info-desc">30–60 detik.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">🦈</div>
+              <div class="info-title">Practice</div>
+              <div class="info-desc">Sudah latihan singkat.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+    </main>
+
+
+    <footer class="controls">
+      <button class="btn btn-p" id="prevBtn">← Kembali</button>
+      <div class="pag" id="pagination"></div>
+      <button class="btn btn-n" id="nextBtn">Lanjut →</button>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const startBtn = document.getElementById("startBtn");
+      const pagination = document.getElementById("pagination");
+      let cur = 0;
+
+      function createPag() {
+        slides.forEach((_, i) => {
+          const d = document.createElement("button");
+          d.className = "dot"; d.title = `Slide ${i + 1}`;
+          d.addEventListener("click", () => goTo(i));
+          pagination.appendChild(d);
+        });
+      }
+
+      function updatePag() {
+        pagination.querySelectorAll(".dot").forEach((d, i) => d.classList.toggle("active", i === cur));
+      }
+
+      function goTo(i) {
+        if (i < 0) i = 0;
+        if (i >= slides.length) i = slides.length - 1;
+        slides.forEach(s => {
+          s.classList.remove("active");
+          s.style.transform = "translateY(50px) scale(.95)";
+        });
+        cur = i;
+        setTimeout(() => {
+          slides[cur].classList.add("active");
+          slides[cur].style.transform = "translateY(0) scale(1)";
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 50);
+        updatePag();
+      }
+
+      createPag();
+      updatePag();
+
+      prevBtn.addEventListener("click", () => goTo(cur - 1));
+      nextBtn.addEventListener("click", () => goTo(cur + 1));
+      if (startBtn) startBtn.addEventListener("click", () => goTo(1));
+
+      window.addEventListener("keydown", e => {
+        if (e.key === "ArrowRight") goTo(cur + 1);
+        if (e.key === "ArrowLeft") goTo(cur - 1);
       });
-      requestAnimationFrame(animate);
-  }
-  
-  if (window.matchMedia("(min-width: 640px)").matches) {
-      animate();
-      window.addEventListener('mousemove', (e) => {
-          targetX = (e.clientX / window.innerWidth) * 2 - 1;
-          targetY = (e.clientY / window.innerHeight) * 2 - 1;
-      });
-      window.addEventListener('mouseleave', () => {
-          targetX = 0;
-          targetY = 0;
-      });
-  }
 
-})();
-</script>
+    })();
+  </script>
 </body>
+
 </html>
