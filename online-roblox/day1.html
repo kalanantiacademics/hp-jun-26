@@ -857,37 +857,7 @@ body {
     if(e.key === "ArrowLeft") goTo(cur - 1);
   });
 
-  // Parallax Effect for Background Layers
-  const parallaxLayers = document.querySelectorAll('.parallax');
-  let mouseX = 0;
-  let mouseY = 0;
-  let targetX = 0;
-  let targetY = 0;
-  
-  function animate() {
-      mouseX += (targetX - mouseX) * 0.1;
-      mouseY += (targetY - mouseY) * 0.1;
-      
-      parallaxLayers.forEach(layer => {
-          const depth = parseFloat(layer.getAttribute('data-depth'));
-          const moveX = mouseX * depth * -100;
-          const moveY = mouseY * depth * -100;
-          layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
-      });
-      requestAnimationFrame(animate);
-  }
-  
-  if (window.matchMedia("(min-width: 640px)").matches) {
-      animate();
-      window.addEventListener('mousemove', (e) => {
-          targetX = (e.clientX / window.innerWidth) * 2 - 1;
-          targetY = (e.clientY / window.innerHeight) * 2 - 1;
-      });
-      window.addEventListener('mouseleave', () => {
-          targetX = 0;
-          targetY = 0;
-      });
-  }
+
 
   // Game Tebak Logo Logic
   const logos = [
