@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalananti Holiday Program — Post-Test</title>
+    <title>Kalananti Holiday Program — Pre-Test Day 1</title>
     <link rel="icon" type="image/png" href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -886,7 +886,7 @@
     </style>
 </head>
 <body>
-<div class="stage" role="main" aria-label="Kalananti Holiday Program Post-Test">
+<div class="stage" role="main" aria-label="Kalananti Holiday Program Pre-Test">
 
     <!-- ── Layer 0: Background Gradient (sky) ─────────── -->
     <div class="layer-container parallax" data-depth="0.0">
@@ -971,8 +971,8 @@
             <!-- Title -->
             <div class="hero-top">
                 <div class="kicker">Halo, Codepreneur! 👋</div>
-                <h1 class="title-main">Post-Test</h1>
-                <div class="badge">✦ Scratch Codepreneur ✦</div>
+                <h1 class="title-main">Pre-Test</h1>
+                <div class="badge">✦ Roblox Codepreneur ✦</div> 
             </div>
 
             <!-- State panels inside the Card -->
@@ -999,7 +999,7 @@
                         <div class="field" style="display: none;">
                             <label for="childProgram">Program</label>
                             <select id="childProgram" required disabled>
-                                <option value="Scratch" selected>Scratch</option>
+                                <option value="Roblox Studio" selected>Roblox Studio</option>
                             </select>
                         </div>
                         <div class="field">
@@ -1017,7 +1017,7 @@
                             </div>
                         </div>
                         <button id="submit-btn" class="btn" type="submit">
-                            ✨ Mulai Post-Test
+                            ✨ Mulai Pre-Test
                         </button>
                     </form>
 
@@ -1028,7 +1028,7 @@
                 
                 <!-- STATE 2: QUIZ -->
                 <div id="state-quiz" class="state-panel">
-                    <p class="card-label">Post-Test</p>
+                    <p class="card-label">Pre-Test Day 1</p>
                     <h2 class="card-title" style="margin-bottom:12px;">Waktunya Menjawab!</h2>
                     <p style="font-weight:700; color:var(--navy-d); margin-bottom:16px;">Semangat ya <span id="display-name" style="color:var(--orange);">Codepreneur</span>!</p>
                     
@@ -1141,6 +1141,129 @@ const teacherWrapper = document.getElementById('teacher-wrapper');
 
 let allTeachers = [];
 
+
+// ── Roblox Studio Pre-Test Questions ─────────────────
+// Soal dibuat langsung di HTML agar tidak bergantung pada range/logic Apps Script untuk mengambil soal.
+const ROBLOX_QUESTIONS = [
+    {
+        question: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/dbc58683-9a62-4434-bb3e-f76859fbdeac.png\nBagian besar di tengah layar dipakai untuk melihat dan menyusun dunia game disebut?",
+        options: {
+            A: "Toolbox",
+            B: "Viewport/Workspace",
+            C: "Chat",
+            D: "Leaderboard"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d6c26e21-2254-44ce-ab88-4b599d969fb0.png\nKalau kita ingin menaruh script untuk membuat skor pemain, tempat yang paling tepat adalah?",
+        options: {
+            A: "ServerScriptService",
+            B: "Lighting",
+            C: "Camera",
+            D: "SoundService"
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Tool manakah yang berfungsi untuk mengubah ukuran objek?",
+        options: {
+            A: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/62041e69-4b84-4954-a544-f58530abd6fd.png",
+            B: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6cb5a253-baca-49df-aa45-57fdfd0ff403.png",
+            C: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/f26fab22-a223-472b-9f97-0737c6a5a004.png",
+            D: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d13b8a85-e017-4566-8b7e-a5d0c7147992.png"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Gambar di bawah ini manakah yang menunjukkan kegiatan seorang coder?",
+        options: {
+            A: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/de6061f7-2d4c-44ae-a3b0-a97248dbb9d2.png",
+            B: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c5452bba-4722-40de-8cd8-ef43bfcc3b4c.png",
+            C: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1e9986bb-dc98-4dbc-8620-c3f46c313b4a.png",
+            D: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/9bd5c969-2b95-41ff-809b-4793d97616d1.png"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c5452bba-4722-40de-8cd8-ef43bfcc3b4c.png\nGambar di atas menunjukkan kegiatan seorang?",
+        options: {
+            A: "Chef",
+            B: "Teacher",
+            C: "Police",
+            D: "Entrepreneur"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/f7ce3cf4-91fb-4a61-9c7e-24c7c410ba82.png\nDalam Roblox Studio, koordinat Y biasanya digunakan untuk mengatur posisi objek ke arah?",
+        options: {
+            A: "Kiri - Kanan",
+            B: "Atas - Bawah",
+            C: "Depan - Belakang",
+            D: "Besar - Kecil"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/f7ce3cf4-91fb-4a61-9c7e-24c7c410ba82.png\nDalam Roblox Studio, koordinat Z biasanya digunakan untuk mengatur posisi objek ke arah?",
+        options: {
+            A: "Kiri - Kanan",
+            B: "Atas - Bawah",
+            C: "Depan - Belakang",
+            D: "Besar - Kecil"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/3c728c6b-689f-41be-ac74-330b202ade4e.png\nApa hasil dari script tersebut saat pemain masuk ke game?",
+        options: {
+            A: "Pemain langsung mendapat 10 poin",
+            B: "Leaderboard dengan skor Organic dan Non Organic",
+            C: "Semua item di game langsung hilang",
+            D: "Pemain langsung berpindah ke tempat finish"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Sebuah item yang bisa diambil oleh player dan masuk ke Backpack, disebut?",
+        options: {
+            A: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/731b211e-3016-444b-9d84-c34b942220f2.png",
+            B: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/f3949d5d-82dd-4e52-b37a-4811b42b36e3.png",
+            C: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/10383752-0597-4c66-9bad-7945b5ef6f30.png",
+            D: "https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c6c062dc-27a1-4f5a-ac69-c26a34643816.png"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Apa kepanjangan GUI?",
+        options: {
+            A: "Game User Icon",
+            B: "Graphic Upload Item",
+            C: "Game Utility Internet",
+            D: "Graphical User Interface"
+        },
+        correctAnswer: "D"
+    }
+];
+
+// ── Shuffle Questions ───────────────────────────────
+// Mengacak urutan soal setiap kali siswa mulai pre-test.
+// Jawaban benar tetap ikut di objek soal, jadi scoring tetap aman.
+function shuffleQuestions(questions) {
+    const shuffled = questions.map(q => ({
+        ...q,
+        options: { ...q.options }
+    }));
+
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    return shuffled;
+}
+
 /* ── Fetch Branch & Teacher Data ─────────────────── */
 async function fetchTeachers() {
     try {
@@ -1150,8 +1273,8 @@ async function fetchTeachers() {
         if (result.success) {
             allTeachers = result.data;
             
-            // Karena Program = "Scratch", langsung load Teacher untuk Scratch
-            const selectedProg = "Scratch";
+            // Karena Program = "Roblox Studio", langsung load Teacher untuk Roblox Studio
+            const selectedProg = "Roblox Studio";
             const filteredTeachers = allTeachers.filter(t => t.program === selectedProg);
             const uniqueTeachers = [...new Set(filteredTeachers.map(t => t.name).filter(n => n))].sort();
             
@@ -1264,7 +1387,7 @@ form.addEventListener('submit', async (e) => {
     const name = document.getElementById('childName').value.trim();
     const branch = branchInput.value.trim();
     const teacher = teacherInput.value.trim();
-    const program = "Scratch"; // Hardcoded sesuai request
+    const program = "Roblox Studio"; // Hardcoded sesuai request
 
     // Validasi
     if (!name || !branch || !teacher) {
@@ -1286,20 +1409,14 @@ form.addEventListener('submit', async (e) => {
     quizOverlay.classList.add('active');
     
     try {
-        const response = await fetch(`${SCRIPT_URL}?action=getQuestions&day=3`);
-        const result = await response.json();
-        
-        if (result.success && result.data && result.data.length > 0) {
-            quizData = result.data;
-            renderQuestions();
-            quizOverlay.classList.remove('active');
-        } else {
-            await showCustomAlert("Yah, soalnya belum tersedia. Coba lagi nanti ya!", "😔");
-            location.reload();
-        }
+        // Ambil soal Roblox Studio langsung dari HTML.
+        // Ini menghindari masalah range/kolom di Apps Script.
+        quizData = shuffleQuestions(ROBLOX_QUESTIONS);
+        renderQuestions();
+        quizOverlay.classList.remove('active');
     } catch (error) {
         console.error(error);
-        await showCustomAlert("Terjadi kesalahan saat mengambil soal. Pastikan koneksi internetmu lancar.", "🔌");
+        await showCustomAlert("Terjadi kesalahan saat menyiapkan soal.", "🔌");
         location.reload();
     }
 });
@@ -1455,8 +1572,8 @@ document.getElementById('submit-quiz-btn').addEventListener('click', async () =>
             program: userData.program,
             answers: userAnswers,
             score: finalScore,
-            testType: 'Post-Test',
-            testDay: 'Last Day'
+            testType: 'Pre-Test',
+            testDay: 'Day 1',
         };
 
         const res = await fetch(SCRIPT_URL, {
