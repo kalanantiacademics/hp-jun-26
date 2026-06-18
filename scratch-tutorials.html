@@ -68,7 +68,6 @@
     .deco-code-right { right: 6%; bottom: 28%; width: clamp(60px, 7vw, 100px); filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3)); animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse; }
     @keyframes floatDeco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-25px) rotate(3deg); } }
 
-    
     .header { text-align: center; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 1.5rem 3rem; border-radius: 30px; box-shadow: 0 10px 0px #bae6fd; border: 5px solid #ffffff; position: relative; }
     .header-icon { margin-bottom: 0.2rem; filter: drop-shadow(0 5px 0px rgba(0,0,0,0.1)); display: inline-block; animation: float 3s ease-in-out infinite; }
     @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
@@ -87,12 +86,13 @@
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 2.5rem; align-items: stretch; }
+    .loading-state, .error-state, .no-data-state { grid-column: 1 / -1; }
     
     .project-card {
       background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 10px 0px var(--p);
       border: 4px solid var(--p); cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: flex; flex-direction: column; position: relative; transform: translateY(0);
+      display: flex; flex-direction: column; position: relative; transform: translateY(0); height: 100%; min-height: 100%;
     }
     .project-card:nth-child(even) { border-color: var(--g); box-shadow: 0 10px 0px var(--g); }
     .project-card:nth-child(3n) { border-color: var(--grn); box-shadow: 0 10px 0px var(--grn); }
@@ -104,6 +104,7 @@
     
     .card-thumb { width: 100%; aspect-ratio: 4/3; background: #e2e8f0; position: relative; overflow: hidden; border-bottom: 4px solid #f1f5f9; }
     .card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .thumb-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 5rem; background: linear-gradient(135deg, #e0f2fe, #fef3c7); }
     .project-card:hover .card-thumb img { transform: scale(1.1); }
     
     .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px); }
@@ -125,7 +126,7 @@
     .modal-content { background: #ffffff; border-radius: 40px; padding: 2rem; width: 100%; max-width: 1100px; position: relative; transform: scale(0.9) translateY(20px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 20px 0px var(--pd); display: flex; flex-direction: column; gap: 1rem; border: 6px solid var(--p); }
     .modal-overlay.show .modal-content { transform: scale(1) translateY(0); }
     
-    .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 4px dashed #e2e8f0; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 4px dashed #e2e8f0; gap: 1rem; }
     .modal-title { font-size: 2.2rem; color: var(--pd); font-family: "Fredoka", sans-serif; font-weight: 800; }
     .close-modal { width: 50px; height: 50px; background: #ef4444; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; border: 4px solid white; box-shadow: 0 6px 0px #b91c1c; transition: all 0.2s; font-weight: bold; }
     .close-modal:hover { transform: translateY(-4px) rotate(90deg); box-shadow: 0 10px 0px #b91c1c; }
@@ -146,9 +147,14 @@
     .empty-sub { font-size: 1.3rem; color: var(--muted); font-weight: 700; max-width: 450px; }
 
     @media (max-width: 768px) {
+      body { padding: 1rem; }
+      .header { padding: 1.2rem; }
       .header h1 { font-size: 2.5rem; }
+      .main-container { padding: 1.2rem; border-radius: 28px; }
+      .grid { grid-template-columns: 1fr; gap: 1.5rem; }
       .tab-btn { padding: 0.8rem 1.5rem; font-size: 1.1rem; }
       .modal-content { padding: 1.5rem; border-radius: 30px; }
+      .modal-header { align-items: flex-start; flex-direction: column; }
       .modal-title { font-size: 1.6rem; }
       .play-btn-inner { width: 55px; height: 55px; font-size: 1.8rem; }
     }
@@ -208,127 +214,29 @@
       
       <!-- Tabs -->
       <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('scratch')">🧩 Project Scratch</button>
-        <button class="tab-btn" onclick="switchTab('video')">🎬 Video Tutorial</button>
+        <button class="tab-btn active" onclick="switchTab('scratch', this)">🧩 Project Scratch</button>
+        <button class="tab-btn" onclick="switchTab('video', this)">🎬 Video Tutorial</button>
       </div>
 
       <!-- Tab Content: Scratch Projects -->
       <div id="tab-scratch" class="tab-content active">
-        <div class="grid">
-          
-          <!-- Card 1 -->
-          <div class="project-card" onclick="openModal('1329543637', 'Clickable Checklist Item')">
-            <div class="badge">UI Element</div>
-            <div class="card-thumb">
-              <img src="https://uploads.scratch.mit.edu/get_image/project/1329543637_480x360.png" alt="Thumbnail">
-              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Clickable Checklist Item</div>
-              <div class="card-desc">Pelajari cara membuat item *checklist* yang bisa diklik dan berganti status (selesai/belum selesai).</div>
-            </div>
+        <div class="grid" id="scratchGrid">
+          <div class="empty-state loading-state">
+            <div class="empty-icon">⏳</div>
+            <div class="empty-text">Loading Scratch Projects...</div>
+            <div class="empty-sub">Please wait while we load the latest data from the spreadsheet.</div>
           </div>
-
-          <!-- Card 2 -->
-          <div class="project-card" onclick="openModal('1329565774', 'Progress Counter')">
-            <div class="badge">Logic</div>
-            <div class="card-thumb">
-              <img src="https://uploads.scratch.mit.edu/get_image/project/1329565774_480x360.png" alt="Thumbnail">
-              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Progress Counter</div>
-              <div class="card-desc">Cara menggunakan variabel untuk menghitung jumlah tugas atau target yang sudah diselesaikan.</div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="project-card" onclick="openModal('1329570974', 'Prevent DoubleClick')">
-            <div class="badge">Bug Fix</div>
-            <div class="card-thumb">
-              <img src="https://uploads.scratch.mit.edu/get_image/project/1329570974_480x360.png" alt="Thumbnail">
-              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Prevent DoubleClick</div>
-              <div class="card-desc">Trik cerdas mencegah eror jika tombol diklik berkali-kali secara cepat oleh pengguna.</div>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="project-card" onclick="openModal('1329718443', 'Information Box')">
-            <div class="badge">UI Element</div>
-            <div class="card-thumb">
-              <img src="https://uploads.scratch.mit.edu/get_image/project/1329718443_480x360.png" alt="Thumbnail">
-              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Information Box</div>
-              <div class="card-desc">Membuat kotak informasi *pop-up* yang muncul untuk memberikan penjelasan ekstra di aplikasimu.</div>
-            </div>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="project-card" onclick="openModal('1329728764', 'Sound When Button Clicked')">
-            <div class="badge">Audio</div>
-            <div class="card-thumb">
-              <img src="https://uploads.scratch.mit.edu/get_image/project/1329728764_480x360.png" alt="Thumbnail">
-              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Sound When Button Clicked</div>
-              <div class="card-desc">Berikan umpan balik instan ke pengguna dengan suara efek lucu setiap kali tombol ditekan.</div>
-            </div>
-          </div>
-
-          <!-- Card 6 -->
-          <div class="project-card" onclick="openModal('1329733270', 'Countdown Timer (Input Ask)')">
-            <div class="badge">Time Logic</div>
-            <div class="card-thumb">
-              <img src="https://uploads.scratch.mit.edu/get_image/project/1329733270_480x360.png" alt="Thumbnail">
-              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Countdown Timer (Input Ask)</div>
-              <div class="card-desc">Membuat penghitung waktu mundur di mana pengguna bisa mengetik angka waktunya sendiri.</div>
-            </div>
-          </div>
-
-          <!-- Card 7 -->
-          <div class="project-card" onclick="openModal('1329873356', 'Countdown Timer (Input Button)')">
-            <div class="badge">Time Logic</div>
-            <div class="card-thumb">
-              <img src="https://uploads.scratch.mit.edu/get_image/project/1329873356_480x360.png" alt="Thumbnail">
-              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Countdown Timer (Input Button)</div>
-              <div class="card-desc">Penghitung waktu mundur yang diatur menggunakan tombol tambah/kurang (+/-) interaktif.</div>
-            </div>
-          </div>
-
-          <!-- Card 8 -->
-          <div class="project-card" onclick="openModal('1329874819', 'Popup Reminder')">
-            <div class="badge">Notification</div>
-            <div class="card-thumb">
-              <img src="https://uploads.scratch.mit.edu/get_image/project/1329874819_480x360.png" alt="Thumbnail">
-              <div class="play-overlay"><div class="play-btn-inner">▶</div></div>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Popup Reminder</div>
-              <div class="card-desc">Sistem notifikasi pengingat yang akan muncul secara otomatis saat kondisi tertentu terpenuhi.</div>
-            </div>
-          </div>
-
         </div>
       </div>
 
       <!-- Tab Content: Video Tutorials -->
       <div id="tab-video" class="tab-content">
-        <div class="empty-state">
-          <div class="empty-icon">🚧</div>
-          <div class="empty-text">Videos are in the Making!</div>
-          <div class="empty-sub">Stay tuned for step-by-step video guides to build all the awesome features above. Coming soon!</div>
+        <div class="grid" id="videoGrid">
+          <div class="empty-state loading-state">
+            <div class="empty-icon">⏳</div>
+            <div class="empty-text">Loading Video Tutorials...</div>
+            <div class="empty-sub">Please wait while we load the latest data from the spreadsheet.</div>
+          </div>
         </div>
       </div>
 
@@ -396,16 +304,264 @@
         });
     }
 
-    function switchTab(tabId) {
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxdhHlFrOLGYW7Rx1l8U0GRr1VwLtWVdxeU3Id355CoCntP1lnZgXiulDCj9Jf5i4yD/exec';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadTutorialHubData();
+    });
+
+    function switchTab(tabId, btn) {
       // Update buttons
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.currentTarget.classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(tabBtn => tabBtn.classList.remove('active'));
+      if (btn) btn.classList.add('active');
 
       // Update contents
       document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
       });
       document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    function loadTutorialHubData() {
+      const scratchGrid = document.getElementById('scratchGrid');
+      const videoGrid = document.getElementById('videoGrid');
+
+      showLoading(scratchGrid, 'Loading Scratch Projects...');
+      showLoading(videoGrid, 'Loading Video Tutorials...');
+
+      // Apps Script Web Apps do not provide CORS headers for fetch().
+      // JSONP loads the same endpoint through a <script> tag, so it works from localhost/static HTML.
+      const callbackName = 'tutorialHubCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+      const script = document.createElement('script');
+      const timeout = setTimeout(() => {
+        cleanupJsonp();
+        showError(scratchGrid, 'Failed to load Scratch projects.', 'Request timed out. Please check the Apps Script deployment and spreadsheet access.');
+        showError(videoGrid, 'Failed to load video tutorials.', 'Request timed out. Please check the Apps Script deployment and spreadsheet access.');
+      }, 20000);
+
+      function cleanupJsonp() {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+      }
+
+      window[callbackName] = function(data) {
+        try {
+          if (!data || data.ok === false) {
+            throw new Error(data && data.error ? data.error : 'Apps Script returned empty data');
+          }
+
+          const allData = normalizeData(data);
+
+          const scratchData = Array.isArray(data.scratch)
+            ? data.scratch
+            : allData.filter(item => getValue(item, ['type', 'Type']).toLowerCase() === 'scratch');
+          const videoData = Array.isArray(data.video)
+            ? data.video
+            : allData.filter(item => getValue(item, ['type', 'Type']).toLowerCase() === 'video');
+
+          renderScratchProjects(scratchData);
+          renderVideoProjects(videoData);
+        } catch (error) {
+          console.error('Failed to render tutorial hub data:', error);
+          showError(scratchGrid, 'Failed to load Scratch projects.', 'The Apps Script response was received, but the data format is invalid.');
+          showError(videoGrid, 'Failed to load video tutorials.', 'The Apps Script response was received, but the data format is invalid.');
+        } finally {
+          cleanupJsonp();
+        }
+      };
+
+      script.src = WEB_APP_URL + '?callback=' + encodeURIComponent(callbackName) + '&t=' + Date.now();
+      script.onerror = function() {
+        console.error('Failed to load tutorial hub data from Apps Script.');
+        cleanupJsonp();
+        showError(scratchGrid, 'Failed to load Scratch projects.', 'Please check the Apps Script deployment and spreadsheet access.');
+        showError(videoGrid, 'Failed to load video tutorials.', 'Please check the Apps Script deployment and spreadsheet access.');
+      };
+
+      document.body.appendChild(script);
+    }
+
+    function normalizeData(data) {
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.all)) return data.all;
+
+      const scratch = Array.isArray(data.scratch) ? data.scratch : [];
+      const video = Array.isArray(data.video) ? data.video : [];
+      return [...scratch, ...video];
+    }
+
+    function getValue(item, keys) {
+      for (const key of keys) {
+        if (item && item[key] !== undefined && item[key] !== null) {
+          return String(item[key]).trim();
+        }
+      }
+      return '';
+    }
+
+    function showLoading(container, title) {
+      container.innerHTML = `
+        <div class="empty-state loading-state">
+          <div class="empty-icon">⏳</div>
+          <div class="empty-text">${title}</div>
+          <div class="empty-sub">Please wait while we load the latest data from the spreadsheet.</div>
+        </div>
+      `;
+    }
+
+    function showError(container, title, subtitle) {
+      container.innerHTML = `
+        <div class="empty-state error-state">
+          <div class="empty-icon">⚠️</div>
+          <div class="empty-text">${title}</div>
+          <div class="empty-sub">${subtitle}</div>
+        </div>
+      `;
+    }
+
+    function showNoData(container, title, subtitle) {
+      container.innerHTML = `
+        <div class="empty-state no-data-state">
+          <div class="empty-icon">🚧</div>
+          <div class="empty-text">${title}</div>
+          <div class="empty-sub">${subtitle}</div>
+        </div>
+      `;
+    }
+
+    function renderScratchProjects(projects) {
+      const container = document.getElementById('scratchGrid');
+      container.innerHTML = '';
+
+      if (!projects || projects.length === 0) {
+        showNoData(container, 'No Scratch Projects Yet', 'Add rows with Type "Scratch" in the spreadsheet to show them here.');
+        return;
+      }
+
+      projects.forEach(project => {
+        container.appendChild(createProjectCard(project, 'scratch'));
+      });
+    }
+
+    function renderVideoProjects(videos) {
+      const container = document.getElementById('videoGrid');
+      container.innerHTML = '';
+
+      if (!videos || videos.length === 0) {
+        showNoData(container, 'Videos are in the Making!', 'Add rows with Type "Video" in the spreadsheet to show them here.');
+        return;
+      }
+
+      videos.forEach(video => {
+        container.appendChild(createProjectCard(video, 'video'));
+      });
+    }
+
+    function createProjectCard(item, itemType) {
+      const title = getValue(item, ['title', 'Title']);
+      const description = getValue(item, ['description', 'Description']);
+      const link = getValue(item, ['link', 'Link']);
+      const type = getValue(item, ['type', 'Type']) || (itemType === 'video' ? 'Video' : 'Scratch');
+
+      const card = document.createElement('div');
+      card.className = 'project-card';
+
+      const badge = document.createElement('div');
+      badge.className = 'badge';
+      badge.textContent = type;
+
+      const thumb = document.createElement('div');
+      thumb.className = 'card-thumb';
+
+      const imgUrl = itemType === 'video' ? getYouTubeThumbnail(link) : getScratchThumbnail(link);
+      if (imgUrl) {
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        img.alt = title || 'Thumbnail';
+        img.loading = 'lazy';
+        thumb.appendChild(img);
+      } else {
+        const fallback = document.createElement('div');
+        fallback.className = 'thumb-fallback';
+        fallback.textContent = itemType === 'video' ? '🎬' : '🧩';
+        thumb.appendChild(fallback);
+      }
+
+      const overlay = document.createElement('div');
+      overlay.className = 'play-overlay';
+      overlay.innerHTML = '<div class="play-btn-inner">▶</div>';
+      thumb.appendChild(overlay);
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      const cardTitle = document.createElement('div');
+      cardTitle.className = 'card-title';
+      cardTitle.textContent = title || 'Untitled Project';
+
+      const cardDesc = document.createElement('div');
+      cardDesc.className = 'card-desc';
+      cardDesc.textContent = description || 'No description available.';
+
+      body.appendChild(cardTitle);
+      body.appendChild(cardDesc);
+
+      card.appendChild(badge);
+      card.appendChild(thumb);
+      card.appendChild(body);
+
+      if (itemType === 'video') {
+        card.addEventListener('click', () => openExternalLink(link));
+      } else {
+        const projectId = getScratchProjectId(link);
+        card.addEventListener('click', () => {
+          if (projectId) {
+            openModal(projectId, title || 'Scratch Project');
+          } else {
+            openExternalLink(link);
+          }
+        });
+      }
+
+      return card;
+    }
+
+    function getScratchProjectId(link) {
+      const match = String(link || '').match(/scratch\.mit\.edu\/projects\/(\d+)/i);
+      return match ? match[1] : '';
+    }
+
+    function getScratchThumbnail(link) {
+      const projectId = getScratchProjectId(link);
+      return projectId ? `https://uploads.scratch.mit.edu/get_image/project/${projectId}_480x360.png` : '';
+    }
+
+    function getYouTubeVideoId(link) {
+      const url = String(link || '').trim();
+      const patterns = [
+        /youtube\.com\/watch\?v=([^&]+)/i,
+        /youtu\.be\/([^?&]+)/i,
+        /youtube\.com\/embed\/([^?&]+)/i,
+        /youtube\.com\/shorts\/([^?&]+)/i
+      ];
+
+      for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) return match[1];
+      }
+
+      return '';
+    }
+
+    function getYouTubeThumbnail(link) {
+      const videoId = getYouTubeVideoId(link);
+      return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '';
+    }
+
+    function openExternalLink(link) {
+      if (!link) return;
+      window.open(link, '_blank', 'noopener,noreferrer');
     }
 
     const modal = document.getElementById('scratchModal');
