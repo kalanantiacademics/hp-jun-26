@@ -202,7 +202,7 @@ body { background: #020617; color: var(--txt); }
       <div style="margin-bottom: 0.5rem; z-index: 5;">
         <div class="mission-badge">DAY 3 • ONLINE CLASS</div>
         <h1 class="cov-h" style="font-size: 4.4rem; margin: 1rem 0;">Roblox <span>Scripting</span></h1>
-        <p class="desc" style="font-size: 1.45rem; max-width: 860px; margin: 0 auto 1.5rem auto;">Hari ini kita akan memberikan "otak" pada layout kita dengan menambahkan kode program (Script) agar gamenya bisa dimainkan.</p>
+        <p class="desc" style="font-size: 1.45rem; max-width: 860px; margin: 0 auto 1.5rem auto;">Hari ini kita akan memberikan logic pada layout kita agar kreasi bisa dijalankan.</p>
         <div class="hero-chip-row">
           <div class="hero-chip">📜 Leaderboard</div>
           <div class="hero-chip">✋ Pick Up Logic</div>
@@ -385,6 +385,7 @@ body { background: #020617; color: var(--txt); }
     <span class="kw">if</span> <span class="vr">tool</span> <span class="kw">and</span> <span class="tb">table</span>.<span class="fn">find</span>(<span class="vr">organicItemList</span>, <span class="vr">tool</span>.<span class="vr">Name</span>) <span class="kw">then</span>
         <span class="kw">local</span> <span class="vr">ownerId</span> <span class="op">=</span> <span class="vr">tool</span>:<span class="fn">GetAttribute</span>(<span class="st">"OwnerUserId"</span>)
         <span class="kw">local</span> <span class="vr">player</span> <span class="op">=</span> <span class="vr">Players</span>:<span class="fn">GetPlayerByUserId</span>(<span class="vr">ownerId</span>)
+        <span class="fn">print</span>(<span class="vr">ownerId</span>)
 
         <span class="kw">if</span> <span class="vr">player</span> <span class="kw">then</span>
             <span class="kw">local</span> <span class="vr">leaderstats</span> <span class="op">=</span> <span class="vr">player</span>:<span class="fn">FindFirstChild</span>(<span class="st">"leaderstats"</span>)
@@ -392,8 +393,11 @@ body { background: #020617; color: var(--txt); }
 
             <span class="kw">if</span> <span class="vr">items</span> <span class="kw">then</span>
                 <span class="vr">items</span>.<span class="vr">Value</span> <span class="op">+=</span> <span class="nm">1</span>
+                <span class="kw">local</span> <span class="vr">countItem</span> <span class="op">=</span> <span class="vr">items</span>.<span class="vr">Value</span>
+                <span class="tb">game</span>.<span class="vr">Workspace</span>.<span class="vr">organic</span>.<span class="vr">board</span>.<span class="vr">SurfaceGui</span>.<span class="vr">CountText</span>.<span class="vr">Text</span> <span class="op">=</span> <span class="tb">tostring</span>(<span class="vr">countItem</span>) <span class="op">..</span> <span class="st">'/3'</span>
             <span class="kw">end</span>
         <span class="kw">end</span>
+
         <span class="vr">tool</span>:<span class="fn">Destroy</span>()
     <span class="kw">else</span>
         <span class="kw">if</span> <span class="vr">tool</span> <span class="kw">then</span>
@@ -483,7 +487,7 @@ body { background: #020617; color: var(--txt); }
       </div>
       
       <div class="box glow-box" style="max-width:900px; margin:auto; border-color:var(--grn) !important;">
-        <h3 style="color:var(--grn); font-size:1.8rem; margin-bottom:1rem;">⭐ Tantangan Level Pro</h3>
+        <h3 style="color:var(--grn); font-size:1.8rem; margin-bottom:1rem;">⭐ Next Challenge</h3>
         <p style="font-size:1.3rem; color:white !important; line-height:1.5;">
           Buatlah <strong>dua buah Dropping Place</strong>! (Contoh: Satu untuk tempat Sampah Organik, satu lagi untuk Anorganik). Pastikan setiap Drop Place memiliki Sorting Script dengan daftar list barang yang berbeda!
         </p>
