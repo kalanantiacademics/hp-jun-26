@@ -7,16 +7,15 @@
     <meta name="description" content="Isi data kamu sebelum masuk ke sesi Kalananti Holiday Program Little Codepreneurs.">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ── Design Tokens ─────────────────────── */
         :root {
-            --orange:   #f89d20;
+            --orange: #f89d20;
             --orange-s: #e0870c;
-            --yellow:   #ffd34f;
-            --navy:     #174276;
-            --navy-d:   #0d2f5c;
-            --teal:     #087a7c;
-            --green:    #22a979;
-            --white:    #ffffff;
+            --yellow: #ffd34f;
+            --navy: #174276;
+            --navy-d: #0d2f5c;
+            --teal: #087a7c;
+            --green: #22a979;
+            --white: #ffffff;
             --font-main: 'Nunito', sans-serif;
             --font-heading: 'Fredoka', sans-serif;
         }
@@ -24,15 +23,13 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         html, body {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             font-family: var(--font-main);
-            background-color: #79d0fd; /* Fallback vibrant sky color */
+            background-color: #79d0fd;
         }
 
-        /* ══════════════════════════════════════
-           STAGE — Full-screen scene container
-        ══════════════════════════════════════ */
         .stage {
             position: relative;
             width: 100vw;
@@ -46,46 +43,46 @@
 
         .layer-container {
             position: absolute;
-            inset: -60px; /* Oversized to prevent edges showing during parallax */
+            inset: -60px;
             pointer-events: none;
             will-change: transform;
             transform-style: preserve-3d;
         }
-        
-        .pos-abs {
-            position: absolute;
-        }
 
-        /* ── Layer: BG gradient (sky) ──────────── */
+        .pos-abs { position: absolute; }
+
         .layer-bg img {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             object-position: center;
         }
 
-        /* ── Layer: Clouds ─────────────────────── */
         .layer-clouds {
-            top: -5%; left: -5%; right: -5%;
+            top: -5%;
+            left: -5%;
+            right: -5%;
             height: 65%;
             animation: driftClouds 60s linear infinite;
         }
         .layer-clouds img {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             object-position: top center;
             opacity: 0.85;
             mix-blend-mode: overlay;
         }
         @keyframes driftClouds {
-            0%   { transform: translateX(0) scale(1.1); }
-            50%  { transform: translateX(2%) scale(1.1); }
+            0% { transform: translateX(0) scale(1.1); }
+            50% { transform: translateX(2%) scale(1.1); }
             100% { transform: translateX(0) scale(1.1); }
         }
 
-        /* ── Layer: City Skyline (foreground) ──── */
         .layer-skyline {
             bottom: 10%;
-            left: -2%; right: -2%;
+            left: -2%;
+            right: -2%;
             width: 104%;
         }
         .layer-skyline img {
@@ -95,7 +92,6 @@
             opacity: 0.9;
         }
 
-        /* ── Layer: Left Building ──────────────── */
         .layer-bldg-left {
             bottom: 8%;
             left: -2%;
@@ -105,10 +101,9 @@
         }
         @keyframes slideInLeft {
             from { opacity: 0; transform: translateX(-100px) scale(0.9); }
-            to   { opacity: 1; transform: translateX(0) scale(1); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
         }
 
-        /* ── Layer: Right Building ─────────────── */
         .layer-bldg-right {
             bottom: 8%;
             right: -2%;
@@ -118,12 +113,13 @@
         }
         @keyframes slideInRight {
             from { opacity: 0; transform: translateX(100px) scale(0.9); }
-            to   { opacity: 1; transform: translateX(0) scale(1); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
         }
 
-        /* ── Layer: Ground ─────────────────────── */
         .layer-ground {
-            bottom: -40px; left: -40px; right: -40px;
+            bottom: -40px;
+            left: -40px;
+            right: -40px;
             width: calc(100% + 80px);
         }
         .layer-ground img {
@@ -133,7 +129,6 @@
             filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.1));
         }
 
-        /* ── Layer: Bushes ─────────────────────── */
         .layer-bush-left {
             bottom: 6%;
             left: 1%;
@@ -141,7 +136,6 @@
             animation: popInBush 1s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.2s;
             transform-origin: bottom center;
         }
-
         .layer-bush-right {
             bottom: 6%;
             right: 1%;
@@ -152,45 +146,40 @@
         }
         @keyframes popInBush {
             from { opacity: 0; transform: translateY(50px) scale(0.5); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* ── Floating Deco ─────────────────────── */
         .deco-code-left {
             left: 8%;
             top: 22%;
             width: clamp(70px, 9vw, 120px);
-            filter: drop-shadow(0 20px 30px rgba(34, 169, 121, 0.3));
+            filter: drop-shadow(0 20px 30px rgba(34,169,121,0.3));
             animation: floatDeco 6s ease-in-out infinite;
         }
-
         .deco-binary-right {
             right: 8%;
             top: 15%;
             width: clamp(70px, 9vw, 120px);
-            filter: drop-shadow(0 20px 30px rgba(23, 66, 118, 0.3));
+            filter: drop-shadow(0 20px 30px rgba(23,66,118,0.3));
             animation: floatDeco 7.5s ease-in-out infinite 0.5s alternate;
         }
-
         .deco-code-right {
             right: 6%;
             bottom: 28%;
             width: clamp(60px, 7vw, 100px);
-            filter: drop-shadow(0 15px 25px rgba(23, 66, 118, 0.3));
+            filter: drop-shadow(0 15px 25px rgba(23,66,118,0.3));
             animation: floatDeco 5.5s ease-in-out infinite 1s alternate-reverse;
         }
-
         @keyframes floatDeco {
             0%, 100% { transform: translateY(0) rotate(-3deg); }
-            50%      { transform: translateY(-25px) rotate(3deg); }
+            50% { transform: translateY(-25px) rotate(3deg); }
         }
 
-        /* ── Mascot ────────────────────────────── */
         .mascot {
             bottom: 12%;
             left: 5%;
             width: clamp(140px, 18vw, 250px);
-            filter: drop-shadow(0 25px 35px rgba(13, 47, 92, 0.25));
+            filter: drop-shadow(0 25px 35px rgba(13,47,92,0.25));
             animation: mascotPop 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.3s;
             z-index: 10;
         }
@@ -201,16 +190,13 @@
         }
         @keyframes mascotPop {
             from { opacity: 0; transform: translateY(80px) scale(0.8) rotate(-5deg); }
-            to   { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+            to { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
         }
         @keyframes mascotHover {
             0%, 100% { transform: translateY(0); }
-            50%      { transform: translateY(-12px); }
+            50% { transform: translateY(-12px); }
         }
 
-        /* ══════════════════════════════════════
-           CENTER UI — Title + Form
-        ══════════════════════════════════════ */
         .center-wrapper {
             position: relative;
             z-index: 20;
@@ -218,31 +204,27 @@
             flex-direction: column;
             width: 100%;
             height: 100%;
-            pointer-events: auto; /* Allow scrolling */
+            pointer-events: auto;
             overflow-y: auto;
             overflow-x: hidden;
             padding: 40px 20px;
         }
-        
-        /* ── Custom Scrollbar for Wrapper ─────────── */
-        .center-wrapper::-webkit-scrollbar {
-            width: 8px;
-        }
+        .center-wrapper::-webkit-scrollbar { width: 8px; }
         .center-wrapper::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0,0,0,0.05);
             border-radius: 10px;
             margin: 20px 0;
         }
         .center-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(23, 66, 118, 0.3);
+            background: rgba(23,66,118,0.3);
             border-radius: 10px;
         }
         .center-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(23, 66, 118, 0.5);
+            background: rgba(23,66,118,0.5);
         }
-        
+
         .center {
-            margin: auto; /* Centers when small, allows scroll without top-clipping when large */
+            margin: auto;
             pointer-events: auto;
             display: flex;
             flex-direction: column;
@@ -256,15 +238,13 @@
         }
         @keyframes centerEnter {
             from { opacity: 0; transform: translateY(40px) scale(0.95); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* ── Title Stack ───────────────────────── */
-        .hero-top { 
-            text-align: center; 
+        .hero-top {
+            text-align: center;
             transform: translateZ(40px);
         }
-
         .kicker {
             display: inline-flex;
             align-items: center;
@@ -283,9 +263,8 @@
         }
         @keyframes floatKicker {
             0%, 100% { transform: translateY(0); }
-            50%      { transform: translateY(-4px); }
+            50% { transform: translateY(-4px); }
         }
-
         .title-main {
             font-family: var(--font-heading);
             font-size: clamp(52px, 7vw, 96px);
@@ -294,10 +273,10 @@
             text-transform: uppercase;
             transform: rotate(-3deg);
             text-shadow:
-                4px  4px 0 #fff, -4px -4px 0 #fff,
-                4px -4px 0 #fff, -4px  4px 0 #fff,
-                0  12px 0 var(--navy-d),
-                0  20px 0 rgba(13,47,92,0.25);
+                4px 4px 0 #fff, -4px -4px 0 #fff,
+                4px -4px 0 #fff, -4px 4px 0 #fff,
+                0 12px 0 var(--navy-d),
+                0 20px 0 rgba(13,47,92,0.25);
             letter-spacing: 0.02em;
             margin: 0;
         }
@@ -305,7 +284,6 @@
             color: var(--yellow);
             font-style: normal;
         }
-
         .badge {
             display: inline-block;
             margin-top: 18px;
@@ -321,29 +299,20 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* ── Premium Glass Card ────────────────── */
         .card {
             width: clamp(340px, 90vw, 440px);
             padding: 36px 40px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border-radius: 36px;
-            border: 2px solid rgba(255, 255, 255, 1);
-            box-shadow:
-                0 30px 70px rgba(13, 47, 92, 0.18),
-                inset 0 4px 0 rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(255,255,255,1);
+            box-shadow: 0 30px 70px rgba(13,47,92,0.18), inset 0 4px 0 rgba(255,255,255,0.7);
             transform: translateZ(20px);
             transition: transform 0.3s ease, width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        
-        .card.card-wide {
-            width: clamp(340px, 95vw, 1200px);
-        }
-        
-        .card:hover {
-            transform: translateZ(30px);
-        }
+        .card.card-wide { width: clamp(340px, 95vw, 1200px); }
+        .card:hover { transform: translateZ(30px); }
 
         .card-label {
             font-size: 12px;
@@ -356,7 +325,6 @@
             align-items: center;
             gap: 8px;
         }
-        
         .card-label::before {
             content: '';
             width: 24px;
@@ -364,7 +332,6 @@
             background: var(--teal);
             border-radius: 4px;
         }
-
         .card-title {
             font-family: var(--font-heading);
             font-size: 32px;
@@ -384,12 +351,9 @@
             padding-left: 4px;
             transition: color 0.2s ease;
         }
-        
-        .field:focus-within label {
-            color: var(--orange);
-        }
-
-        .field input, .field select {
+        .field:focus-within label { color: var(--orange); }
+        .field input,
+        .field select {
             width: 100%;
             padding: 16px 20px;
             border-radius: 18px;
@@ -405,7 +369,6 @@
             appearance: none;
             -webkit-appearance: none;
         }
-        
         .field select {
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23174276' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
@@ -414,20 +377,20 @@
             padding-right: 40px;
             cursor: pointer;
         }
-
         .field input::placeholder { color: #9ab0c4; font-weight: 600; }
-        .field input:hover, .field select:hover {
+        .field input:hover,
+        .field select:hover {
             background-color: #ffffff;
             box-shadow: 0 6px 16px rgba(0,0,0,0.06);
         }
-        .field input:focus, .field select:focus {
+        .field input:focus,
+        .field select:focus {
             border-color: var(--orange);
             background-color: #ffffff;
             box-shadow: 0 0 0 5px rgba(248,157,32,0.2), 0 10px 24px rgba(248,157,32,0.15);
             transform: translateY(-2px);
         }
 
-        /* ── 3D Arcade Button ──────────────────── */
         .btn {
             width: 100%;
             margin-top: 12px;
@@ -451,8 +414,10 @@
         .btn::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
             transform: skewX(-20deg);
             animation: shine 3.5s infinite;
@@ -467,7 +432,8 @@
             box-shadow: 0 12px 0 var(--orange-s), 0 25px 45px rgba(248,157,32,0.5);
             transform: translateY(-3px);
         }
-        .btn:active, .btn.pressed {
+        .btn:active,
+        .btn.pressed {
             transform: translateY(7px);
             box-shadow: 0 3px 0 var(--orange-s), 0 10px 20px rgba(248,157,32,0.3);
             background: linear-gradient(160deg, #faa32c, #e68d0e);
@@ -483,14 +449,11 @@
             background: rgba(255,255,255,0.6);
             border-radius: 14px;
             padding: 12px 16px;
-            border: 1px dashed rgba(74, 104, 133, 0.25);
+            border: 1px dashed rgba(74,104,133,0.25);
             backdrop-filter: blur(10px);
         }
 
-        /* ── Custom Select / Dropdown ────────────────── */
-        .custom-select-wrapper {
-            position: relative;
-        }
+        .custom-select-wrapper { position: relative; }
         .custom-select-input {
             width: 100%;
             padding: 16px 20px;
@@ -527,12 +490,12 @@
             top: calc(100% + 8px);
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255,255,255,0.98);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,1);
-            box-shadow: 0 15px 35px rgba(13, 47, 92, 0.15);
+            box-shadow: 0 15px 35px rgba(13,47,92,0.15);
             z-index: 100;
             max-height: 220px;
             overflow-y: auto;
@@ -558,31 +521,22 @@
             transition: all 0.2s ease;
         }
         .custom-option:hover {
-            background: rgba(8, 122, 124, 0.1);
+            background: rgba(8,122,124,0.1);
             color: var(--teal);
         }
-        .custom-option.hidden {
-            display: none;
-        }
-        .custom-options::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-options::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        .custom-option.hidden { display: none; }
+        .custom-options::-webkit-scrollbar { width: 6px; }
+        .custom-options::-webkit-scrollbar-track { background: transparent; }
         .custom-options::-webkit-scrollbar-thumb {
-            background: rgba(23, 66, 118, 0.2);
+            background: rgba(23,66,118,0.2);
             border-radius: 10px;
         }
-        .custom-options::-webkit-scrollbar-thumb:hover {
-            background: rgba(23, 66, 118, 0.4);
-        }
-        
-        /* ── Loading Overlay Form ────────────────── */
+        .custom-options::-webkit-scrollbar-thumb:hover { background: rgba(23,66,118,0.4); }
+
         .form-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 50;
@@ -607,8 +561,9 @@
             animation: pulseText 1.5s infinite;
         }
         .spinner-circle {
-            width: 40px; height: 40px;
-            border: 4px solid rgba(8, 122, 124, 0.2);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(8,122,124,0.2);
             border-top: 4px solid var(--teal);
             border-radius: 50%;
             animation: spinCircle 1s linear infinite;
@@ -622,20 +577,16 @@
             50% { opacity: 0.5; }
         }
 
-        /* ── UI States ─────────────────────────── */
         .state-panel {
             display: none;
             animation: fadeInState 0.4s ease-out forwards;
         }
-        .state-panel.active {
-            display: block;
-        }
+        .state-panel.active { display: block; }
         @keyframes fadeInState {
             from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── Spinner UI ────────────────────────── */
         .spinner-container {
             margin: 20px 0;
             height: 120px;
@@ -657,12 +608,10 @@
             text-shadow: 0 4px 0 var(--orange-s);
             transition: transform 0.1s ease-in-out;
         }
-        .spinner-slot.spinning {
-            animation: slotSpin 0.1s linear infinite;
-        }
+        .spinner-slot.spinning { animation: slotSpin 0.1s linear infinite; }
         @keyframes slotSpin {
-            0%   { transform: translateY(-50px); opacity: 0; }
-            50%  { transform: translateY(0); opacity: 1; }
+            0% { transform: translateY(-50px); opacity: 0; }
+            50% { transform: translateY(0); opacity: 1; }
             100% { transform: translateY(50px); opacity: 0; }
         }
 
@@ -676,42 +625,51 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.15);
             background: rgba(255,255,255,0.5);
         }
+        .scenario-placeholder {
+            display: none;
+            padding: 28px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            border: 3px dashed rgba(23,66,118,0.25);
+            background: rgba(255,255,255,0.6);
+            color: var(--navy);
+            text-align: center;
+            font-weight: 800;
+        }
 
-        /* ══════════════════════════════════════
-           RESPONSIVE
-        ══════════════════════════════════════ */
         @media (max-height: 760px) {
             .mascot { width: clamp(140px, 20vw, 240px); bottom: 10%; left: 2%; }
-            .layer-bldg-left, .layer-bldg-right { width: clamp(140px, 20vw, 260px); }
-            .deco-code-left, .deco-binary-right, .deco-code-right { width: 80px; }
+            .layer-bldg-left,
+            .layer-bldg-right { width: clamp(140px, 20vw, 260px); }
+            .deco-code-left,
+            .deco-binary-right,
+            .deco-code-right { width: 80px; }
             .title-main { font-size: clamp(44px, 6.5vw, 72px); }
             .card { padding: 28px 30px; width: clamp(310px, 90vw, 380px); }
             .center { gap: 14px; }
         }
-
         @media (max-width: 768px) {
             .mascot { display: none; }
-            .layer-bldg-left, .layer-bldg-right { width: clamp(120px, 30vw, 220px); bottom: 12%; }
+            .layer-bldg-left,
+            .layer-bldg-right { width: clamp(120px, 30vw, 220px); bottom: 12%; }
             .deco-code-left { left: -5%; top: 15%; width: 90px; }
             .deco-binary-right { right: -5%; top: 10%; width: 90px; }
             .deco-code-right { display: none; }
             .title-main { font-size: 56px; }
             html, body { overflow: auto; }
-            
-            .stage { 
-                height: auto; 
-                min-height: 100vh; 
-                padding: 60px 20px 100px; 
-                align-items: flex-start; 
-                perspective: none; 
+            .stage {
+                height: auto;
+                min-height: 100vh;
+                padding: 60px 20px 100px;
+                align-items: flex-start;
+                perspective: none;
             }
-            .layer-container { 
-                display: block; 
-                position: fixed; 
-                inset: 0; 
+            .layer-container {
+                display: block;
+                position: fixed;
+                inset: 0;
                 pointer-events: none;
             }
-            
             .card { transform: none !important; width: 100%; max-width: 440px; }
             .card:hover { transform: none !important; }
             .hero-top { transform: none !important; }
@@ -720,98 +678,61 @@
 </head>
 <body>
 <div class="stage" role="main" aria-label="Kalananti Holiday Program Session">
-
-    <!-- ── Layer 0: Background Gradient (sky) ─────────── -->
     <div class="layer-container parallax" data-depth="0.0">
         <div class="layer-bg pos-abs" style="inset:0;">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png"
-                 alt="" aria-hidden="true">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/a82d62dd-edd1-4cba-b435-76fd2c0698a4.png" alt="" aria-hidden="true">
         </div>
     </div>
 
-    <!-- ── Layer 1: Clouds ────────────────────────────── -->
     <div class="layer-container parallax" data-depth="0.02">
         <div class="layer-clouds pos-abs" aria-hidden="true">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png"
-                 alt="">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/23044f5e-75ba-4506-9b4c-64645ef7f4ec.png" alt="">
         </div>
     </div>
 
-    <!-- ── Layer 2: City Skyline Foreground ───────────── -->
     <div class="layer-container parallax" data-depth="0.05">
         <div class="layer-skyline pos-abs" aria-hidden="true">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png"
-                 alt="">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2ebba1d6-b3be-4081-a934-70d1773653a1.png" alt="">
         </div>
     </div>
 
-    <!-- ── Layer 3: Buildings ─────────────────────── -->
     <div class="layer-container parallax" data-depth="0.08">
-        <img class="layer-bldg-left pos-abs"
-             src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png"
-             alt="" aria-hidden="true">
-        
-        <img class="layer-bldg-right pos-abs"
-             src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png"
-             alt="" aria-hidden="true">
+        <img class="layer-bldg-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/1aed5cdc-8807-4224-b6ee-7be9c5fa38ca.png" alt="" aria-hidden="true">
+        <img class="layer-bldg-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/c43611a8-f941-4bb8-bd1f-675bd099e6de.png" alt="" aria-hidden="true">
     </div>
 
-    <!-- ── Layer 4: Ground ────────────────────────────── -->
     <div class="layer-container parallax" data-depth="0.12">
         <div class="layer-ground pos-abs" aria-hidden="true">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png"
-                 alt="">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/d8d4ba33-761d-40b8-8a53-0e4406796cd4.png" alt="">
         </div>
     </div>
 
-    <!-- ── Layer 5: Bushes ────────────────────────────── -->
     <div class="layer-container parallax" data-depth="0.18">
-        <img class="layer-bush-left pos-abs"
-             src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png"
-             alt="" aria-hidden="true">
-             
-        <img class="layer-bush-right pos-abs"
-             src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png"
-             alt="" aria-hidden="true">
+        <img class="layer-bush-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="" aria-hidden="true">
+        <img class="layer-bush-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/f5b3c5cd-50d8-4ef5-8cc0-c4ce3c71ffe0.png" alt="" aria-hidden="true">
     </div>
 
-    <!-- ── Layer 6: Floating Code Decorations ─────────── -->
     <div class="layer-container parallax" data-depth="0.25">
-        <img class="deco-code-left pos-abs"
-             src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png"
-             alt="" aria-hidden="true">
-
-        <img class="deco-binary-right pos-abs"
-             src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png"
-             alt="" aria-hidden="true">
-
-        <img class="deco-code-right pos-abs"
-             src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png"
-             alt="" aria-hidden="true">
+        <img class="deco-code-left pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/ba88b8b0-bdc4-451b-a60e-800670084d28.png" alt="" aria-hidden="true">
+        <img class="deco-binary-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/9cd7ffd4-b416-4904-be67-75be09114f94.png" alt="" aria-hidden="true">
+        <img class="deco-code-right pos-abs" src="https://cdn-web-2.ruangguru.com/landing-pages/assets/91fb954e-a01d-4d05-a2ef-0402dbf77819.png" alt="" aria-hidden="true">
     </div>
 
-    <!-- ── Layer 7: Mascot ────────────────────────────── -->
     <div class="layer-container parallax" data-depth="0.3">
         <div class="mascot pos-abs">
-            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2b1d1960-3154-49ed-b079-cc0e98ee0d9c.png"
-                 alt="Maskot Little Codepreneur">
+            <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/2b1d1960-3154-49ed-b079-cc0e98ee0d9c.png" alt="Maskot Little Codepreneur">
         </div>
     </div>
 
-    <!-- ── Layer 20: Center Content (Title + Form) ─────── -->
     <div class="center-wrapper">
         <div class="center" id="3d-card" data-depth="0.05">
-            <!-- Title -->
             <div class="hero-top">
                 <div class="kicker">Halo, Codepreneur! 👋</div>
                 <h1 class="title-main">Siap <em>Mulai?</em></h1>
                 <div class="badge">✦ Little Codepreneurs ✦</div>
             </div>
 
-            <!-- State panels inside the Card -->
             <div class="card">
-                
-                <!-- STATE 1: FORM -->
                 <div id="state-form" class="state-panel active" style="position: relative;">
                     <div class="form-overlay active" id="form-overlay">
                         <div class="spinner-circle"></div>
@@ -824,15 +745,11 @@
                     <form id="hp-form" novalidate>
                         <div class="field">
                             <label for="childName">Nama Lengkap Anak</label>
-                            <input id="childName" type="text"
-                                   placeholder="Masukkan nama lengkap"
-                                   autocomplete="name" required>
+                            <input id="childName" type="text" placeholder="Masukkan nama lengkap" autocomplete="name" required>
                         </div>
                         <div class="field">
                             <label for="childEmail">Email Anak</label>
-                            <input id="childEmail" type="email"
-                                   placeholder="contoh: nama@email.com"
-                                   autocomplete="email" required>
+                            <input id="childEmail" type="email" placeholder="contoh: nama@email.com" autocomplete="email" required>
                         </div>
                         <div class="field">
                             <label for="childProgram">Program</label>
@@ -854,38 +771,33 @@
                                 <div class="custom-options" id="branch-options"></div>
                             </div>
                         </div>
-                        <button id="submit-btn" class="btn" type="submit">
-                            🚀 Mulai Sesi
-                        </button>
+                        <button id="submit-btn" class="btn" type="submit">🚀 Mulai Sesi</button>
                     </form>
 
-                    <p class="note">
-                        Pastikan data diisi lengkap agar progress kamu tersimpan rapi ✅
-                    </p>
+                    <p class="note">Pastikan data diisi lengkap agar progress kamu tersimpan rapi ✅</p>
                 </div>
-                
-                <!-- STATE 2: SPIN WHEEL -->
+
                 <div id="state-spin" class="state-panel">
                     <p class="card-label">Skenario Misi</p>
                     <h2 class="card-title" style="margin-bottom:12px;">Selamat Datang!</h2>
-                    <p style="font-weight:700; color:var(--navy-d); margin-bottom:16px;">Halo <span id="display-name" style="color:var(--orange);">Codepreneur</span>! Sekarang kamu akan memutar roda untuk mendapatkan skenario tantangan acak.</p>
-                    
+                    <p style="font-weight:700; color:var(--navy-d); margin-bottom:16px;">
+                        Halo <span id="display-name" style="color:var(--orange);">Codepreneur</span>! Sekarang kamu akan memutar roda untuk mendapatkan skenario tantangan acak.
+                    </p>
+
                     <div class="spinner-container">
                         <div id="spinner-text" class="spinner-slot">--</div>
                     </div>
-                    
-                    <button id="spin-btn" class="btn">
-                        🎰 Spin Sekarang!
-                    </button>
+
+                    <button id="spin-btn" class="btn">🎰 Spin Sekarang!</button>
                 </div>
 
-                <!-- STATE 3: RESULT -->
                 <div id="state-result" class="state-panel">
                     <p class="card-label" id="result-label">Skenario Terpilih</p>
                     <h2 class="card-title" style="margin-bottom:16px; font-size:24px;">Pecahkan Masalah Ini!</h2>
-                    
+
                     <img id="result-image" class="scenario-image" src="" alt="Gambar Skenario">
-                    
+                    <div id="scenario-placeholder" class="scenario-placeholder">Gambar skenario belum diisi.</div>
+
                     <div id="loading-deck" style="text-align: center; margin-bottom: 20px;">
                         <p style="font-weight:700; color:var(--navy-d);">Sedang menyiapkan deck presentasi... ⏳</p>
                     </div>
@@ -894,65 +806,53 @@
                         ✨ Buka Deck Presentasi
                     </a>
                 </div>
-
             </div>
         </div>
-    </div><!-- /center-wrapper -->
-
-</div><!-- /stage -->
+    </div>
+</div>
 
 <script>
 (function () {
     // === 3D Parallax Effect ===
     const isMobile = window.matchMedia("(max-width: 640px)").matches;
-    
+
     if (!isMobile) {
-        const stage = document.querySelector('.stage');
         const parallaxLayers = document.querySelectorAll('.parallax');
         const card3d = document.getElementById('3d-card');
-        
+
         let mouseX = 0;
         let mouseY = 0;
         let targetX = 0;
         let targetY = 0;
-        
-        // Smooth animation with requestAnimationFrame
+
         function animate() {
-            // Lerp for smooth movement
             mouseX += (targetX - mouseX) * 0.1;
             mouseY += (targetY - mouseY) * 0.1;
-            
-            // Move background layers
+
             parallaxLayers.forEach(layer => {
                 const depth = parseFloat(layer.getAttribute('data-depth'));
-                const moveX = mouseX * depth * -100; // Multiply for effect strength
+                const moveX = mouseX * depth * -100;
                 const moveY = mouseY * depth * -100;
                 layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
             });
-            
-            // Tilt the center card
+
             if (card3d) {
                 const depth = parseFloat(card3d.getAttribute('data-depth'));
-                const rotateX = mouseY * depth * 80; // Degrees to rotate
+                const rotateX = mouseY * depth * 80;
                 const rotateY = mouseX * depth * -80;
-                
                 card3d.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             }
-            
+
             requestAnimationFrame(animate);
         }
-        
-        // Start animation loop
+
         animate();
-        
-        // Listen to mouse move
+
         window.addEventListener('mousemove', (e) => {
-            // Normalize mouse position from -1 to 1
             targetX = (e.clientX / window.innerWidth) * 2 - 1;
             targetY = (e.clientY / window.innerHeight) * 2 - 1;
         });
-        
-        // Reset on mouse leave
+
         window.addEventListener('mouseleave', () => {
             targetX = 0;
             targetY = 0;
@@ -960,7 +860,7 @@
     }
 
     // === Fetch Data & Custom Select Logic ===
-    const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz66Mc-l8yKIe3ZPAxtUSomTFTxI8XQhaxb55IqqgfBrQAzJOyEaGR_G31xkIzPpNjU/exec'; 
+    const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz66Mc-l8yKIe3ZPAxtUSomTFTxI8XQhaxb55IqqgfBrQAzJOyEaGR_G31xkIzPpNjU/exec';
     let allTeachers = [];
 
     const programSelect = document.getElementById('childProgram');
@@ -968,58 +868,56 @@
     const branchInput   = document.getElementById('childBranch');
     const formOverlay   = document.getElementById('form-overlay');
 
-    // Init Data
     fetch(APP_SCRIPT_URL)
         .then(res => res.json())
         .then(res => {
             if (res.success) {
                 allTeachers = res.data;
-                // Ambil daftar program unik
                 const programs = [...new Set(allTeachers.map(t => t.program).filter(p => p))].sort();
-                
+
                 programSelect.innerHTML = '<option value="" disabled selected>Pilih Program...</option>';
                 programs.forEach(p => {
                     const opt = document.createElement('option');
-                    opt.value = p; opt.textContent = p;
+                    opt.value = p;
+                    opt.textContent = p;
                     programSelect.appendChild(opt);
                 });
-                
+
                 programSelect.disabled = false;
                 formOverlay.classList.remove('active');
             } else {
-                alert("Gagal memuat data guru: " + res.error);
-                formOverlay.innerHTML = `<p style="color:red; font-size:16px; text-align:center;">Gagal memuat data.<br>Refresh halaman.</p>`;
+                alert('Gagal memuat data guru: ' + res.error);
+                formOverlay.innerHTML = '<p style="color:red; font-size:16px; text-align:center;">Gagal memuat data.<br>Refresh halaman.</p>';
             }
         })
         .catch(err => {
-            alert("Koneksi gagal saat memuat data: " + err.message);
-            formOverlay.innerHTML = `<p style="color:red; font-size:16px; text-align:center;">Koneksi gagal.<br>Refresh halaman.</p>`;
+            alert('Koneksi gagal saat memuat data: ' + err.message);
+            formOverlay.innerHTML = '<p style="color:red; font-size:16px; text-align:center;">Koneksi gagal.<br>Refresh halaman.</p>';
         });
 
-    // Setup Custom Searchable Select
     function setupCustomSelect(wrapperId, inputId, optionsId) {
         const wrapper = document.getElementById(wrapperId);
         const input = document.getElementById(inputId);
         const optionsContainer = document.getElementById(optionsId);
-        
+
         input.addEventListener('focus', () => {
             if (!input.disabled) {
                 wrapper.classList.add('open');
                 filterOptions('');
             }
         });
-        
+
         document.addEventListener('click', (e) => {
             if (!wrapper.contains(e.target)) {
                 wrapper.classList.remove('open');
             }
         });
-        
+
         input.addEventListener('input', (e) => {
             wrapper.classList.add('open');
             filterOptions(e.target.value.toLowerCase());
         });
-        
+
         function filterOptions(query) {
             const options = optionsContainer.querySelectorAll('.custom-option');
             options.forEach(opt => {
@@ -1040,12 +938,12 @@
         const input = document.getElementById(inputId);
         const wrapper = document.getElementById(wrapperId);
         container.innerHTML = '';
-        
+
         if (items.length === 0) {
             container.innerHTML = '<div class="custom-option" style="color:#9ab0c4;pointer-events:none;">Tidak ada pilihan</div>';
             return;
         }
-        
+
         items.forEach(item => {
             const div = document.createElement('div');
             div.className = 'custom-option';
@@ -1059,33 +957,29 @@
         });
     }
 
-    // Dependency Logic
     programSelect.addEventListener('change', () => {
         teacherInput.value = '';
         branchInput.value = '';
         teacherInput.disabled = true;
         branchInput.disabled = true;
-        
+
         const selectedProg = programSelect.value;
         const filteredTeachers = allTeachers.filter(t => t.program === selectedProg);
         const uniqueTeachers = [...new Set(filteredTeachers.map(t => t.name).filter(n => n))].sort();
-        
+
         teacherInput.disabled = false;
         populateCustomSelect('teacher-options', 'childTeacher', 'teacher-wrapper', uniqueTeachers, (selectedTeacher) => {
-            // Ketika Guru dipilih
             const teacherBranches = allTeachers.filter(t => t.program === selectedProg && t.name === selectedTeacher);
             const uniqueBranches = [...new Set(teacherBranches.map(t => t.branch).filter(b => b))].sort();
-            
+
             branchInput.value = '';
             if (uniqueBranches.length === 1) {
-                // Auto fill jika hanya 1 cabang
                 branchInput.value = uniqueBranches[0];
                 branchInput.disabled = false;
                 populateCustomSelect('branch-options', 'childBranch', 'branch-wrapper', uniqueBranches);
             } else if (uniqueBranches.length > 1) {
                 branchInput.disabled = false;
                 populateCustomSelect('branch-options', 'childBranch', 'branch-wrapper', uniqueBranches);
-                // Buka dropdown cabang agar user bisa langsung milih
                 setTimeout(() => { document.getElementById('childBranch').focus(); }, 100);
             } else {
                 branchInput.disabled = true;
@@ -1093,11 +987,11 @@
         });
     });
 
-    // === Form Validation & Submit ===
+    // === State & Form Logic ===
     const stateForm   = document.getElementById('state-form');
     const stateSpin   = document.getElementById('state-spin');
     const stateResult = document.getElementById('state-result');
-    
+
     const form      = document.getElementById('hp-form');
     const btn       = document.getElementById('submit-btn');
     const name_     = document.getElementById('childName');
@@ -1105,7 +999,7 @@
     const dispName  = document.getElementById('display-name');
 
     // Scenarios Mapping
-    const scenarios = {
+    const scenariosOffline = {
         'A1': 'https://cdn-web-2.ruangguru.com/landing-pages/assets/7948ed4e-73dd-4169-a068-85d2fab4b095.png',
         'A2': 'https://cdn-web-2.ruangguru.com/landing-pages/assets/735f0ef4-f98c-4845-9ed5-6f334ad1c54e.png',
         'A3': 'https://cdn-web-2.ruangguru.com/landing-pages/assets/806d5d77-5825-4807-ac87-8c0fc7870850.png',
@@ -1116,7 +1010,55 @@
         'C2': 'https://roboguru-forum-cdn.ruangguru.com/image/b499d00a-0fdf-48b6-a273-04542a142854.png',
         'C3': 'https://cdn-web-2.ruangguru.com/landing-pages/assets/d7f8f6de-aba9-40c6-b003-a614cd796a5e.png'
     };
-    const scenarioKeys = Object.keys(scenarios);
+
+    const scenariosOnlineScratch = {
+        'A2': 'https://cdn-web-2.ruangguru.com/landing-pages/assets/735f0ef4-f98c-4845-9ed5-6f334ad1c54e.png',
+        'B2': 'https://cdn-web-2.ruangguru.com/landing-pages/assets/faa1ed8d-51ff-437e-b63e-6ebd10b9876b.png',
+        'C2': 'https://roboguru-forum-cdn.ruangguru.com/image/b499d00a-0fdf-48b6-a273-04542a142854.png'
+    };
+
+    const scenariosOnlineRoblox = {
+        'D1': 'https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/3e29c3d4-f1af-48cb-8302-910306e570af.png',
+        'D2': 'https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8aaff7c6-7f20-4b82-bec8-1d40852a5509.png',
+        'D3': 'https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d6d2bdea-052f-40a4-87b0-4da4a07c263b.png'
+    };
+
+    let activeScenarios = scenariosOffline;
+    let scenarioKeys = Object.keys(activeScenarios);
+
+    function isOnlineBranch(branch) {
+        return String(branch || '').trim().toLowerCase() === 'online';
+    }
+
+    function isScratchProgram(program) {
+        return String(program || '').trim().toLowerCase().includes('scratch');
+    }
+
+    function isRobloxProgram(program) {
+        return String(program || '').trim().toLowerCase().includes('roblox');
+    }
+
+    function getScenarioSet(program, branch) {
+        const online = isOnlineBranch(branch);
+
+        if (isRobloxProgram(program) && online) {
+            return scenariosOnlineRoblox;
+        }
+
+        if (isScratchProgram(program) && online) {
+            return scenariosOnlineScratch;
+        }
+
+        return scenariosOffline;
+    }
+
+    function getScenarioSetName(program, branch) {
+        const online = isOnlineBranch(branch);
+
+        if (isRobloxProgram(program) && online) return 'Online Roblox';
+        if (isScratchProgram(program) && online) return 'Online Scratch';
+        return 'Offline';
+    }
 
     function switchState(hideElem, showElem) {
         hideElem.classList.remove('active');
@@ -1126,9 +1068,7 @@
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Basic validation
         if (!name_.value.trim() || !email.value.trim() || !programSelect.value || !teacherInput.value || !branchInput.value) {
-            // Shake animation for error
             btn.style.transform = 'translateX(-5px)';
             setTimeout(() => btn.style.transform = 'translateX(5px)', 100);
             setTimeout(() => btn.style.transform = 'translateX(-5px)', 200);
@@ -1138,16 +1078,23 @@
         }
 
         const data = {
-            childName:  name_.value.trim(),
+            childName: name_.value.trim(),
             childEmail: email.value.trim(),
-            program:    programSelect.value,
-            teacher:    teacherInput.value,
-            branch:     branchInput.value,
-            savedAt:    new Date().toISOString()
+            program: programSelect.value,
+            teacher: teacherInput.value,
+            branch: branchInput.value,
+            savedAt: new Date().toISOString()
         };
+
         localStorage.setItem('kalanantiHolidaySession', JSON.stringify(data));
 
-        // --- pressed animation ---
+        // Pilih set skenario berdasarkan program dan cabang.
+        // Scratch bukan Online -> scenariosOffline
+        // Scratch Online -> scenariosOnlineScratch
+        // Roblox Online -> scenariosOnlineRoblox
+        activeScenarios = getScenarioSet(data.program, data.branch);
+        scenarioKeys = Object.keys(activeScenarios);
+
         btn.classList.add('pressed');
         btn.textContent = 'Memproses...';
         btn.disabled = true;
@@ -1155,11 +1102,10 @@
         setTimeout(() => {
             btn.classList.remove('pressed');
             btn.style.background = 'linear-gradient(160deg, #4dd68c, #22a979)';
-            btn.style.boxShadow  = '0 8px 0 #178d5c, 0 14px 24px rgba(34,169,121,.4)';
+            btn.style.boxShadow = '0 8px 0 #178d5c, 0 14px 24px rgba(34,169,121,.4)';
             btn.textContent = '✅ Berhasil Disimpan!';
 
             setTimeout(() => {
-                // Set name and switch to Spin state
                 const firstName = data.childName.split(' ')[0];
                 dispName.textContent = firstName;
                 switchState(stateForm, stateSpin);
@@ -1172,57 +1118,67 @@
     const spinnerText = document.getElementById('spinner-text');
     let spinInterval;
 
-    spinBtn.addEventListener('click', function() {
+    spinBtn.addEventListener('click', function () {
+        if (!scenarioKeys || scenarioKeys.length === 0) {
+            alert('Belum ada skenario yang tersedia untuk pilihan program/cabang ini.');
+            return;
+        }
+
         spinBtn.disabled = true;
         spinBtn.textContent = 'Mendapatkan Skenario...';
         spinnerText.classList.add('spinning');
-        
+
         let counter = 0;
         spinInterval = setInterval(() => {
-            // Rapidly change text to simulate spinning
             spinnerText.textContent = scenarioKeys[Math.floor(Math.random() * scenarioKeys.length)];
             counter++;
-            
-            // Stop spinning after ~2.5 seconds (25 iterations at 100ms)
+
             if (counter > 25) {
                 clearInterval(spinInterval);
                 spinnerText.classList.remove('spinning');
-                
-                // Pick final result
+
                 const finalResult = scenarioKeys[Math.floor(Math.random() * scenarioKeys.length)];
                 spinnerText.textContent = finalResult;
-                
-                // Switch to Result state after a short delay
+
                 setTimeout(() => {
+                    const scenarioImageUrl = activeScenarios[finalResult] || '';
+                    const resultImage = document.getElementById('result-image');
+                    const placeholder = document.getElementById('scenario-placeholder');
+
                     document.getElementById('result-label').textContent = 'Skenario ' + finalResult;
-                    document.getElementById('result-image').src = scenarios[finalResult];
-                    
-                    // Make the card wide to accommodate the scenario image better
+
+                    if (scenarioImageUrl) {
+                        resultImage.src = scenarioImageUrl;
+                        resultImage.style.display = 'block';
+                        placeholder.style.display = 'none';
+                    } else {
+                        resultImage.removeAttribute('src');
+                        resultImage.style.display = 'none';
+                        placeholder.style.display = 'block';
+                    }
+
                     document.querySelector('.card').classList.add('card-wide');
-                    
                     switchState(stateSpin, stateResult);
 
-                    // --- MENGHUBUNGI APPSCRIPT UNTUK MEMBUAT DECK ---
                     const loadingDeck = document.getElementById('loading-deck');
                     const continueBtn = document.getElementById('continue-btn');
-                    
+
                     loadingDeck.style.display = 'block';
                     loadingDeck.innerHTML = '<p style="font-weight:700; color:var(--navy-d);">Sedang menyiapkan deck presentasi... ⏳</p>';
                     continueBtn.style.display = 'none';
 
                     const sessionData = JSON.parse(localStorage.getItem('kalanantiHolidaySession') || '{}');
                     sessionData.scenario = finalResult;
-                    sessionData.scenarioImageUrl = scenarios[finalResult];
+                    sessionData.scenarioImageUrl = scenarioImageUrl;
+                    sessionData.scenarioSet = getScenarioSetName(sessionData.program, sessionData.branch);
 
-                    // URL APPSCRIPT
-                    const APP_SCRIPT_URL_POST = 'https://script.google.com/macros/s/AKfycbz66Mc-l8yKIe3ZPAxtUSomTFTxI8XQhaxb55IqqgfBrQAzJOyEaGR_G31xkIzPpNjU/exec'; 
+                    const APP_SCRIPT_URL_POST = 'https://script.google.com/macros/s/AKfycbz66Mc-l8yKIe3ZPAxtUSomTFTxI8XQhaxb55IqqgfBrQAzJOyEaGR_G31xkIzPpNjU/exec';
 
                     if (APP_SCRIPT_URL_POST === 'MASUKKAN_URL_WEB_APP_DISINI') {
                         loadingDeck.innerHTML = '<p style="color:var(--orange);">Deck gagal dibuat: URL AppScript belum diset di HTML.</p>';
                         return;
                     }
 
-                    // Gunakan text/plain untuk menghindari CORS preflight issues jika memungkinkan
                     fetch(APP_SCRIPT_URL_POST, {
                         method: 'POST',
                         body: JSON.stringify(sessionData)
@@ -1242,7 +1198,6 @@
                         loadingDeck.style.display = 'block';
                         loadingDeck.innerHTML = `<p style="color:red;">Koneksi gagal: ${err.message}</p>`;
                     });
-
                 }, 1500);
             }
         }, 100);
